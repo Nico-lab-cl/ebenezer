@@ -38,7 +38,7 @@ if (/^569?0+$/.test(String(ajustes.whatsapp))) pendientes.push('src/content/ajus
 if (!ajustes.sheetsUrl) pendientes.push('src/content/ajustes.json  sheetsUrl vacío: los contactos no se guardan en Google Sheets (docs/google-sheets.md)');
 if (!ajustes.metaPixelId) pendientes.push('src/content/ajustes.json  metaPixelId vacío: los anuncios de Meta no medirán conversiones');
 if (!ajustes.ga4Id) pendientes.push('src/content/ajustes.json  ga4Id vacío: sin Google Analytics');
-if (ajustes.dominio === 'https://www.ebenezer.cl') pendientes.push('src/content/ajustes.json  dominio sin confirmar (el PDF dice www.ebanezer.com)');
+if (!String(ajustes.dominio).startsWith('https://')) pendientes.push('src/content/ajustes.json  dominio debe empezar con https://');
 
 const dirAutos = join(raiz, 'src/content/vehiculos');
 for (const n of readdirSync(dirAutos)) {

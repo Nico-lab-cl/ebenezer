@@ -23,6 +23,14 @@
   "compatibility_date": "2026-01-14",
   "compatibility_flags": ["nodejs_compat"],
 
+  /* Dominio propio. Al desplegar, Cloudflare crea solo los registros DNS y el
+     certificado SSL de estos nombres en la zona automotoraebenezer.cl.
+     No hay que agregar registros a mano en DNS › Records. */
+  "routes": [
+    { "pattern": "automotoraebenezer.cl", "custom_domain": true },
+    { "pattern": "www.automotoraebenezer.cl", "custom_domain": true }
+  ],
+
   // public/.assetsignore (copiado a dist/) evita subir _worker.js como estático.
   "assets": {
     "binding": "ASSETS",
