@@ -8,7 +8,7 @@
    Si se crea desde el panel con otro nombre, cámbialo acá también. */
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "ebenezer-automotora",
+  "name": "ebenezer",
   "main": "./dist/_worker.js/index.js",
 
   /* Wrangler construye antes de desplegar: así no depende del campo

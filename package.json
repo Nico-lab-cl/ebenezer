@@ -1,0 +1,9 @@
+{
+  "name": "ebenezer",
+  "private": true,
+  "description": "Raíz del repositorio. El sitio vive en 03_Sitio_Web/; esto existe para que Cloudflare pueda construir y desplegar desde la raíz.",
+  "scripts": {
+    "build": "cd 03_Sitio_Web && npm ci && npm run build",
+    "deploy": "npm run build && npx wrangler deploy"
+  }
+}

@@ -1,0 +1,35 @@
+/* Despliegue desde la RAÍZ del repositorio (Cloudflare Workers Builds).
+
+   El sitio está en 03_Sitio_Web/. Cloudflare ejecuta `npx wrangler deploy` en
+   la raíz; sin este archivo falla con "Could not detect a directory containing
+   static files". Acá se le dice dónde construir y qué subir.
+
+   Si en el panel se configura Root directory = 03_Sitio_Web, se usa en cambio
+   03_Sitio_Web/wrangler.jsonc. Ambos deben tener el mismo `name`.
+
+   OJO CON `name`: tiene que ser exactamente el nombre del Worker en Cloudflare
+   (Workers & Pages › el proyecto). Al importar el repo, Cloudflare propone
+   el nombre del repositorio: "ebenezer". */
+{
+  "$schema": "./03_Sitio_Web/node_modules/wrangler/config-schema.json",
+  "name": "ebenezer",
+  "main": "./03_Sitio_Web/dist/_worker.js/index.js",
+
+  // Instala dependencias y construye 03_Sitio_Web antes de desplegar.
+  "build": {
+    "command": "npm run build"
+  },
+
+  "compatibility_date": "2026-01-14",
+  "compatibility_flags": ["nodejs_compat"],
+
+  // public/.assetsignore (copiado a dist/) evita subir _worker.js como estático.
+  "assets": {
+    "binding": "ASSETS",
+    "directory": "./03_Sitio_Web/dist"
+  },
+
+  "observability": {
+    "enabled": true
+  }
+}

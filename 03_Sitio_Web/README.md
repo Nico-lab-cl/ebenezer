@@ -101,8 +101,9 @@ el sitio vive en la carpeta `03_Sitio_Web/`).
 Luego en Cloudflare:
 
 1. **Workers & Pages › Create › Import a repository** y elige `Nico-lab-cl/ebenezer`.
-   En **Root directory** (Advanced settings) pon `03_Sitio_Web`.
-2. Nombre del Worker: `ebenezer-automotora`, el mismo que `name` en `wrangler.jsonc`.
+   Root directory: déjalo vacío (raíz). El `wrangler.jsonc` y el `package.json` de la
+   raíz construyen `03_Sitio_Web` solos.
+2. Nombre del Worker: `ebenezer`, el mismo `name` de los dos `wrangler.jsonc` (raíz y 03_Sitio_Web).
 3. Build command: `npm run build`. Deploy command: `npx wrangler deploy`.
    Wrangler también construye solo (`build.command`), así que aunque el
    campo del panel quede vacío, el despliegue no se rompe.
