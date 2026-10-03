@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>EBENEZER · Contacto</title>
+<script src="./support.js"></script>
+<script>window.EBZ_ASSETS = 'ds/ebenezer/assets/'; window.EBZ_WHATSAPP = '56900000000';</script>
+<link rel="stylesheet" href="ds/ebenezer/styles.css">
+<link rel="stylesheet" href="ds/ebenezer/tokens/typography.css">
+<link rel="stylesheet" href="ds/ebenezer/tokens/colors.css">
+<link rel="stylesheet" href="ds/ebenezer/tokens/spacing.css">
+<link rel="stylesheet" href="ds/ebenezer/tokens/base.css">
+<link rel="stylesheet" href="ds/ebenezer/components/ebz.css">
+<script src="ds/ebenezer/_ds_bundle.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+body{margin:0;background:#14171B}
+a{color:#F47735}a:hover{color:#F68A52}
+</style>
+</helmet>
+<div data-theme="dark" style="background: #14171B; color: #FFFFFF; font-family: Montserrat, sans-serif">
+  <x-import component-from-global-scope="EBENEZERDesignSystem_9e2a3a.Header" active="Contacto"></x-import>
+  <main>
+    <section class="ebz-container" style="padding-top: 72px; padding-bottom: 88px">
+      <div style="display: flex; flex-wrap: wrap; gap: 56px; align-items: flex-start">
+        <div style="flex: 5 1 380px; display: flex; flex-direction: column; gap: 24px">
+          <span class="ebz-overline ebz-overline-rule" style="color: #BCBFC8">Contacto</span>
+          <h1 class="ebz-h1">Hablemos de tu próximo auto.</h1>
+          <p class="ebz-body-lg" style="color: #BCBFC8">La forma más rápida es WhatsApp. Si prefieres, déjanos tus datos y te llamamos.</p>
+          <x-import component-from-global-scope="EBENEZERDesignSystem_9e2a3a.WhatsAppButton" size="lg">Escríbenos por WhatsApp</x-import>
+          <ul style="list-style: none; margin: 8px 0 0; padding: 0; display: flex; flex-direction: column; gap: 16px">
+            <sc-for list="{{info}}" as="i" hint-placeholder-count="4">
+              <li style="display: flex; gap: 14px; align-items: flex-start">
+                <x-import component-from-global-scope="EBENEZERDesignSystem_9e2a3a.Icon" name="{{i.icon}}" size="20" color="#F47735"></x-import>
+                <span style="display: flex; flex-direction: column; gap: 2px">
+                  <span class="ebz-label">{{i.label}}</span>
+                  <span class="ebz-body">{{i.value}}</span>
+                </span>
+              </li>
+            </sc-for>
+          </ul>
+        </div>
+        <form style="flex: 6 1 460px; background: #20242A; padding: 32px; border-radius: 4px; box-shadow: inset 0 0 0 1px rgba(255,255,255,.08); display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 18px">
+          <x-import component-from-global-scope="EBENEZERDesignSystem_9e2a3a.Input" label="Nombre" placeholder="Nombre y apellido" style="grid-column: 1 / -1"></x-import>
+          <x-import component-from-global-scope="EBENEZERDesignSystem_9e2a3a.Input" label="Teléfono" placeholder="+56 9 1234 5678" icon="phone" type="tel"></x-import>
+          <x-import component-from-global-scope="EBENEZERDesignSystem_9e2a3a.Input" label="Email" placeholder="tu@email.cl" icon="mail" type="email"></x-import>
+          <x-import component-from-global-scope="EBENEZERDesignSystem_9e2a3a.Select" label="Motivo" placeholder="Selecciona" options="{{motivos}}" style="grid-column: 1 / -1"></x-import>
+          <div class="ebz-field" style="grid-column: 1 / -1">
+            <label class="ebz-label" for="msg">Mensaje</label>
+            <textarea id="msg" class="ebz-input" rows="4" placeholder="Cuéntanos qué auto buscas o qué necesitas" style="resize: vertical; min-height: 120px; padding-top: 12px"></textarea>
+          </div>
+          <div style="grid-column: 1 / -1; display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; padding-top: 8px; border-top: 1px solid rgba(255,255,255,.08)">
+            <span class="ebz-caption">Te respondemos en horario de atención.</span>
+            <x-import component-from-global-scope="EBENEZERDesignSystem_9e2a3a.Button" type="submit" icon-right="arrow-right">Enviar</x-import>
+          </div>
+        </form>
+      </div>
+    </section>
+    <section style="background: #20242A">
+      <div style="height: 360px; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 10px; color: #A4A5AD; background: repeating-linear-gradient(-12deg, #20242A 0 22px, #262A31 22px 44px)">
+        <x-import component-from-global-scope="EBENEZERDesignSystem_9e2a3a.Icon" name="map-pin" size="36" color="#F47735"></x-import>
+        <span class="ebz-body-sm">[Mapa de Google con la dirección confirmada]</span>
+      </div>
+    </section>
+  </main>
+  <x-import component-from-global-scope="EBENEZERDesignSystem_9e2a3a.Footer"></x-import>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1900}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      motivos: ['Quiero comprar un auto', 'Quiero vender mi auto', 'Financiamiento', 'Otro'],
+      info: [
+        { icon: 'map-pin', label: 'Dirección', value: '[Dirección por confirmar], Viña del Mar' },
+        { icon: 'phone', label: 'Teléfono', value: '[+56 9 0000 0000]' },
+        { icon: 'mail', label: 'Email', value: '[contacto@dominio.cl]' },
+        { icon: 'clock', label: 'Horario', value: '[Lun a Vie 10:00–19:00 · Sáb 10:00–14:00]' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

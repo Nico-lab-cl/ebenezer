@@ -1,0 +1,13 @@
+---
+import Icon from './Icon.astro';
+import ajustes from '@/content/ajustes.json';
+---
+<div class="ebz-trust">
+  {ajustes.confianza.map((it) => (
+    <div class="ebz-trust__item">
+      <Icon name={it.icono} size={36} class="ebz-trust__icon" />
+      <div class="ebz-trust__title">{it.titulo}</div>
+      <p class="ebz-trust__text">{it.texto}</p>
+    </div>
+  ))}
+</div>

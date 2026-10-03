@@ -1,0 +1,61 @@
+---
+import Icon from './Icon.astro';
+import Button from './Button.astro';
+import WhatsAppButton from './WhatsAppButton.astro';
+
+/* `minimal`: sólo logo y WhatsApp, para la página de anuncios /tasacion
+   (sin menú, para que nadie se vaya antes de dejar sus datos). */
+interface Props {
+  minimal?: boolean;
+}
+const { minimal = false } = Astro.props;
+const ITEMS = [
+  { label: 'Vende tu auto', href: '/vender-mi-auto/' },
+  { label: 'Autos disponibles', href: '/comprar/' },
+  { label: 'Financiamiento', href: '/financiamiento/' },
+  { label: 'Nosotros', href: '/nosotros/' },
+  { label: 'Contacto', href: '/contacto/' },
+];
+const ruta = Astro.url.pathname;
+const activo = (href: string) => ruta.startsWith(href) || (href === '/comprar/' && ruta.startsWith('/autos/'));
+---
+<header class="ebz-header">
+  <div class="ebz-container">
+    <div class="ebz-header__in">
+      <a href={minimal ? undefined : '/'} aria-label="EBENEZER Automotora">
+        <img src="/assets/logo/ebenezer-imagotipo-blanco.svg" alt="EBENEZER Automotora" height="40" width="132" style="height:40px;width:auto;display:block" />
+      </a>
+      {!minimal && (
+        <nav class="ebz-header__nav" aria-label="Principal">
+          {ITEMS.map((it) => (
+            <a class="ebz-header__link" href={it.href} aria-current={activo(it.href) ? 'page' : undefined}>{it.label}</a>
+          ))}
+        </nav>
+      )}
+      <div style={`display:flex;gap:10px;align-items:center${minimal ? ';margin-left:auto' : ''}`}>
+        {!minimal && <Button size="sm" href="/vender-mi-auto/#tasar" class="header-tasar">Tasar mi auto</Button>}
+        <WhatsAppButton size="sm" context={minimal ? 'vender' : 'general'} variant={minimal ? 'primary' : 'secondary'}><span class="ebz-header__cta-label">WhatsApp</span></WhatsAppButton>
+      </div>
+      {!minimal && (
+        <button type="button" class="ebz-iconbtn ebz-header__burger" aria-label="Menú" aria-expanded="false" aria-controls="mnav" data-burger>
+          <Icon name="menu" />
+        </button>
+      )}
+    </div>
+    {!minimal && (
+      <nav class="ebz-mnav" id="mnav" aria-label="Móvil" hidden>
+        {ITEMS.map((it) => <a href={it.href}>{it.label}</a>)}
+      </nav>
+    )}
+  </div>
+</header>
+
+<script>
+  const btn = document.querySelector<HTMLButtonElement>('[data-burger]');
+  const nav = document.getElementById('mnav');
+  btn?.addEventListener('click', () => {
+    const abierto = btn.getAttribute('aria-expanded') === 'true';
+    btn.setAttribute('aria-expanded', String(!abierto));
+    nav?.toggleAttribute('hidden', abierto);
+  });
+</script>

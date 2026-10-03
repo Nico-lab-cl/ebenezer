@@ -1,0 +1,40 @@
+---
+import AutoDestacado from './AutoDestacado.astro';
+import VehicleCard from './VehicleCard.astro';
+import Encargo from './Encargo.astro';
+import Button from './Button.astro';
+import Icon from './Icon.astro';
+import type { Vehiculo } from '@/lib/vehiculos';
+
+/* La segunda vía: los autos a la venta. Con 1 o 2 autos, cada uno va en
+   vitrina grande; desde 3, en grilla. Siempre cierra con las dos salidas:
+   "¿buscas otro?" (encargo) y "¿tienes uno?" (consignación). */
+interface Props {
+  autos: Vehiculo[];
+  idEncargo: string;
+  /** En la portada se limita la grilla y se enlaza al catálogo completo */
+  limite?: number;
+  tasar?: string;
+}
+const { autos, idEncargo, limite, tasar = '#tasar' } = Astro.props;
+const vitrina = autos.length <= 2;
+const lista = limite ? autos.slice(0, limite) : autos;
+---
+<div class="stack" style="gap:28px">
+  {autos.length === 0 && (
+    <div class="cat__empty"><h3 class="ebz-h4">Estamos recibiendo autos nuevos.</h3><p class="ebz-body muted" style="margin-top:8px">Deja tu encargo y te avisamos apenas llegue uno.</p></div>
+  )}
+  {vitrina ? lista.map((v) => <AutoDestacado v={v} />) : <div class="grid-autos">{lista.map((v) => <VehicleCard v={v} />)}</div>}
+  {limite && autos.length > limite && (
+    <div><Button variant="secondary" iconRight="arrow-right" href="/comprar/">Ver los {autos.length} autos</Button></div>
+  )}
+  <div class="dos-vias">
+    <Encargo id={idEncargo} />
+    <aside class="dos-vias__vende" data-theme="dark">
+      <Icon name="car" size={36} style="color:var(--naranja-500)" />
+      <h3 class="ebz-h3">¿Tienes un auto para vender? Lo publicamos aquí.</h3>
+      <p class="ebz-body-sm" style="color:var(--grafito-300)">Con fotos de estudio, ficha propia y anuncios pagados. Sin costo hasta que se vende.</p>
+      <Button href={tasar} iconRight="arrow-right">Tasar mi auto</Button>
+    </aside>
+  </div>
+</div>

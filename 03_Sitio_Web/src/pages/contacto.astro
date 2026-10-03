@@ -1,0 +1,61 @@
+---
+import Base from '@/layouts/Base.astro';
+import Icon from '@/components/Icon.astro';
+import Button from '@/components/Button.astro';
+import WhatsAppButton from '@/components/WhatsAppButton.astro';
+import ajustes from '@/content/ajustes.json';
+import { numeroWhatsapp } from '@/lib/whatsapp';
+
+const INFO = [
+  ['map-pin', 'Dirección', `${ajustes.direccion}, ${ajustes.comuna}`],
+  ['phone', 'Teléfono', ajustes.telefono],
+  ['mail', 'Email', ajustes.email],
+  ['clock', 'Horario', ajustes.horario],
+];
+const MOTIVOS = ['Quiero comprar un auto', 'Quiero vender mi auto', 'Financiamiento', 'Otro'];
+---
+<Base
+  title="Contacto"
+  description={`Contacta a EBENEZER Automotora en ${ajustes.comuna}. Escríbenos por WhatsApp o déjanos tus datos y te llamamos.`}
+>
+  <section class="ebz-container sec--lg">
+    <div class="split split--top" style="gap:56px">
+      <div class="stack" style="gap:24px;flex:5 1 360px">
+        <span class="ebz-overline ebz-overline-rule" style="color:var(--grafito-300)">Contacto</span>
+        <h1 class="ebz-h1">Hablemos de tu próximo auto.</h1>
+        <p class="ebz-body-lg muted">La forma más rápida es WhatsApp. Si prefieres, déjanos tus datos y te llamamos.</p>
+        <div class="row"><WhatsAppButton size="lg">Escríbenos por WhatsApp</WhatsAppButton></div>
+        <ul class="lista-check" style="gap:16px;margin-top:8px">
+          {INFO.map(([ic, l, v]) => (
+            <li><Icon name={ic!} size={20} style="color:var(--naranja-500)" /><span style="display:flex;flex-direction:column;gap:2px"><span class="ebz-label">{l}</span><span class="ebz-body">{v}</span></span></li>
+          ))}
+        </ul>
+        {ajustes.mapaUrl && <Button variant="secondary" href={ajustes.mapaUrl} target="_blank" icon="map-pin">Cómo llegar</Button>}
+      </div>
+
+      <form class="form-panel" style="flex:6 1 440px;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px" data-lead="contacto" data-wa={numeroWhatsapp()} data-sheets={ajustes.sheetsUrl}>
+        <div data-campos style="display:contents">
+        <div class="ebz-field" style="grid-column:1/-1"><label class="ebz-label" for="c-nombre">Nombre</label><div class="ebz-control"><input id="c-nombre" name="nombre" class="ebz-input" placeholder="Nombre y apellido" autocomplete="name" required /></div></div>
+        <div class="ebz-field"><label class="ebz-label" for="c-tel">Teléfono</label><div class="ebz-control"><Icon name="phone" size={18} /><input id="c-tel" name="telefono" type="tel" class="ebz-input ebz-input--icon" placeholder="+56 9 1234 5678" autocomplete="tel" required /></div></div>
+        <div class="ebz-field"><label class="ebz-label" for="c-email">Email</label><div class="ebz-control"><Icon name="mail" size={18} /><input id="c-email" name="email" type="email" class="ebz-input ebz-input--icon" placeholder="tu@email.cl" autocomplete="email" /></div></div>
+        <div class="ebz-field" style="grid-column:1/-1"><label class="ebz-label" for="c-motivo">Motivo</label><div class="ebz-control"><select id="c-motivo" name="motivo" class="ebz-select" required><option value="">Selecciona</option>{MOTIVOS.map((m) => <option>{m}</option>)}</select><Icon name="chevron-down" size={18} class="ebz-select__chev" /></div></div>
+        <div class="ebz-field" style="grid-column:1/-1"><label class="ebz-label" for="c-msg">Mensaje</label><textarea id="c-msg" name="mensaje" class="ebz-input" rows="4" placeholder="Cuéntanos qué auto buscas o qué necesitas"></textarea></div>
+        <div style="grid-column:1/-1" class="form-nav">
+          <span class="ebz-caption" style="align-self:center">Te respondemos en horario de atención.</span>
+          <Button type="submit" iconRight="arrow-right">Enviar</Button>
+        </div>
+        <div class="lead__oculto" aria-hidden="true"><label>No llenar<input name="sitio_web" tabindex="-1" autocomplete="off" /></label></div>
+        </div>
+        <div class="lead__gracias" data-gracias hidden style="grid-column:1/-1">
+          <h2 class="ebz-h3" tabindex="-1">Mensaje recibido.</h2>
+          <p class="ebz-body muted">Te contactamos en horario de atención. Si es urgente, escríbenos por WhatsApp.</p>
+          <Button href="#" target="_blank" icon="whatsapp" data-gracias-wa>Seguir por WhatsApp</Button>
+        </div>
+      </form>
+    </div>
+  </section>
+</Base>
+
+<script>
+  import '@/scripts/leads';
+</script>

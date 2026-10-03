@@ -1,0 +1,16 @@
+---
+interface Props {
+  items: { nombre: string; url?: string }[];
+}
+const { items } = Astro.props;
+---
+<nav aria-label="Migas de pan">
+  <ol class="ebz-crumbs">
+    {items.map((it, i) => (
+      <>
+        {i > 0 && <li class="ebz-crumbs__sep" aria-hidden="true"></li>}
+        <li>{it.url && i < items.length - 1 ? <a href={it.url}>{it.nombre}</a> : <span aria-current="page">{it.nombre}</span>}</li>
+      </>
+    ))}
+  </ol>
+</nav>

@@ -1,0 +1,26 @@
+---
+/* Rango doble del DS. Los valores visibles los pinta el script del catálogo
+   según `data-formato` (clp, km o número). */
+interface Props {
+  nombre: string;
+  label: string;
+  min: number;
+  max: number;
+  step?: number;
+  formato?: 'clp' | 'km' | 'num';
+}
+const { nombre, label, min, max, step = 1, formato = 'num' } = Astro.props;
+const f = (n: number) => {
+  const m = Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+  return formato === 'clp' ? '$' + m : formato === 'km' ? m + ' km' : String(n);
+};
+---
+<div class="ebz-field" data-rango={nombre} data-formato={formato}>
+  <div class="ebz-range">
+    <div class="ebz-range__track"></div>
+    <div class="ebz-range__fill" style="left:0%;right:0%"></div>
+    <input type="range" min={min} max={max} step={step} value={min} aria-label={`${label} mínimo`} data-min />
+    <input type="range" min={min} max={max} step={step} value={max} aria-label={`${label} máximo`} data-max />
+  </div>
+  <div class="ebz-range__vals ebz-num"><span data-vmin>{f(min)}</span><span data-vmax>{f(max)}</span></div>
+</div>

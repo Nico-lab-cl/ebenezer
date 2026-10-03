@@ -1,0 +1,76 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '@/layouts/Base.astro';
+import Hero from '@/components/Hero.astro';
+import SeccionesVenta from '@/components/SeccionesVenta.astro';
+import AutosDisponibles from '@/components/AutosDisponibles.astro';
+import FaqVendedor from '@/components/FaqVendedor.astro';
+import TrustBlock from '@/components/TrustBlock.astro';
+import Testimonial from '@/components/Testimonial.astro';
+import ServiceStrip from '@/components/ServiceStrip.astro';
+import Button from '@/components/Button.astro';
+import { vehiculos } from '@/lib/vehiculos';
+
+/* Portada con dos vías:
+   1. Vende tu auto en consignación (hero + formulario + argumentos).
+   2. Autos disponibles (#autos), con encargo para quien no encuentra el suyo. */
+const todos = await vehiculos();
+const disponibles = todos.filter((v) => v.data.etiqueta !== 'vendido');
+const orden = [...disponibles.filter((v) => v.data.destacado), ...disponibles.filter((v) => !v.data.destacado)];
+const testimonios = await getCollection('testimonios', (t) => t.data.publicado);
+---
+<Base
+  title="EBENEZER Automotora · Vende tu auto en consignación en Viña del Mar"
+  description="Deja tu auto en consignación: lo fotografiamos en estudio, lo promocionamos con anuncios pagados y atendemos a los compradores. Sin costo hasta que se vende. Viña del Mar, Concón, Valparaíso, Quilpué y Villa Alemana."
+  fab={{ context: 'vender' }}
+>
+  <Hero />
+
+  <SeccionesVenta sinFaq />
+
+  <section data-theme="light" class="sec--lg sec--light" id="autos">
+    <div class="ebz-container">
+      <div class="sec-head">
+        <div class="sec-head__t">
+          <span class="ebz-overline" style="color:var(--text-accent)">¿Buscas auto?</span>
+          <h2 class="ebz-h2">Autos disponibles</h2>
+          <p class="ebz-body muted">Revisados, con informe de antecedentes y precio final a la vista.</p>
+        </div>
+      </div>
+      <AutosDisponibles autos={orden} idEncargo="encargo-inicio" limite={6} />
+    </div>
+  </section>
+
+  <section class="ebz-container sec">
+    <TrustBlock />
+  </section>
+
+  {testimonios.length > 0 && (
+    <section data-theme="light" class="sec sec--light">
+      <div class="ebz-container">
+        <div class="sec-head"><div class="sec-head__t">
+          <span class="ebz-overline" style="color:var(--text-accent)">Clientes en la región</span>
+          <h2 class="ebz-h2">Lo que dicen de EBENEZER</h2>
+        </div></div>
+        <div class="grid-3">
+          {testimonios.map((t) => <Testimonial texto={t.data.texto} nombre={t.data.nombre} comuna={t.data.comuna} auto={t.data.auto} />)}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <section data-theme="light" class="sec sec--light" id="preguntas">
+    <div class="ebz-container split split--top" style="gap:56px">
+      <div class="stack" style="flex:4 1 320px">
+        <span class="ebz-overline" style="color:var(--text-accent)">Preguntas frecuentes</span>
+        <h2 class="ebz-h2">Lo que preguntan los dueños.</h2>
+        <div class="row"><Button href="#tasar" iconRight="arrow-right">Tasar mi auto</Button></div>
+      </div>
+      <div style="flex:7 1 520px"><FaqVendedor /></div>
+    </div>
+  </section>
+
+  <div style="display:flex;justify-content:center;padding:36px 0;background:var(--grafito-900)">
+    <ServiceStrip />
+  </div>
+</Base>

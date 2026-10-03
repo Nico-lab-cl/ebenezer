@@ -1,0 +1,148 @@
+{
+  "v": 3,
+  "attachments": {},
+  "boards": {
+    "Comprar.dc.html": {
+      "expand": "fill",
+      "h": 2700,
+      "is_interactive": true,
+      "title": "Comprar · catálogo",
+      "w": 1440,
+      "x": 1520,
+      "y": 0
+    },
+    "Contacto.dc.html": {
+      "expand": "fill",
+      "h": 1900,
+      "is_interactive": true,
+      "title": "Contacto",
+      "w": 1440,
+      "x": 3040,
+      "y": 6020
+    },
+    "Ficha.dc.html": {
+      "expand": "fill",
+      "h": 3100,
+      "is_interactive": true,
+      "title": "Ficha de vehículo",
+      "w": 1440,
+      "x": 3040,
+      "y": 0
+    },
+    "Financiamiento.dc.html": {
+      "expand": "fill",
+      "h": 2700,
+      "is_interactive": true,
+      "title": "Financiamiento",
+      "w": 1440,
+      "x": 0,
+      "y": 6020
+    },
+    "Main.dc.html": {
+      "expand": "fill",
+      "h": 5600,
+      "is_interactive": true,
+      "title": "Inicio · dos vías (consignación + autos)",
+      "w": 1440,
+      "x": 0,
+      "y": 0
+    },
+    "MovilFicha.dc.html": {
+      "h": 5600,
+      "is_interactive": true,
+      "title": "Ficha · móvil",
+      "w": 390,
+      "x": 470,
+      "y": 9140
+    },
+    "MovilInicio.dc.html": {
+      "h": 10200,
+      "is_interactive": true,
+      "title": "Inicio · móvil",
+      "w": 390,
+      "x": 0,
+      "y": 9140
+    },
+    "Nosotros.dc.html": {
+      "expand": "fill",
+      "h": 2500,
+      "title": "Nosotros",
+      "w": 1440,
+      "x": 1520,
+      "y": 6020
+    },
+    "Vender.dc.html": {
+      "expand": "fill",
+      "h": 2100,
+      "is_interactive": true,
+      "title": "Vender mi auto",
+      "w": 1440,
+      "x": 4560,
+      "y": 0
+    },
+    "Tasacion.dc.html": {
+      "x": 4560,
+      "y": 6020,
+      "w": 1440,
+      "h": 2400,
+      "title": "/tasacion · página de anuncios",
+      "expand": "fill"
+    }
+  },
+  "createdOnFiles": {
+    "at": "2026-10-02T17:03:09Z",
+    "v": 1
+  },
+  "designSystems": [
+    {
+      "artifact": "https://claude.ai/artifact/UgHreT7miA8scychkkPFHa",
+      "copiedAt": "2026-10-02T17:03:09Z",
+      "namespace": "ebenezer",
+      "title": "EBENEZER Design System",
+      "version": "1790960230-5e58"
+    }
+  ],
+  "launch": {
+    "view": "canvas"
+  },
+  "notes": {
+    "row1": {
+      "kind": "title1",
+      "maxW": 6000,
+      "text": "Recorrido principal: Inicio (vende / compra) → Autos → Ficha → Vender",
+      "w": 240,
+      "x": 0,
+      "y": -300
+    },
+    "row2": {
+      "kind": "title1",
+      "maxW": 6000,
+      "text": "Anuncios y páginas de apoyo",
+      "w": 240,
+      "x": 0,
+      "y": 5720
+    },
+    "row3": {
+      "kind": "title1",
+      "maxW": 860,
+      "text": "Móvil (390 px)",
+      "w": 240,
+      "x": 0,
+      "y": 8840
+    }
+  },
+  "order": [
+    "Main.dc.html",
+    "Comprar.dc.html",
+    "Ficha.dc.html",
+    "Vender.dc.html",
+    "Financiamiento.dc.html",
+    "Nosotros.dc.html",
+    "Contacto.dc.html",
+    "MovilInicio.dc.html",
+    "MovilFicha.dc.html",
+    "Tasacion.dc.html"
+  ],
+  "pages": [],
+  "title": "EBENEZER Sitio Web"
+}

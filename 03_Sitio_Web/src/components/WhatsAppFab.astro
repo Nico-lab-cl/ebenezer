@@ -1,0 +1,16 @@
+---
+import Icon from './Icon.astro';
+import { urlWhatsapp, type Contexto, type AutoWa } from '@/lib/whatsapp';
+
+interface Props {
+  context?: Contexto;
+  auto?: AutoWa;
+}
+const { context, auto } = Astro.props;
+const href = urlWhatsapp(context ?? (auto ? 'vehiculo' : 'general'), auto);
+---
+<a class="ebz-fab" href={href} target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp">
+  <span class="ebz-fab__glyph"><Icon name="whatsapp" size={30} /></span>
+  <span class="ebz-fab__label">¿Hablamos por WhatsApp?</span>
+  <span class="ebz-fab__dot" aria-hidden="true"></span>
+</a>

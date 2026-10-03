@@ -1,0 +1,28 @@
+---
+import Icon from './Icon.astro';
+import ajustes from '@/content/ajustes.json';
+
+const FILAS = [
+  ['Fotos', 'Con el celular, donde se pueda', 'En estudio, fondo gris y ángulos de catálogo'],
+  ['Publicidad', 'Avisos gratuitos que se pierden entre cientos', 'Anuncios pagados dirigidos a compradores de la región'],
+  ['Llamadas y mensajes', 'Contestas a todos, a cualquier hora', 'Nosotros respondemos y filtramos'],
+  ['Visitas y pruebas', 'Desconocidos en tu casa o en la calle', 'Las coordinamos nosotros, con hora'],
+  ['Financiamiento al comprador', 'No: sólo compradores al contado', 'Sí: más personas pueden comprarlo'],
+  ['Papeles y transferencia', 'Los haces tú', 'Los hacemos nosotros, en digital'],
+  ['Costo', 'Publicar es gratis; tu tiempo, no', `${ajustes.comision}, sólo si se vende`],
+];
+---
+<div class="comp" role="table" aria-label="Vender por tu cuenta o con EBENEZER">
+  <div class="comp__fila comp__fila--head" role="row">
+    <span role="columnheader"></span>
+    <span role="columnheader">Por tu cuenta</span>
+    <span role="columnheader" class="comp__eb">Con EBENEZER</span>
+  </div>
+  {FILAS.map(([q, tu, eb]) => (
+    <div class="comp__fila" role="row">
+      <span role="rowheader" class="comp__q">{q}</span>
+      <span role="cell" class="comp__tu"><Icon name="x" size={16} />{tu}</span>
+      <span role="cell" class="comp__eb"><Icon name="check" size={16} />{eb}</span>
+    </div>
+  ))}
+</div>

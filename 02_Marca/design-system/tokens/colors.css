@@ -1,0 +1,46 @@
+/* EBENEZER — color tokens. Derived only from Grafito #20242A, Naranja #F47735, Blanco #FFFFFF. */
+:root{
+/* Brand (official, do not change) */
+--ebz-grafito:#20242A;--ebz-naranja:#F47735;--ebz-blanco:#FFFFFF;
+/* Grafito / neutral scale — cool, includes studio greys (#F4F6FC → #A4A5AD) */
+--grafito-50:#F4F6FC;--grafito-100:#E9ECF3;--grafito-200:#D5D8E0;--grafito-300:#BCBFC8;--grafito-400:#A4A5AD;--grafito-500:#6E727C;--grafito-600:#5D616B;--grafito-700:#434850;--grafito-800:#30343B;--grafito-900:#20242A;--grafito-950:#14171B;
+/* Naranja scale */
+--naranja-50:#FEF3EC;--naranja-100:#FDE3D3;--naranja-200:#FBC5A6;--naranja-300:#F8A375;--naranja-400:#F68A52;--naranja-500:#F47735;--naranja-600:#DD6421;--naranja-700:#B04A16;--naranja-800:#8A3A12;--naranja-900:#632A0E;
+/* Naranja states */
+--naranja-hover:#F68A52;--naranja-pressed:#DD6421;--naranja-focus:rgba(244,119,53,.45);
+/* Accessible orange for small text / white-on-orange (5.47:1 on white) */
+--naranja-texto:#B04A16;
+/* Semantic — muted so they never out-shout the orange */
+--success-400:#4CC38A;--success-600:#23764F;--success-bg-dark:rgba(76,195,138,.12);--success-bg-light:#E6F4EC;
+--warning-400:#E8B64A;--warning-600:#8A5A10;--warning-bg-dark:rgba(232,182,74,.12);--warning-bg-light:#FBF1DC;
+--error-400:#F07A82;--error-600:#C8404A;--error-bg-dark:rgba(240,122,130,.12);--error-bg-light:#FBE7E8;
+--info-400:#7FB0E0;--info-600:#3E72A8;--info-bg-dark:rgba(127,176,224,.12);--info-bg-light:#E5EEF8;
+/* Studio photo gradient */
+--studio-gradient:linear-gradient(180deg,#A4A5AD 0%,#C9CBD3 48%,#E9ECF3 62%,#F4F6FC 100%);/* @kind color */
+--overlay-bottom:linear-gradient(180deg,rgba(20,23,27,0) 40%,rgba(20,23,27,.85) 100%);/* @kind color */
+--overlay-left:linear-gradient(90deg,rgba(20,23,27,.92) 0%,rgba(20,23,27,.6) 45%,rgba(20,23,27,0) 75%);/* @kind color */
+/* WhatsApp brand green — only on the WhatsApp glyph/button */
+--whatsapp:#25D366;--whatsapp-ink:#0B3D22;
+}
+/* DARK MODE — default (premium, grafito) */
+:root,[data-theme="dark"]{
+--bg-page:var(--grafito-950);--bg-surface:var(--grafito-900);--bg-raised:var(--grafito-800);--bg-sunken:#0F1114;--bg-inverse:var(--ebz-blanco);
+--border-subtle:rgba(255,255,255,.08);--border-default:rgba(255,255,255,.14);--border-strong:rgba(255,255,255,.28);
+--text-primary:var(--ebz-blanco);--text-secondary:var(--grafito-300);--text-tertiary:var(--grafito-400);--text-disabled:var(--grafito-600);--text-inverse:var(--grafito-900);
+--text-accent:var(--naranja-500);--text-on-accent:var(--grafito-950);
+--accent:var(--naranja-500);--accent-hover:var(--naranja-hover);--accent-pressed:var(--naranja-pressed);--accent-focus:var(--naranja-focus);--accent-subtle:rgba(244,119,53,.12);
+--success:var(--success-400);--success-bg:var(--success-bg-dark);--warning:var(--warning-400);--warning-bg:var(--warning-bg-dark);--error:var(--error-400);--error-bg:var(--error-bg-dark);--info:var(--info-400);--info-bg:var(--info-bg-dark);
+--input-bg:var(--grafito-950);--input-border:rgba(255,255,255,.18);
+color-scheme:dark;
+}
+/* LIGHT MODE — catalog & vehicle detail */
+[data-theme="light"]{
+--bg-page:var(--grafito-50);--bg-surface:var(--ebz-blanco);--bg-raised:var(--ebz-blanco);--bg-sunken:var(--grafito-100);--bg-inverse:var(--grafito-900);
+--border-subtle:var(--grafito-100);--border-default:var(--grafito-200);--border-strong:var(--grafito-400);
+--text-primary:var(--grafito-900);--text-secondary:var(--grafito-600);--text-tertiary:var(--grafito-600);--text-disabled:var(--grafito-400);--text-inverse:var(--ebz-blanco);
+--text-accent:var(--naranja-texto);--text-on-accent:var(--grafito-950);
+--accent:var(--naranja-500);--accent-hover:var(--naranja-hover);--accent-pressed:var(--naranja-pressed);--accent-focus:var(--naranja-focus);--accent-subtle:var(--naranja-50);
+--success:var(--success-600);--success-bg:var(--success-bg-light);--warning:var(--warning-600);--warning-bg:var(--warning-bg-light);--error:var(--error-600);--error-bg:var(--error-bg-light);--info:var(--info-600);--info-bg:var(--info-bg-light);
+--input-bg:var(--ebz-blanco);--input-border:var(--grafito-300);
+color-scheme:light;
+}

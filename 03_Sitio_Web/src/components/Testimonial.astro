@@ -1,0 +1,18 @@
+---
+interface Props {
+  texto: string;
+  nombre: string;
+  comuna?: string;
+  auto?: string;
+}
+const { texto, nombre, comuna, auto } = Astro.props;
+const iniciales = nombre.split(' ').map((s) => s[0]).slice(0, 2).join('');
+---
+<figure class="ebz-quote" style="margin:0">
+  <span class="ebz-quote__mark" aria-hidden="true">“</span>
+  <blockquote class="ebz-quote__text" style="margin:0">{texto}</blockquote>
+  <figcaption class="ebz-quote__who">
+    <span class="ebz-quote__avatar"><span>{iniciales}</span></span>
+    <span><b style="display:block;font-size:14px">{nombre}</b><span class="ebz-caption">{[comuna, auto].filter(Boolean).join(' · ')}</span></span>
+  </figcaption>
+</figure>

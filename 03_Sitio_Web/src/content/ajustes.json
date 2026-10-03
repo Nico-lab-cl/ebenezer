@@ -1,0 +1,49 @@
+{
+  "nombre": "EBENEZER Automotora",
+  "dominio": "https://www.ebenezer.cl",
+  "whatsapp": "56900000000",
+  "telefono": "[+56 9 0000 0000]",
+  "email": "[contacto@dominio.cl]",
+  "direccion": "[Dirección por confirmar]",
+  "comuna": "Viña del Mar",
+  "horario": "[Lun a Vie 10:00–19:00 · Sáb 10:00–14:00]",
+  "mapaUrl": "",
+  "instagram": "",
+  "facebook": "",
+  "tasaMensual": 0.0169,
+  "pieMinimo": 0.2,
+  "financieras": "[financieras asociadas]",
+  "confianza": [
+    {
+      "icono": "clipboard-check",
+      "titulo": "Inspección de [N] puntos",
+      "texto": "Mecánica, carrocería, frenos y electrónica revisados antes de publicar. Te entregamos el informe."
+    },
+    {
+      "icono": "shield-check",
+      "titulo": "Garantía mecánica",
+      "texto": "[Cobertura: qué incluye, plazo y kilómetros]."
+    },
+    {
+      "icono": "file-pen-line",
+      "titulo": "Transferencia digital",
+      "texto": "Firma electrónica y trámite ante el Registro Civil sin que tengas que hacer filas."
+    },
+    {
+      "icono": "file-search",
+      "titulo": "Informe de antecedentes",
+      "texto": "Multas, prendas, dueños anteriores y encargo por robo, verificados para cada auto."
+    }
+  ],
+  "comision": "[X% del precio de venta]",
+  "plazoPago": "[plazo en que se paga al dueño tras la venta]",
+  "canales": [
+    "Anuncios pagados en Facebook e Instagram",
+    "Nuestra web y catálogo",
+    "Facebook Marketplace",
+    "Atención de compradores por WhatsApp"
+  ],
+  "sheetsUrl": "",
+  "metaPixelId": "",
+  "ga4Id": ""
+}

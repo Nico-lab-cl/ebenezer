@@ -1,0 +1,10 @@
+---
+/* Bandera a cuadros: máx. una por pantalla, ≤120 px, nunca detrás de texto. */
+interface Props {
+  width?: number;
+  size?: number;
+  class?: string;
+}
+const { width = 96, size = 8, class: clase = '' } = Astro.props;
+---
+<div aria-hidden="true" class={`ebz-checkered ${clase}`} style={`--s:${size}px;width:${width}px`}></div>

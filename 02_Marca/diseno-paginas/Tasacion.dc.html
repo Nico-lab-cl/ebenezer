@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>EBENEZER · Tasación (anuncios)</title>
+<script src="./support.js"></script>
+<script>window.EBZ_ASSETS = 'ds/ebenezer/assets/'; window.EBZ_WHATSAPP = '56900000000';</script>
+<link rel="stylesheet" href="ds/ebenezer/styles.css">
+<link rel="stylesheet" href="ds/ebenezer/tokens/typography.css">
+<link rel="stylesheet" href="ds/ebenezer/tokens/colors.css">
+<link rel="stylesheet" href="ds/ebenezer/tokens/spacing.css">
+<link rel="stylesheet" href="ds/ebenezer/tokens/base.css">
+<link rel="stylesheet" href="ds/ebenezer/components/ebz.css">
+<script src="ds/ebenezer/_ds_bundle.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+body{margin:0;background:#14171B}
+a{color:#F47735}a:hover{color:#F68A52}
+</style>
+</helmet>
+<div data-theme="dark" style="background: #14171B; color: #FFFFFF; font-family: Montserrat, sans-serif">
+  <header class="ebz-header">
+    <div class="ebz-container">
+      <div class="ebz-header__in">
+        <img src="ds/ebenezer/assets/logo/svg/ebenezer-imagotipo-blanco.svg" alt="EBENEZER Automotora" style="height: 40px; width: auto; display: block">
+        <div style="margin-left: auto">
+          <x-import component-from-global-scope="EBENEZERDesignSystem_9e2a3a.WhatsAppButton" context="vender" size="sm">WhatsApp</x-import>
+        </div>
+      </div>
+    </div>
+  </header>
+  <main>
+    <section style="position: relative; overflow: hidden">
+      <div style="position: absolute; top: 0; right: 0; width: 42%; height: 100%; background: linear-gradient(180deg, #A4A5AD 0%, #C9CBD3 48%, #E9ECF3 62%, #F4F6FC 100%); clip-path: polygon(30% 0, 100% 0, 100% 100%, 0 100%); opacity: .08"></div>
+      <div class="ebz-container" style="position: relative; display: flex; flex-wrap: wrap; gap: 56px; padding-top: 64px; padding-bottom: 80px; align-items: flex-start">
+        <div style="flex: 5 1 360px; display: flex; flex-direction: column; gap: 22px">
+          <span class="ebz-overline ebz-overline-rule" style="color: #BCBFC8">Consignación</span>
+          <h1 class="ebz-h1">Deja tu auto con nosotros. Lo vendemos más rápido.</h1>
+          <p class="ebz-body-lg" style="color: #BCBFC8">Tú pones el auto; nosotros, la publicidad, las fotos y la atención a los compradores. Completa el formulario y te enviamos la tasación por WhatsApp.</p>
+          <ul style="list-style: none; margin: 6px 0 0; padding: 0; display: flex; flex-direction: column; gap: 14px">
+            <sc-for list="{{puntos}}" as="p" hint-placeholder-count="4">
+              <li style="display: flex; gap: 12px; align-items: center">
+                <x-import component-from-global-scope="EBENEZERDesignSystem_9e2a3a.Icon" name="{{p.icon}}" size="20" color="#F47735"></x-import>
+                <span class="ebz-body" style="font-weight: 600">{{p.text}}</span>
+              </li>
+            </sc-for>
+          </ul>
+          <x-import component-from-global-scope="EBENEZERDesignSystem_9e2a3a.Checkered" width="96" size="8"></x-import>
+        </div>
+        <form style="flex: 5 1 400px; position: relative; display: flex; flex-direction: column; gap: 18px; padding: 28px; background: #20242A; border-radius: 4px; box-shadow: 0 24px 64px rgba(10,12,15,.48), inset 0 0 0 1px rgba(255,255,255,.08)">
+          <div style="position: absolute; left: 0; top: 0; width: 120px; height: 3px; background: #F47735"></div>
+          <div>
+            <h2 class="ebz-h4" style="font-style: italic; font-weight: 800">Tasación sin costo</h2>
+            <p class="ebz-caption" style="margin-top: 4px">Te respondemos por WhatsApp en menos de 24 horas hábiles.</p>
+          </div>
+          <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; align-items: end">
+            <x-import component-from-global-scope="EBENEZERDesignSystem_9e2a3a.Input" label="Patente" placeholder="Ej: DGLR28" icon="scan-line"></x-import>
+            <x-import component-from-global-scope="EBENEZERDesignSystem_9e2a3a.Select" label="Año" placeholder="Año" options="{{anios}}"></x-import>
+            <x-import component-from-global-scope="EBENEZERDesignSystem_9e2a3a.Input" label="Marca y modelo" placeholder="Ej: Audi TT" style="grid-column: 1 / -1"></x-import>
+            <x-import component-from-global-scope="EBENEZERDesignSystem_9e2a3a.Input" label="Kilometraje" placeholder="Ej: 98000" suffix="km"></x-import>
+            <x-import component-from-global-scope="EBENEZERDesignSystem_9e2a3a.Select" label="Comuna" placeholder="Comuna" options="{{comunas}}"></x-import>
+            <x-import component-from-global-scope="EBENEZERDesignSystem_9e2a3a.Input" label="Tu nombre" placeholder="Nombre y apellido" style="grid-column: 1 / -1"></x-import>
+            <x-import component-from-global-scope="EBENEZERDesignSystem_9e2a3a.Input" label="WhatsApp" placeholder="+56 9 1234 5678" icon="phone" style="grid-column: 1 / -1"></x-import>
+            <div style="grid-column: 1 / -1"><x-import component-from-global-scope="EBENEZERDesignSystem_9e2a3a.Button" size="lg" block="{{yes}}" icon-right="arrow-right">Quiero vender mi auto</x-import></div>
+          </div>
+          <p style="margin: 0; font-size: 11px; color: #A4A5AD">Usamos tus datos sólo para contactarte por la venta de tu auto.</p>
+        </form>
+      </div>
+    </section>
+
+    <section class="ebz-container" style="padding-top: 72px; padding-bottom: 88px">
+      <h2 class="ebz-h2" style="margin-bottom: 32px">Consignación en 4 pasos.</h2>
+      <ol style="list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 24px">
+        <sc-for list="{{pasos}}" as="s" hint-placeholder-count="4">
+          <li style="display: flex; flex-direction: column; gap: 12px; padding: 28px 24px; background: #20242A; border-radius: 4px; box-shadow: inset 0 0 0 1px rgba(255,255,255,.08)">
+            <span style="font-family: Saira, sans-serif; font-style: italic; font-weight: 900; font-size: 44px; line-height: 1; color: #F47735">{{s.n}}</span>
+            <b class="ebz-h5" style="font-style: italic; font-weight: 800">{{s.title}}</b>
+            <p class="ebz-body-sm" style="color: #BCBFC8">{{s.text}}</p>
+          </li>
+        </sc-for>
+      </ol>
+    </section>
+
+    <section style="position: relative; overflow: hidden; padding: 88px 0; background: #20242A">
+      <div style="position: absolute; top: 0; bottom: 0; left: 58%; right: 0; background: #F47735; clip-path: polygon(18% 0, 100% 0, 100% 100%, 0 100%)"></div>
+      <div class="ebz-container" style="position: relative; display: flex; flex-wrap: wrap; gap: 40px; align-items: center; justify-content: space-between">
+        <div style="flex: 6 1 420px; display: flex; flex-direction: column; gap: 18px">
+          <h2 class="ebz-h1">Nosotros invertimos en la publicidad de tu auto.</h2>
+          <p class="ebz-body-lg" style="color: #BCBFC8; max-width: 540px">Cobramos [X% del precio de venta] sólo cuando el auto se vende.</p>
+          <div><x-import component-from-global-scope="EBENEZERDesignSystem_9e2a3a.Button" size="lg" icon-right="arrow-right">Tasar mi auto</x-import></div>
+        </div>
+        <div style="flex: 4 1 260px; display: flex; flex-direction: column; align-items: flex-end; gap: 14px; color: #14171B">
+          <span class="ebz-display" style="font-size: 120px">$0</span>
+          <span class="ebz-overline" style="font-weight: 700">Hasta que se vende</span>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer class="ebz-footer">
+    <div class="ebz-container ebz-footer__bottom">
+      <span>EBENEZER Automotora · Región de Valparaíso</span>
+      <span>Ver el sitio completo</span>
+    </div>
+  </footer>
+  <x-import component-from-global-scope="EBENEZERDesignSystem_9e2a3a.WhatsAppFab" context="vender"></x-import>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":2400}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const year = new Date().getFullYear();
+    return {
+      yes: true,
+      anios: Array.from({ length: 26 }, (_, i) => String(year - i)),
+      comunas: ['Viña del Mar', 'Concón', 'Valparaíso', 'Quilpué', 'Villa Alemana', 'Otra'],
+      puntos: [
+        { icon: 'camera', text: 'Fotos de estudio como las de una marca' },
+        { icon: 'zap', text: 'Anuncios pagados en Facebook e Instagram' },
+        { icon: 'message-circle', text: 'Atendemos a los compradores por ti' },
+        { icon: 'banknote', text: 'Sin costo hasta que se vende' }
+      ],
+      pasos: [
+        { n: '01', title: 'Tasamos tu auto', text: 'Te proponemos un precio de venta según el mercado. El precio final lo decides tú.' },
+        { n: '02', title: 'Lo preparamos', text: 'Revisión, informe de antecedentes y fotos en estudio.' },
+        { n: '03', title: 'Lo promocionamos', text: 'Anuncios pagados, nuestra web y Marketplace. Filtramos a los interesados.' },
+        { n: '04', title: 'Se vende y te pagamos', text: 'Visitas, test drive, financiamiento del comprador y transferencia. Tú sólo firmas.' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,166 @@
+---
+import { getImage } from 'astro:assets';
+import Base from '@/layouts/Base.astro';
+import Breadcrumbs from '@/components/Breadcrumbs.astro';
+import Gallery from '@/components/Gallery.astro';
+import Badge from '@/components/Badge.astro';
+import Icon from '@/components/Icon.astro';
+import Button from '@/components/Button.astro';
+import WhatsAppButton from '@/components/WhatsAppButton.astro';
+import CreditSimulator from '@/components/CreditSimulator.astro';
+import TrustBlock from '@/components/TrustBlock.astro';
+import VehicleCard from '@/components/VehicleCard.astro';
+import { vehiculos, nombre, url, autoWa, type Vehiculo } from '@/lib/vehiculos';
+import { clp, km } from '@/lib/formato';
+import { auto as schemaAuto, migas } from '@/lib/schema';
+
+export async function getStaticPaths() {
+  const lista = await vehiculos();
+  return lista.map((v) => ({ params: { slug: v.id }, props: { v, lista } }));
+}
+interface Props {
+  v: Vehiculo;
+  lista: Vehiculo[];
+}
+const { v, lista } = Astro.props;
+const d = v.data;
+const titulo = nombre(v);
+const vendido = d.etiqueta === 'vendido';
+const wa = autoWa(v);
+const site = Astro.site!;
+
+const specs = [
+  { icon: 'calendar', label: 'Año', value: String(d.anio) },
+  { icon: 'gauge', label: 'Kilometraje', value: km(d.km) },
+  { icon: 'cog', label: 'Transmisión', value: d.transmision },
+  { icon: 'fuel', label: 'Combustible', value: d.combustible },
+  { icon: 'zap', label: 'Motor', value: d.motor },
+  { icon: 'move-3d', label: 'Tracción', value: d.traccion },
+  { icon: 'car', label: 'Puertas', value: d.puertas ? String(d.puertas) : '' },
+  { icon: 'palette', label: 'Color', value: d.color },
+  { icon: 'users', label: 'Dueños', value: d.duenos ? String(d.duenos) : '' },
+].filter((s) => s.value);
+
+const relacionados = lista
+  .filter((o) => o.id !== v.id && o.data.etiqueta !== 'vendido')
+  .sort((a, b) => Math.abs(a.data.precio - d.precio) - Math.abs(b.data.precio - d.precio))
+  .slice(0, 3);
+
+const og = d.fotos[0] ? (await getImage({ src: d.fotos[0].imagen, width: 1200, format: 'jpg' })).src : undefined;
+const imagenesSchema = await Promise.all(d.fotos.slice(0, 4).map(async (f) => new URL((await getImage({ src: f.imagen, width: 1200, format: 'jpg' })).src, site).href));
+const crumbs = [
+  { nombre: 'Inicio', url: '/' },
+  { nombre: 'Comprar', url: '/comprar/' },
+  { nombre: d.marca, url: `/comprar/?marca=${encodeURIComponent(d.marca)}` },
+  { nombre: `${d.modelo} ${d.anio}`, url: url(v) },
+];
+---
+<Base
+  title={`${titulo}${d.version ? ' ' + d.version : ''} · ${vendido ? 'Vendido' : clp(d.precio)}`}
+  description={`${titulo} ${d.version}, ${km(d.km)}, ${d.transmision.toLowerCase()}, ${d.combustible.toLowerCase()}. ${vendido ? 'Vendido.' : `Precio final ${clp(d.precio)} con IVA incluido.`} Revisado, con informe de antecedentes. EBENEZER Automotora, Región de Valparaíso.`}
+  image={og}
+  schema={[
+    schemaAuto(site, { nombre: titulo, marca: d.marca, modelo: d.modelo, anio: d.anio, km: d.km, transmision: d.transmision, combustible: d.combustible, color: d.color, precio: d.precio, vendido, url: url(v), imagenes: imagenesSchema }),
+    migas(site, crumbs),
+  ]}
+  fab={{ auto: wa }}
+>
+  <div data-theme="light" class="sec--light">
+    <div class="ebz-container" style="padding-top:28px;padding-bottom:64px">
+      <Breadcrumbs items={crumbs} />
+      <div class="ficha">
+        <div class="ficha__main">
+          <Gallery fotos={d.fotos} alt={titulo} />
+          <div class="stack" style="gap:14px">
+            <h2 class="ebz-h4">Especificaciones</h2>
+            <dl class="ebz-specs" style="--cols:3;margin:0">
+              {specs.map((s) => (
+                <div class="ebz-specs__item">
+                  <Icon name={s.icon} size={20} />
+                  <div><dt>{s.label}</dt><dd class="ebz-num">{s.value}</dd></div>
+                </div>
+              ))}
+            </dl>
+          </div>
+          {d.equipamiento.length > 0 && (
+            <div class="stack" style="gap:14px">
+              <h2 class="ebz-h4">Equipamiento</h2>
+              <div style="display:flex;flex-wrap:wrap;gap:8px">
+                {d.equipamiento.map((t) => <span class="ebz-tag ebz-tag--static"><Icon name="check" size={14} />{t}</span>)}
+              </div>
+            </div>
+          )}
+          {d.descripcion && (
+            <div class="stack" style="gap:14px">
+              <h2 class="ebz-h4">Descripción</h2>
+              <p class="ebz-body muted" style="white-space:pre-line">{d.descripcion}</p>
+            </div>
+          )}
+        </div>
+
+        <aside class="ficha__side">
+          <div class="ficha__box">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start">
+              <Badge tone={d.etiqueta} />
+              <button type="button" class="ebz-iconbtn" aria-label="Compartir" title="Compartir" data-compartir><Icon name="share-2" /></button>
+            </div>
+            <div>
+              <div class="ebz-vcard__brand">{d.marca}</div>
+              <h1 class="ebz-h2" style="margin-top:4px"><span class="ebz-visually-hidden">{d.marca} </span>{d.modelo} <span class="ebz-num" style="color:var(--text-accent)">{d.anio}</span></h1>
+              <div class="ebz-body-sm muted" style="margin-top:6px">{[d.version, km(d.km), d.transmision].filter(Boolean).join(' · ')}</div>
+            </div>
+            <div style="padding-top:16px;border-top:1px solid var(--border-subtle)">
+              {vendido ? (
+                <div class="ebz-price ebz-price-lg">Vendido</div>
+              ) : (
+                <>
+                  <div class="ebz-label">Precio final</div>
+                  {d.precioAnterior && <div class="ebz-vcard__was ebz-num" style="margin-top:6px">{clp(d.precioAnterior)}</div>}
+                  <div class="ebz-price ebz-price-lg" style="margin-top:6px">{clp(d.precio)}</div>
+                  <div class="ebz-caption" style="margin-top:6px">IVA incluido · Transferencia no incluida</div>
+                </>
+              )}
+            </div>
+            {vendido ? (
+              <Button href="/comprar/" size="lg" block iconRight="arrow-right">Ver autos disponibles</Button>
+            ) : (
+              <>
+                <WhatsAppButton auto={wa} size="lg" block>Consultar por WhatsApp</WhatsAppButton>
+                <div class="ficha__2">
+                  <WhatsAppButton context="visita" auto={wa} variant="secondary" size="sm" block>Agendar visita</WhatsAppButton>
+                  <WhatsAppButton context="test-drive" auto={wa} variant="secondary" size="sm" block>Test drive</WhatsAppButton>
+                </div>
+              </>
+            )}
+          </div>
+          {!vendido && <CreditSimulator precio={d.precio} auto={wa} />}
+        </aside>
+      </div>
+    </div>
+  </div>
+
+  <section data-theme="dark" class="sec" style="background:var(--grafito-950)">
+    <div class="ebz-container"><TrustBlock /></div>
+  </section>
+
+  {relacionados.length > 0 && (
+    <section data-theme="light" class="sec sec--light">
+      <div class="ebz-container">
+        <h2 class="ebz-h3" style="margin-bottom:24px">También te puede interesar</h2>
+        <div class="grid-autos">{relacionados.map((o) => <VehicleCard v={o} />)}</div>
+      </div>
+    </section>
+  )}
+</Base>
+
+<script>
+  document.querySelector('[data-compartir]')?.addEventListener('click', async () => {
+    const datos = { title: document.title, url: location.href };
+    try {
+      if (navigator.share) await navigator.share(datos);
+      else await navigator.clipboard.writeText(location.href);
+    } catch {
+      /* el usuario canceló */
+    }
+  });
+</script>

@@ -1,0 +1,44 @@
+<!-- @dsCard group="Sitio web" viewport="1440x900" name="Sitio web EBENEZER" subtitle="Click-through: Inicio → Comprar → Ficha → Vender mi auto" -->
+<!doctype html><html lang="es" data-theme="dark"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>EBENEZER Automotora — UI kit sitio web</title>
+<link rel="stylesheet" href="../../styles.css">
+<script>window.EBZ_ASSETS='../../assets/';</script>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="../../_ds_bundle.js"></script>
+<style>.cat-mobile-only{display:none}@media (max-width:1023px){.cat-grid{grid-template-columns:1fr!important}.cat-desktop-only{display:none}.cat-mobile-only{display:inline-flex}.ficha-grid{grid-template-columns:1fr!important}}.toasts{position:fixed;left:24px;bottom:24px;z-index:90;display:flex;flex-direction:column;gap:10px}</style>
+</head><body><div id="root"></div>
+<script type="text/babel" src="data.jsx"></script>
+<script type="text/babel" src="HomeScreen.jsx"></script>
+<script type="text/babel" src="CatalogScreen.jsx"></script>
+<script type="text/babel" src="FichaScreen.jsx"></script>
+<script type="text/babel" src="VenderScreen.jsx"></script>
+<script type="text/babel">
+const { Header, Footer, Toast, WhatsAppFab } = window.EBENEZERDesignSystem_9e2a3a;
+function App() {
+  const [page, setPage] = React.useState(() => localStorage.getItem('ebz-kit-page') || 'Inicio');
+  const [car, setCar] = React.useState(null);
+  const [fav, setFav] = React.useState([]);
+  const [toasts, setToasts] = React.useState([]);
+  const go = (p) => { const map = { Financiamiento: 'Comprar', Nosotros: 'Inicio', Contacto: 'Inicio' }; const t = map[p] || p; setPage(t); localStorage.setItem('ebz-kit-page', t); window.scrollTo(0, 0); };
+  const notify = (t) => setToasts((ts) => [...ts, { ...t, id: Date.now() }]);
+  const openCar = (v) => { setCar(v.gallery ? v : VEHICLES[0]); go('Ficha'); };
+  const toggleFav = (v) => setFav((f) => { const on = f.includes(v.id); notify({ tone: on ? 'info' : 'success', title: on ? 'Quitado de favoritos' : 'Guardado en favoritos', message: v.brand + ' ' + v.model + ' ' + v.year }); return on ? f.filter((x) => x !== v.id) : [...f, v.id]; });
+  const active = page === 'Ficha' ? 'Comprar' : page;
+  return (
+    <>
+      <Header active={active} onNavigate={go} />
+      <main>
+        {page === 'Inicio' && <HomeScreen go={go} openCar={openCar} fav={fav} toggleFav={toggleFav} />}
+        {page === 'Comprar' && <CatalogScreen openCar={openCar} fav={fav} toggleFav={toggleFav} />}
+        {page === 'Ficha' && <FichaScreen car={car} go={go} fav={fav} toggleFav={toggleFav} notify={notify} />}
+        {page === 'Vender mi auto' && <VenderScreen notify={notify} />}
+      </main>
+      <Footer />
+      {page !== 'Ficha' && <WhatsAppFab context={page === 'Vender mi auto' ? 'vender' : 'general'} />}
+      <div className="toasts">{toasts.map((t) => <Toast key={t.id} {...t} duration={4000} onClose={() => setToasts((ts) => ts.filter((x) => x.id !== t.id))} />)}</div>
+    </>
+  );
+}
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script></body></html>

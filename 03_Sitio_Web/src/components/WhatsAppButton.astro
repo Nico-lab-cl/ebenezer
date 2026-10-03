@@ -1,0 +1,18 @@
+---
+import Button from './Button.astro';
+import { urlWhatsapp, type Contexto, type AutoWa } from '@/lib/whatsapp';
+
+interface Props {
+  context?: Contexto;
+  auto?: AutoWa;
+  variant?: 'primary' | 'secondary' | 'ghost' | 'dark';
+  size?: 'sm' | 'md' | 'lg';
+  block?: boolean;
+  class?: string;
+}
+const { context, auto, variant = 'primary', size = 'md', block, class: clase } = Astro.props;
+const href = urlWhatsapp(context ?? (auto ? 'vehiculo' : 'general'), auto);
+---
+<Button href={href} target="_blank" icon="whatsapp" variant={variant} size={size} block={block} class={clase}>
+  <slot>Escríbenos por WhatsApp</slot>
+</Button>

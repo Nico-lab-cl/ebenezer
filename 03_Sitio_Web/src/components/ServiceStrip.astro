@@ -1,0 +1,18 @@
+---
+/* Íconos de servicio propios de la marca (extraídos del PDF). Sólo sobre grafito. */
+const SERVICIOS = [
+  ['oil', 'Cambio de aceite'],
+  ['engine', 'Mecánica'],
+  ['brake', 'Frenos'],
+  ['eco', 'Eco'],
+];
+interface Props {
+  height?: number;
+}
+const { height = 36 } = Astro.props;
+---
+<div class="ebz-services" style={`--h:${height}px;--gap:18px;color:#fff`}>
+  {SERVICIOS.map(([k, l]) => (
+    <div class="ebz-services__item"><img src={`/assets/icons/service-${k}.png`} alt={l} loading="lazy" height={height} /></div>
+  ))}
+</div>

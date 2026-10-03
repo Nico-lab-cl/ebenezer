@@ -1,0 +1,60 @@
+---
+import Icon from './Icon.astro';
+import Checkered from './Checkered.astro';
+import ajustes from '@/content/ajustes.json';
+
+const COMUNAS = ['Viña del Mar', 'Concón', 'Valparaíso', 'Quilpué', 'Villa Alemana'];
+const anio = new Date().getFullYear();
+---
+<footer class="ebz-footer">
+  <div class="ebz-container">
+    <div class="ebz-footer__grid">
+      <div style="display:flex;flex-direction:column;gap:20px">
+        <img src="/assets/logo/ebenezer-logo-blanco.svg" alt="EBENEZER Automotora, compra y venta de autos" style="height:52px;width:auto" loading="lazy" />
+        <p style="max-width:320px;line-height:1.6">Autos usados y seminuevos revisados, con precio claro y transferencia digital. Región de Valparaíso.</p>
+        <Checkered />
+      </div>
+      <div>
+        <h4>Vender</h4>
+        <ul>
+          <li><a href="/vender-mi-auto/">Consignación</a></li>
+          <li><a href="/vender-mi-auto/#tasar">Tasar mi auto</a></li>
+          <li><a href="/vender-mi-auto/#preguntas">Preguntas de dueños</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Comprar</h4>
+        <ul>
+          <li><a href="/comprar/">Catálogo</a></li>
+          <li><a href="/financiamiento/">Financiamiento</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>EBENEZER</h4>
+        <ul>
+          <li><a href="/nosotros/">Nosotros</a></li>
+          <li><a href="/contacto/">Contacto</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Contacto</h4>
+        <ul>
+          <li style="display:flex;gap:8px"><Icon name="map-pin" size={16} style="margin-top:2px" />{ajustes.direccion}, {ajustes.comuna}</li>
+          <li style="display:flex;gap:8px"><Icon name="phone" size={16} style="margin-top:2px" />{ajustes.telefono}</li>
+          <li style="display:flex;gap:8px"><Icon name="mail" size={16} style="margin-top:2px" />{ajustes.email}</li>
+          <li style="display:flex;gap:8px"><Icon name="clock" size={16} style="margin-top:2px" />{ajustes.horario}</li>
+          {(ajustes.instagram || ajustes.facebook) && (
+            <li style="display:flex;gap:14px;margin-top:6px">
+              {ajustes.instagram && <a href={ajustes.instagram} target="_blank" rel="noopener" aria-label="Instagram"><Icon name="instagram" size={20} /></a>}
+              {ajustes.facebook && <a href={ajustes.facebook} target="_blank" rel="noopener" aria-label="Facebook"><Icon name="facebook" size={20} /></a>}
+            </li>
+          )}
+        </ul>
+      </div>
+    </div>
+    <div class="ebz-footer__bottom">
+      <span>{COMUNAS.join(' · ')}</span>
+      <span>© {anio} {ajustes.nombre} · Precios en CLP con IVA incluido</span>
+    </div>
+  </div>
+</footer>

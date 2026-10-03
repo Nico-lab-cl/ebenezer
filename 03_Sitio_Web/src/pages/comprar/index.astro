@@ -1,0 +1,126 @@
+---
+import Base from '@/layouts/Base.astro';
+import Breadcrumbs from '@/components/Breadcrumbs.astro';
+import VehicleCard from '@/components/VehicleCard.astro';
+import RangeSlider from '@/components/RangeSlider.astro';
+import Button from '@/components/Button.astro';
+import Icon from '@/components/Icon.astro';
+import AutosDisponibles from '@/components/AutosDisponibles.astro';
+import { vehiculos } from '@/lib/vehiculos';
+import { migas } from '@/lib/schema';
+
+const lista = await vehiculos();
+const conteo = (k: (v: (typeof lista)[number]) => string) =>
+  Object.entries(lista.reduce<Record<string, number>>((acc, v) => ((acc[k(v)] = (acc[k(v)] ?? 0) + 1), acc), {})).sort(([a], [b]) => a.localeCompare(b));
+const marcas = conteo((v) => v.data.marca);
+const precios = lista.map((v) => v.data.precio);
+const anios = lista.map((v) => v.data.anio);
+const kms = lista.map((v) => v.data.km);
+const r = (xs: number[], paso: number, def: [number, number]): [number, number] =>
+  xs.length ? [Math.floor(Math.min(...xs) / paso) * paso, Math.ceil(Math.max(...xs) / paso) * paso] : def;
+const [pMin, pMax] = r(precios, 500000, [3000000, 40000000]);
+const [aMin, aMax] = r(anios, 1, [2008, new Date().getFullYear()]);
+const [kMin, kMax] = r(kms, 5000, [0, 200000]);
+/* Con pocos autos, filtros y paginación sobran y hacen ver el catálogo vacío.
+   Desde 8 autos aparecen solos. */
+const conFiltros = lista.length >= 8;
+const site = Astro.site!;
+const crumbs = [{ nombre: 'Inicio', url: '/' }, { nombre: 'Comprar', url: '/comprar/' }];
+---
+<Base
+  title="Autos usados y seminuevos disponibles"
+  description="Autos usados y seminuevos revisados, con precio final y financiamiento, en la Región de Valparaíso. ¿No está el que buscas? Te lo conseguimos."
+  schema={[migas(site, crumbs)]}
+>
+  <div data-theme="light" class="sec--light">
+    <div class="ebz-container" style="padding-top:28px;padding-bottom:72px">
+      <Breadcrumbs items={crumbs} />
+      <div class="cat__bar">
+        <div>
+          <h1 class="ebz-h1">Autos disponibles</h1>
+          <p class="ebz-body muted" style="margin-top:8px"><b class="ebz-num" style="color:var(--text-primary)" data-total>{lista.length} {lista.length === 1 ? "auto" : "autos"}</b> revisados en la Región de Valparaíso</p>
+        </div>
+        {conFiltros && (
+        <div class="cat__tools">
+          <Button variant="secondary" icon="sliders-horizontal" class="cat__open" data-abrir-filtros aria-controls="filtros">Filtros</Button>
+          <div class="ebz-field cat__sort">
+            <label class="ebz-label" for="orden">Ordenar por</label>
+            <div class="ebz-control">
+              <select id="orden" class="ebz-select" data-orden>
+                <option value="recientes">Más recientes</option>
+                <option value="precio-asc">Menor precio</option>
+                <option value="precio-desc">Mayor precio</option>
+                <option value="km-asc">Menor kilometraje</option>
+              </select>
+              <Icon name="chevron-down" size={18} class="ebz-select__chev" />
+            </div>
+          </div>
+        </div>
+        )}
+      </div>
+
+      {conFiltros ? (
+      <div class="cat">
+        <div class="cat__side" id="filtros">
+          <form class="ebz-filters" aria-label="Filtros" data-filtros>
+            <div class="ebz-filters__head">
+              <span class="ebz-h5" style="font-style:italic;font-weight:800;display:flex;align-items:center;gap:10px"><Icon name="sliders-horizontal" size={18} />Filtros</span>
+              <button type="reset" style="border:0;background:none;color:var(--text-accent);font-weight:600;font-size:13px;cursor:pointer">Limpiar</button>
+            </div>
+            <fieldset class="ebz-filters__sec" style="border:0;margin:0">
+              <legend class="ebz-filters__sech" style="float:left;width:100%;margin-bottom:12px">Marca</legend>
+              {marcas.map(([m, c]) => (
+                <label class="ebz-check">
+                  <input type="checkbox" name="marca" value={m} />
+                  <span class="ebz-check__box"><Icon name="check" size={14} /></span>
+                  <span>{m}</span>
+                  <span class="ebz-check__count ebz-num">{c}</span>
+                </label>
+              ))}
+            </fieldset>
+            <div class="ebz-filters__sec"><span class="ebz-filters__sech">Precio</span><RangeSlider nombre="precio" label="Precio" min={pMin} max={pMax} step={500000} formato="clp" /></div>
+            <div class="ebz-filters__sec"><span class="ebz-filters__sech">Año</span><RangeSlider nombre="anio" label="Año" min={aMin} max={aMax} /></div>
+            <div class="ebz-filters__sec"><span class="ebz-filters__sech">Kilometraje</span><RangeSlider nombre="km" label="Kilometraje" min={kMin} max={kMax} step={5000} formato="km" /></div>
+            <fieldset class="ebz-filters__sec" style="border:0;margin:0">
+              <legend class="ebz-filters__sech" style="float:left;width:100%;margin-bottom:12px">Transmisión</legend>
+              <div class="ebz-filters__tags">
+                {['Automática', 'Manual'].map((t) => <label class="ebz-tag"><input type="checkbox" name="transmision" value={t} />{t}</label>)}
+              </div>
+            </fieldset>
+            <fieldset class="ebz-filters__sec" style="border:0;margin:0">
+              <legend class="ebz-filters__sech" style="float:left;width:100%;margin-bottom:12px">Combustible</legend>
+              <div class="ebz-filters__tags">
+                {['Bencina', 'Diésel', 'Híbrido', 'Eléctrico'].map((t) => <label class="ebz-tag"><input type="checkbox" name="combustible" value={t} />{t}</label>)}
+              </div>
+            </fieldset>
+            <div class="ebz-filters__foot">
+              <Button variant="ghost" type="reset">Limpiar</Button>
+              <Button block data-cerrar-filtros>Ver <span data-total-btn>{lista.length}</span> autos</Button>
+            </div>
+          </form>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:24px;min-width:0">
+          <div style="display:flex;gap:8px;flex-wrap:wrap" data-activos aria-live="polite"></div>
+          <div class="grid-autos" data-grilla>
+            {lista.map((v, i) => <VehicleCard v={v} filtrable eager={i < 3} />)}
+          </div>
+          <div class="cat__empty" data-vacio hidden>
+            <h2 class="ebz-h4">No hay autos con esos filtros</h2>
+            <p class="ebz-body muted" style="margin:8px 0 18px">Cuéntanos qué buscas y te avisamos cuando llegue.</p>
+            <Button href="/contacto/" variant="secondary">Avísame</Button>
+          </div>
+          <nav class="ebz-pag" aria-label="Paginación" style="justify-content:center;padding-top:12px" data-pag></nav>
+        </div>
+      </div>
+      ) : (
+        <div style="margin-top:28px"><AutosDisponibles autos={lista} idEncargo="encargo-catalogo" tasar="/vender-mi-auto/#tasar" /></div>
+      )}
+    </div>
+  </div>
+</Base>
+
+<script>
+  // Los filtros sólo existen con 8 autos o más
+  if (document.querySelector("[data-filtros]")) import("../../scripts/catalogo.ts");
+</script>

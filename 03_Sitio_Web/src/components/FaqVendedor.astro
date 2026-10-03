@@ -1,0 +1,17 @@
+---
+import ajustes from '@/content/ajustes.json';
+
+const FAQ = [
+  ['¿Cuánto cobran?', `${ajustes.comision}, y sólo cuando el auto se vende. Tasar, fotografiar y promocionar no tiene costo para ti.`],
+  ['¿Quién decide el precio?', 'Tú. Te proponemos un precio según el mercado y lo ajustamos juntos si hace falta.'],
+  ['¿Dónde queda mi auto mientras se vende?', '[Definir: en exhibición en nuestro local o contigo hasta cada visita]'],
+  ['¿Mi auto tiene crédito o prenda vigente, igual se puede?', 'Sí, en la mayoría de los casos. Lo revisamos en la tasación y la deuda se paga con la venta.'],
+  ['¿Cuándo recibo el dinero?', ajustes.plazoPago],
+  ['¿Puedo retirar mi auto si cambio de opinión?', '[Definir condiciones de retiro]'],
+];
+---
+<div class="stack" style="gap:12px">
+  {FAQ.map(([q, a]) => (
+    <details class="faq"><summary>{q}</summary><p>{a}</p></details>
+  ))}
+</div>

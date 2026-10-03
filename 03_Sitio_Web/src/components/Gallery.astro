@@ -1,0 +1,68 @@
+---
+import { getImage } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import Icon from './Icon.astro';
+
+/* Galería de la ficha. Todas las fotos se optimizan al construir; el script
+   sólo cambia cuál se muestra (con el barrido diagonal del DS). */
+interface Props {
+  fotos: { imagen: ImageMetadata; vista: string }[];
+  alt: string;
+}
+const { fotos, alt } = Astro.props;
+const grandes = await Promise.all(fotos.map((f) => getImage({ src: f.imagen, width: 1120, format: 'webp' })));
+const chicas = await Promise.all(fotos.map((f) => getImage({ src: f.imagen, width: 240, format: 'webp' })));
+const n = fotos.length;
+const primera = fotos[0];
+---
+<div class="ebz-gallery" data-gal>
+  <div class="ebz-gallery__main">
+    {n > 0 ? (
+      <img src={grandes[0]!.src} alt={`${alt}, ${primera?.vista.toLowerCase() || 'foto 1'}`} width="1120" height="700" fetchpriority="high" data-gal-img />
+    ) : (
+      <span class="ebz-photo-ph"><Icon name="car" size={48} />Fotos en estudio próximamente</span>
+    )}
+    {n > 1 && (
+      <>
+        <button type="button" class="ebz-iconbtn ebz-iconbtn--solid ebz-gallery__nav" style="left:12px" aria-label="Foto anterior" data-gal-prev><Icon name="chevron-left" /></button>
+        <button type="button" class="ebz-iconbtn ebz-iconbtn--solid ebz-gallery__nav" style="right:12px" aria-label="Foto siguiente" data-gal-next><Icon name="chevron-right" /></button>
+      </>
+    )}
+    {n > 0 && <span class="ebz-gallery__count ebz-num" data-gal-count>{primera?.vista ? primera.vista + ' · ' : ''}1/{n}</span>}
+  </div>
+  {n > 1 && (
+    <div class="ebz-gallery__thumbs">
+      {fotos.map((f, k) => (
+        <button type="button" class="ebz-gallery__thumb" aria-current={k === 0 ? 'true' : 'false'} aria-label={`Ver ${f.vista || 'foto ' + (k + 1)}`} data-gal-thumb={k} data-src={grandes[k]!.src} data-vista={f.vista}>
+          <img src={chicas[k]!.src} alt="" width="240" height="180" loading="lazy" />
+        </button>
+      ))}
+    </div>
+  )}
+</div>
+
+<script>
+  for (const gal of document.querySelectorAll<HTMLElement>('[data-gal]')) {
+    let actual = gal.querySelector<HTMLImageElement>('[data-gal-img]');
+    const thumbs = [...gal.querySelectorAll<HTMLButtonElement>('[data-gal-thumb]')];
+    const count = gal.querySelector('[data-gal-count]');
+    if (!actual || thumbs.length < 2) continue;
+    const base = actual.alt.split(',')[0];
+    let i = 0;
+    const ir = (k: number) => {
+      i = (k + thumbs.length) % thumbs.length;
+      const t = thumbs[i]!;
+      // Un <img> nuevo reinicia la animación de barrido diagonal
+      const nueva = actual!.cloneNode() as HTMLImageElement;
+      nueva.src = t.dataset.src!;
+      nueva.alt = `${base}, ${(t.dataset.vista || 'foto ' + (i + 1)).toLowerCase()}`;
+      actual!.replaceWith(nueva);
+      actual = nueva;
+      for (const o of thumbs) o.setAttribute('aria-current', String(o === t));
+      if (count) count.textContent = `${t.dataset.vista ? t.dataset.vista + ' · ' : ''}${i + 1}/${thumbs.length}`;
+    };
+    thumbs.forEach((t, k) => t.addEventListener('click', () => ir(k)));
+    gal.querySelector('[data-gal-prev]')?.addEventListener('click', () => ir(i - 1));
+    gal.querySelector('[data-gal-next]')?.addEventListener('click', () => ir(i + 1));
+  }
+</script>

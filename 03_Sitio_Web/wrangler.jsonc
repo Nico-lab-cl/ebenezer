@@ -1,0 +1,33 @@
+/* Despliegue en Cloudflare Workers (mismo esquema que Conecta Médica).
+
+   `npm run build` con @astrojs/cloudflare genera:
+     dist/_worker.js/index.js   el Worker: sólo /keystatic, /api/keystatic y /_image
+     dist/                      las páginas ya renderizadas, imágenes e íconos
+
+   OJO CON `name`: tiene que coincidir con el nombre del Worker en Cloudflare.
+   Si se crea desde el panel con otro nombre, cámbialo acá también. */
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "ebenezer-automotora",
+  "main": "./dist/_worker.js/index.js",
+
+  /* Wrangler construye antes de desplegar: así no depende del campo
+     "Build command" del panel, que puede quedar vacío. */
+  "build": {
+    "command": "npm run build"
+  },
+
+  "compatibility_date": "2026-01-14",
+  "compatibility_flags": ["nodejs_compat"],
+
+  /* Los estáticos se sirven antes que el Worker. Qué NO subir como estático
+     (el propio _worker.js) se declara en public/.assetsignore. */
+  "assets": {
+    "binding": "ASSETS",
+    "directory": "./dist"
+  },
+
+  "observability": {
+    "enabled": true
+  }
+}

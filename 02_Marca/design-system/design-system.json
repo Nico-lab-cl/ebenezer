@@ -1,0 +1,68 @@
+{
+  "v": 3,
+  "assetGroups": {
+    "Other": {
+      "files": {},
+      "name": "Other",
+      "order": []
+    },
+    "icons": {
+      "files": {},
+      "name": "icons",
+      "order": []
+    },
+    "logo": {
+      "files": {},
+      "name": "logo",
+      "order": []
+    },
+    "notes": {
+      "files": {},
+      "name": "notes",
+      "order": []
+    },
+    "patterns": {
+      "files": {},
+      "name": "patterns",
+      "order": []
+    },
+    "photos": {
+      "files": {},
+      "name": "photos",
+      "order": []
+    }
+  },
+  "blobs": {},
+  "createdOnFiles": {
+    "at": "2026-10-02T16:57:02.219Z",
+    "v": 1
+  },
+  "docs": {
+    "readme": "project/README.md",
+    "sections": [
+      "project/ui_kits/sitio-web/README.md"
+    ]
+  },
+  "editing": "off",
+  "groups": [
+    "icons",
+    "Other",
+    "logo",
+    "notes",
+    "patterns",
+    "photos"
+  ],
+  "layout": "files",
+  "libraries": [],
+  "namespace": "EBENEZERDesignSystem_9e2a3a",
+  "sections": {},
+  "source": {
+    "app": "claude-design",
+    "exportedAt": "2026-10-02T16:57:02.219Z",
+    "map": "project/migration-map.json",
+    "projectId": "9e2a3add-5eea-453a-87ea-196c70a52734",
+    "url": "https://claude.ai/design/p/9e2a3add-5eea-453a-87ea-196c70a52734",
+    "v": 1
+  },
+  "title": "EBENEZER Design System"
+}

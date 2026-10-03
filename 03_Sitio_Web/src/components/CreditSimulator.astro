@@ -1,0 +1,78 @@
+---
+import Button from './Button.astro';
+import { clp, cuota, redondear } from '@/lib/formato';
+import { mensaje, numeroWhatsapp, type AutoWa } from '@/lib/whatsapp';
+import ajustes from '@/content/ajustes.json';
+
+/* Simulador de crédito. El HTML trae el resultado inicial ya calculado
+   (funciona sin JS); el script lo recalcula al mover el pie o el plazo. */
+interface Props {
+  precio: number;
+  auto?: AutoWa;
+}
+const { precio, auto } = Astro.props;
+const tasa = ajustes.tasaMensual;
+const plazos = [12, 24, 36, 48, 60];
+const pieMin = redondear(precio * ajustes.pieMinimo);
+const pieMax = redondear(precio * 0.8);
+const pie = redondear(precio * 0.3);
+const n = 36;
+const c = cuota(precio - pie, tasa, n);
+const base = mensaje('financiamiento', auto);
+const tasaTxt = (tasa * 100).toFixed(2).replace('.', ',');
+---
+<section class="ebz-sim" data-theme="dark" aria-label="Simulador de crédito" data-sim data-precio={precio} data-tasa={tasa} data-wa={numeroWhatsapp()} data-msg={base}>
+  <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px">
+    <h3 class="ebz-h5" style="font-style:italic;font-weight:800">Simula tu crédito</h3>
+    <span class="ebz-caption">Valor <b class="ebz-num" style="color:#fff">{clp(precio)}</b></span>
+  </div>
+  <div class="ebz-field">
+    <label class="ebz-label" style="display:flex;justify-content:space-between" for={`pie-${precio}`}>Pie <span class="ebz-num" style="color:#fff;letter-spacing:0;font-size:14px" data-pie-txt>{clp(pie)} · {Math.round((pie / precio) * 100)}%</span></label>
+    <input id={`pie-${precio}`} type="range" min={pieMin} max={pieMax} step="100000" value={pie} data-pie />
+  </div>
+  <div class="ebz-field">
+    <span class="ebz-label">Plazo (meses)</span>
+    <div class="ebz-seg" role="group" aria-label="Plazo en meses">
+      {plazos.map((p) => <button type="button" aria-pressed={p === n ? 'true' : 'false'} data-plazo={p}>{p}</button>)}
+    </div>
+  </div>
+  <div class="ebz-sim__result" aria-live="polite">
+    <div class="ebz-label">Cuota referencial</div>
+    <div class="ebz-price ebz-price-lg" style="color:var(--naranja-500);margin-top:6px"><span data-cuota>{clp(c)}</span><span style="font-size:16px;color:var(--grafito-300);font-style:normal;font-weight:600"> /mes</span></div>
+    <div class="ebz-caption" style="margin-top:8px">Monto a financiar <b class="ebz-num" style="color:#fff" data-monto>{clp(precio - pie)}</b> · <span data-n>{n}</span> cuotas</div>
+  </div>
+  <Button href={`https://wa.me/${numeroWhatsapp()}?text=${encodeURIComponent(base)}`} target="_blank" icon="whatsapp" block data-sim-wa>Solicitar evaluación</Button>
+  <p class="ebz-sim__fine">Valores referenciales, sujetos a evaluación crediticia. Tasa mensual referencial {tasaTxt}%. No incluye gastos operacionales, impuestos ni seguros. La CAE se informa en la cotización formal.</p>
+</section>
+
+<script>
+  const clp = (n: number) => '$' + Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+  const cuota = (k: number, r: number, n: number) => (r === 0 ? k / n : (k * r) / (1 - Math.pow(1 + r, -n)));
+
+  for (const el of document.querySelectorAll<HTMLElement>('[data-sim]')) {
+    const precio = Number(el.dataset.precio);
+    const tasa = Number(el.dataset.tasa);
+    const rango = el.querySelector<HTMLInputElement>('[data-pie]')!;
+    const botones = [...el.querySelectorAll<HTMLButtonElement>('[data-plazo]')];
+    const wa = el.querySelector<HTMLAnchorElement>('[data-sim-wa]')!;
+    let n = Number(botones.find((b) => b.getAttribute('aria-pressed') === 'true')?.dataset.plazo ?? 36);
+
+    const pintar = () => {
+      const pie = Number(rango.value);
+      const c = cuota(precio - pie, tasa, n);
+      el.querySelector('[data-pie-txt]')!.textContent = `${clp(pie)} · ${Math.round((pie / precio) * 100)}%`;
+      el.querySelector('[data-cuota]')!.textContent = clp(c);
+      el.querySelector('[data-monto]')!.textContent = clp(precio - pie);
+      el.querySelector('[data-n]')!.textContent = String(n);
+      const texto = `${el.dataset.msg}. Simulé ${clp(pie)} de pie a ${n} meses (cuota ref. ${clp(c)}).`;
+      wa.href = `https://wa.me/${el.dataset.wa}?text=${encodeURIComponent(texto)}`;
+    };
+    rango.addEventListener('input', pintar);
+    for (const b of botones)
+      b.addEventListener('click', () => {
+        n = Number(b.dataset.plazo);
+        for (const o of botones) o.setAttribute('aria-pressed', String(o === b));
+        pintar();
+      });
+  }
+</script>

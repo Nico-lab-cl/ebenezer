@@ -1,0 +1,30 @@
+---
+import Icon from './Icon.astro';
+
+/* Botón del DS: paralelogramo (skewX −12°) con el texto enderezado.
+   Con `href` es un enlace; sin él, un <button>. */
+interface Props {
+  variant?: 'primary' | 'secondary' | 'ghost' | 'dark';
+  size?: 'sm' | 'md' | 'lg';
+  block?: boolean;
+  icon?: string;
+  iconRight?: string;
+  href?: string;
+  target?: string;
+  type?: 'button' | 'submit' | 'reset';
+  class?: string;
+  [attr: string]: unknown;
+}
+const { variant = 'primary', size = 'md', block, icon, iconRight, href, target, type = 'button', class: clase, ...resto } = Astro.props;
+const cls = ['ebz-btn', 'ebz-btn--' + variant, size !== 'md' && 'ebz-btn--' + size, block && 'ebz-btn--block', clase].filter(Boolean).join(' ');
+const isz = size === 'sm' ? 16 : size === 'lg' ? 20 : 18;
+---
+{href ? (
+  <a class={cls} href={href} target={target} rel={target === '_blank' ? 'noopener' : undefined} {...resto}>
+    <span class="ebz-btn__in">{icon && <Icon name={icon} size={isz} />}<slot />{iconRight && <Icon name={iconRight} size={isz} />}</span>
+  </a>
+) : (
+  <button class={cls} type={type} {...resto}>
+    <span class="ebz-btn__in">{icon && <Icon name={icon} size={isz} />}<slot />{iconRight && <Icon name={iconRight} size={isz} />}</span>
+  </button>
+)}

@@ -1,0 +1,22 @@
+# Dependencias y builds (se regeneran con npm install / npm run build)
+node_modules/
+dist/
+.astro/
+.wrangler/
+
+# Secretos y variables locales (sí se sube .env.example)
+.env
+.env.*
+!.env.example
+
+# Configuración local del editor / Claude Code
+.claude/
+.vscode/
+.idea/
+
+# Sistema operativo y logs
+.DS_Store
+Thumbs.db
+desktop.ini
+*.log
+npm-debug.log*

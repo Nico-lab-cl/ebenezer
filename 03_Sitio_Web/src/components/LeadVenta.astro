@@ -1,0 +1,79 @@
+---
+import Icon from './Icon.astro';
+import Button from './Button.astro';
+import ajustes from '@/content/ajustes.json';
+import { numeroWhatsapp } from '@/lib/whatsapp';
+
+/* Formulario de consignación: el corazón del sitio en esta etapa.
+   Un solo paso, 7 campos: lo justo para que el equipo llame con una
+   tasación. Variantes: "barra" (bajo el hero, 4 columnas) y "panel"
+   (columna, en /tasacion y /vender-mi-auto). */
+interface Props {
+  id: string;
+  variante?: 'barra' | 'panel';
+  titulo?: string;
+}
+const { id, variante = 'panel', titulo = 'Tasación sin costo' } = Astro.props;
+const anios = Array.from({ length: 26 }, (_, i) => String(new Date().getFullYear() - i));
+const COMUNAS = ['Viña del Mar', 'Concón', 'Valparaíso', 'Quilpué', 'Villa Alemana', 'Otra'];
+const f = (n: string) => `${id}-${n}`;
+---
+<form class={`lead lead--${variante}`} data-theme="dark" data-lead="venta" data-wa={numeroWhatsapp()} data-sheets={ajustes.sheetsUrl} id={id} novalidate={false}>
+  <div class="lead__head">
+    <h2 class="ebz-h4" style="font-style:italic;font-weight:800">{titulo}</h2>
+    <p class="ebz-caption">Te respondemos por WhatsApp en menos de 24 horas hábiles.</p>
+  </div>
+
+  <div class="lead__campos" data-campos>
+    <div class="ebz-field lead__patente">
+      <label class="ebz-label" for={f('patente')}>Patente</label>
+      <div class="ebz-control"><Icon name="scan-line" size={18} /><input id={f('patente')} name="patente" class="ebz-input ebz-input--icon" placeholder="Ej: DGLR28" required minlength="6" maxlength="8" autocomplete="off" style="text-transform:uppercase" /></div>
+    </div>
+    <div class="ebz-field lead__auto">
+      <label class="ebz-label" for={f('auto')}>Marca y modelo</label>
+      <div class="ebz-control"><input id={f('auto')} name="marca_modelo" class="ebz-input" placeholder="Ej: Audi TT" required /></div>
+    </div>
+    <div class="ebz-field">
+      <label class="ebz-label" for={f('anio')}>Año</label>
+      <div class="ebz-control">
+        <select id={f('anio')} name="anio" class="ebz-select" required><option value="">Año</option>{anios.map((a) => <option>{a}</option>)}</select>
+        <Icon name="chevron-down" size={18} class="ebz-select__chev" />
+      </div>
+    </div>
+    <div class="ebz-field">
+      <label class="ebz-label" for={f('km')}>Kilometraje</label>
+      <div class="ebz-control"><input id={f('km')} name="km" class="ebz-input" placeholder="Ej: 98000" inputmode="numeric" pattern="[0-9.]{1,9}" required /><span class="ebz-input__suffix">km</span></div>
+    </div>
+    <div class="ebz-field lead__nombre">
+      <label class="ebz-label" for={f('nombre')}>Tu nombre</label>
+      <div class="ebz-control"><input id={f('nombre')} name="nombre" class="ebz-input" placeholder="Nombre y apellido" autocomplete="name" required /></div>
+    </div>
+    <div class="ebz-field lead__tel">
+      <label class="ebz-label" for={f('tel')}>WhatsApp</label>
+      <div class="ebz-control"><Icon name="phone" size={18} /><input id={f('tel')} name="telefono" type="tel" class="ebz-input ebz-input--icon" placeholder="+56 9 1234 5678" autocomplete="tel" required pattern="[+0-9 ()\-]{8,16}" /></div>
+    </div>
+    <div class="ebz-field">
+      <label class="ebz-label" for={f('comuna')}>Comuna</label>
+      <div class="ebz-control">
+        <select id={f('comuna')} name="comuna" class="ebz-select" required><option value="">Comuna</option>{COMUNAS.map((c) => <option>{c}</option>)}</select>
+        <Icon name="chevron-down" size={18} class="ebz-select__chev" />
+      </div>
+    </div>
+    <div class="lead__oculto" aria-hidden="true"><label>No llenar<input name="sitio_web" tabindex="-1" autocomplete="off" /></label></div>
+    <div class="lead__enviar">
+      <Button type="submit" size="lg" block iconRight="arrow-right">Quiero vender mi auto</Button>
+    </div>
+    <p class="lead__legal">Usamos tus datos sólo para contactarte por la venta de tu auto.</p>
+  </div>
+
+  <div class="lead__gracias" data-gracias hidden>
+    <span class="lead__ok"><Icon name="check" size={28} /></span>
+    <h3 class="ebz-h3" tabindex="-1">Recibimos tu auto.</h3>
+    <p class="ebz-body muted">Te escribimos por WhatsApp en menos de 24 horas hábiles con la tasación. Si quieres adelantar, mándanos fotos ahora: el mensaje ya va con tus datos.</p>
+    <Button href="#" target="_blank" icon="whatsapp" data-gracias-wa>Enviar fotos por WhatsApp</Button>
+  </div>
+</form>
+
+<script>
+  import '@/scripts/leads';
+</script>

@@ -1,0 +1,30 @@
+---
+import { svgIcono } from '@/lib/iconos';
+
+interface Props {
+  name: string;
+  size?: number;
+  label?: string;
+  class?: string;
+  style?: string;
+}
+const { name, size = 20, label, class: clase = '', style = '' } = Astro.props;
+const { cuerpo, relleno } = svgIcono(name);
+---
+<svg
+  class={`ebz-icon ebz-icon--svg ${clase}`}
+  style={`--icon-size:${size}px;${style}`}
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 24 24"
+  width={size}
+  height={size}
+  fill={relleno ? 'currentColor' : 'none'}
+  stroke={relleno ? 'none' : 'currentColor'}
+  stroke-width={relleno ? undefined : 2}
+  stroke-linecap={relleno ? undefined : 'round'}
+  stroke-linejoin={relleno ? undefined : 'round'}
+  role={label ? 'img' : undefined}
+  aria-label={label}
+  aria-hidden={label ? undefined : 'true'}
+  set:html={cuerpo}
+/>

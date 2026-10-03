@@ -1,0 +1,202 @@
+/* Capa del sitio sobre el design system: sólo layout de páginas y los
+   ajustes que exige pasar de componentes React a HTML estático. Los colores,
+   tipos y componentes vienen de ds/; acá no se inventan tokens. */
+
+/* Íconos inline (ver src/lib/iconos.ts): anulan la máscara del DS */
+.ebz-icon--svg{background:none;-webkit-mask:none;mask:none;width:var(--icon-size,20px);height:var(--icon-size,20px)}
+
+html{scroll-padding-top:96px}
+body{min-height:100vh;display:flex;flex-direction:column}
+main{flex:1}
+[hidden]{display:none!important}
+.skip{position:absolute;left:16px;top:-60px;z-index:100;padding:10px 16px;background:var(--accent);color:var(--grafito-950);font-weight:700}
+.skip:focus{top:12px}
+
+/* Secciones */
+.sec{padding-block:72px}
+.sec--lg{padding-block:88px}
+.sec--light{background:var(--bg-page);color:var(--text-primary)}
+.sec--alt{background:var(--grafito-900)}
+@media (max-width:599px){.sec{padding-block:56px}.sec--lg{padding-block:64px}}
+.sec-head{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;margin-bottom:32px;flex-wrap:wrap}
+.sec-head__t{display:flex;flex-direction:column;gap:12px}
+.stack{display:flex;flex-direction:column;gap:18px}
+.row{display:flex;gap:14px;flex-wrap:wrap;align-items:center}
+.muted{color:var(--text-secondary)}
+.split{display:flex;flex-wrap:wrap;gap:48px;align-items:center}
+.split>*{flex:1 1 380px;min-width:0}
+.split--top{align-items:flex-start}
+
+/* Grillas */
+.grid-autos{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:22px}
+.grid-3{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px}
+
+/* Tarjeta simple (oscura y clara) */
+.card{padding:28px;border-radius:var(--radius-card);background:var(--bg-surface);box-shadow:inset 0 0 0 1px var(--border-subtle);display:flex;flex-direction:column;gap:12px}
+.card--sunken{background:var(--grafito-950)}
+.num-step{font-family:var(--font-display);font-style:italic;font-weight:900;font-size:44px;line-height:1;color:var(--naranja-500)}
+
+/* Banda "Vende tu auto" con diagonal naranja */
+.banda{position:relative;overflow:hidden;background:var(--grafito-900)}
+.banda__diag{position:absolute;inset:0 0 0 58%;background:var(--naranja-500);clip-path:polygon(18% 0,100% 0,100% 100%,0 100%)}
+.banda__in{position:relative;display:flex;flex-wrap:wrap;gap:40px;align-items:center;justify-content:space-between}
+.banda__big{display:flex;flex-direction:column;align-items:flex-end;gap:14px;color:var(--grafito-950)}
+.banda__big .ebz-display{font-size:clamp(80px,9vw,120px)}
+@media (max-width:1023px){.banda__diag{inset:auto 0 0 0;height:42%;clip-path:polygon(0 30%,100% 0,100% 100%,0 100%)}.banda__big{align-items:flex-start}}
+
+/* Hero: las imágenes vienen de astro:assets */
+.ebz-hero__bg{background-image:var(--hero-bg)}
+/* Auto del hero: siempre proporcional (height:auto anula el alto del atributo),
+   con un ancho máximo por pantalla. */
+.ebz-hero__car{display:flex;flex-direction:column;align-items:flex-end;margin-bottom:-24px}
+.ebz-hero__car img{width:100%;height:auto;max-width:680px;margin-left:auto;object-fit:contain;aspect-ratio:883/669}
+.hero-car-label{display:flex;align-items:center;gap:12px;margin:0 4% 14px 0;font-family:var(--font-display);font-style:italic;font-weight:800;color:var(--grafito-900);font-size:18px}
+.hero-checkered{position:absolute;right:0;bottom:0}
+/* Notebook 1024–1279 */
+@media (max-width:1279px){.ebz-hero__car img{max-width:560px}}
+/* Tablet: una columna, auto centrado sobre el panel gris inferior */
+@media (max-width:1023px){
+  .ebz-hero__car{align-items:center;margin-bottom:0}
+  .ebz-hero__car img{max-width:520px;margin-inline:auto}
+  .hero-car-label{margin:0 0 12px;color:#fff}
+  .hero-checkered{display:none}
+  .ebz-hero__in{padding-bottom:72px}
+  .ebz-hero__search{margin-top:-48px}
+}
+/* Móvil */
+@media (max-width:599px){
+  .ebz-hero__car img{max-width:92%}
+  .hero-car-label{font-size:16px}
+}
+
+/* Catálogo */
+.cat{display:grid;grid-template-columns:290px minmax(0,1fr);gap:28px;align-items:start}
+.cat__side{position:sticky;top:96px}
+.cat__bar{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;margin:18px 0 28px;flex-wrap:wrap}
+.cat__tools{display:flex;gap:12px;align-items:flex-end}
+.cat__sort{width:220px}
+@media (max-width:599px){.cat__tools{width:100%}.cat__sort{flex:1;width:auto}}
+.cat__open{display:none}
+.cat__empty{padding:48px 24px;text-align:center;border-radius:var(--radius-card);background:var(--bg-surface);box-shadow:inset 0 0 0 1px var(--border-subtle)}
+.ebz-filters__foot{display:none}
+@media (max-width:1023px){
+  .cat{grid-template-columns:1fr}
+  .cat__open{display:inline-flex}
+  .cat__side{position:fixed;left:0;right:0;bottom:0;top:auto;z-index:calc(var(--z-drawer) + 1);max-height:88vh;overflow:auto;transform:translateY(105%);transition:transform var(--dur-base) var(--ease-speed)}
+  .cat__side .ebz-filters{border-radius:var(--radius-modal) var(--radius-modal) 0 0}
+  .cat__side[data-open]{transform:none}
+  .cat__side .ebz-filters__foot{display:flex;position:sticky;bottom:0;background:var(--bg-surface)}
+}
+.ebz-tag input{position:absolute;opacity:0;width:0;height:0}
+.ebz-tag:has(input:checked){background:var(--accent-subtle);color:var(--text-primary);box-shadow:inset 0 0 0 1.5px var(--accent)}
+.ebz-tag:has(input:focus-visible){box-shadow:inset 0 0 0 1.5px var(--accent),var(--focus-ring)}
+
+/* Ficha */
+.ficha{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,4fr);gap:32px;margin-top:22px;align-items:start}
+.ficha__main{display:flex;flex-direction:column;gap:32px;min-width:0}
+.ficha__side{display:flex;flex-direction:column;gap:18px;position:sticky;top:96px}
+.ficha__box{background:var(--bg-surface);padding:24px;box-shadow:var(--shadow-light-1),inset 0 0 0 1px var(--border-subtle);border-radius:var(--radius-card);display:flex;flex-direction:column;gap:16px}
+.ficha__2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media (max-width:1023px){.ficha{grid-template-columns:minmax(0,1fr)}.ficha__side{position:static}}
+.ebz-sim input[type=range]{width:100%;accent-color:var(--naranja-500)}
+
+/* Formularios en varios pasos */
+.form-panel{background:var(--grafito-900);padding:32px;border-radius:var(--radius-card);box-shadow:var(--shadow-3),inset 0 0 0 1px rgba(255,255,255,.08)}
+@media (max-width:599px){.form-panel{padding:20px}}
+.form-nav{display:flex;justify-content:space-between;gap:12px;padding-top:16px;border-top:1px solid var(--border-subtle)}
+textarea.ebz-input{height:auto;min-height:120px;padding-top:12px;padding-bottom:12px;resize:vertical;line-height:1.5}
+.lista-check{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12px}
+.lista-check li{display:flex;gap:12px;align-items:flex-start}
+.lista-check .ebz-icon{color:var(--text-accent);margin-top:3px}
+
+/* FAQ nativo */
+.faq{background:var(--bg-surface);border-radius:var(--radius-card);box-shadow:inset 0 0 0 1px var(--border-subtle);padding:18px 20px}
+.faq summary{cursor:pointer;list-style:none;font-weight:700;display:flex;justify-content:space-between;gap:16px}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";color:var(--text-accent);font-weight:800}
+.faq[open] summary::after{content:"–"}
+.faq p{margin-top:10px;color:var(--text-secondary);font-size:14px;line-height:1.55}
+
+/* Estudio gris (placeholder de foto y fondos) */
+.studio{background:var(--studio-gradient)}
+.ph{display:flex;align-items:center;justify-content:center;color:var(--grafito-700);font-size:13px;font-weight:600}
+
+/* ===== Consignación ===== */
+.hero-puntos{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.hero-puntos li{display:flex;gap:10px;align-items:center;font-weight:600;font-size:15px}
+.hero-puntos .ebz-icon{color:var(--naranja-500)}
+.header-tasar{display:inline-flex}
+.ebz-header__link{white-space:nowrap}
+@media (max-width:1439px){.header-tasar{display:none}.ebz-header__link{padding:0 10px}}
+
+/* Formulario de venta (LeadVenta) */
+.lead{position:relative;display:flex;flex-direction:column;gap:18px;padding:24px;background:var(--grafito-900);color:#fff;border-radius:var(--radius-card);box-shadow:var(--shadow-4),inset 0 0 0 1px rgba(255,255,255,.08)}
+.lead::before{content:"";position:absolute;left:0;top:0;width:120px;height:3px;background:var(--naranja-500)}
+.lead__head{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:6px 16px}
+.lead__campos{display:grid;gap:14px;align-items:end}
+.lead--barra .lead__campos{grid-template-columns:repeat(4,minmax(0,1fr))}
+.lead--barra .lead__enviar .ebz-btn{height:48px}
+.lead--panel{padding:28px}
+.lead--panel .lead__campos{grid-template-columns:repeat(2,minmax(0,1fr))}
+.lead--panel .lead__auto,.lead--panel .lead__nombre,.lead--panel .lead__tel,.lead--panel .lead__enviar{grid-column:1/-1}
+.lead__legal{grid-column:1/-1;margin:0;font-size:11px;color:var(--grafito-400)}
+.lead__oculto{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.lead__gracias{display:flex;flex-direction:column;align-items:flex-start;gap:14px;padding:8px 0}
+.lead__gracias h3:focus{outline:none}
+.lead__ok{display:inline-flex;width:52px;height:52px;align-items:center;justify-content:center;background:var(--accent);color:var(--grafito-950);transform:skewX(var(--skew))}
+.lead__ok>*{transform:skewX(var(--skew-inverse))}
+@media (max-width:1023px){.lead--barra .lead__campos{grid-template-columns:repeat(2,minmax(0,1fr))}.lead--barra .lead__auto,.lead--barra .lead__enviar{grid-column:1/-1}}
+@media (max-width:599px){.lead,.lead--panel{padding:20px}.lead__campos,.lead--barra .lead__campos,.lead--panel .lead__campos{grid-template-columns:1fr}}
+
+/* Pasos */
+.pasos{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:24px;counter-reset:p}
+.pasos__item{position:relative;display:flex;flex-direction:column;gap:12px;padding:28px 24px;background:var(--grafito-900);border-radius:var(--radius-card);box-shadow:inset 0 0 0 1px rgba(255,255,255,.08)}
+.pasos__item+.pasos__item::before{content:"";position:absolute;left:-18px;top:44px;width:12px;height:3px;background:var(--naranja-500);transform:skewX(var(--skew))}
+.pasos__ic{color:var(--grafito-300);position:absolute;right:22px;top:30px}
+@media (max-width:1023px){.pasos{grid-template-columns:repeat(2,minmax(0,1fr))}.pasos__item:nth-child(3)::before{display:none}}
+@media (max-width:599px){.pasos{grid-template-columns:1fr}.pasos__item::before{display:none}}
+
+/* Comparativa */
+.comp{display:flex;flex-direction:column;background:var(--bg-surface);border-radius:var(--radius-card);box-shadow:var(--shadow-light-1),inset 0 0 0 1px var(--border-subtle);overflow:hidden}
+.comp__fila{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1fr) minmax(0,1.15fr);border-top:1px solid var(--border-subtle)}
+.comp__fila>span{padding:14px 18px;font-size:14px;line-height:1.45;display:flex;gap:8px;align-items:flex-start}
+.comp__fila--head{border-top:0}
+.comp__fila--head>span{font-family:var(--font-body);font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--text-tertiary)}
+.comp__q{font-weight:700}
+.comp__tu{color:var(--text-secondary)}
+.comp__tu .ebz-icon{color:var(--grafito-400);margin-top:2px}
+.comp__eb{background:var(--grafito-900);color:#fff;font-weight:600}
+.comp__fila--head .comp__eb{color:var(--naranja-500)}
+.comp__eb .ebz-icon{color:var(--naranja-500);margin-top:2px}
+@media (max-width:599px){
+  .comp__fila{grid-template-columns:1fr 1fr}
+  .comp__q{grid-column:1/-1;padding-bottom:0!important}
+  .comp__fila--head>span:first-child{display:none}
+}
+
+/* Auto en vitrina */
+.destacado{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);background:var(--bg-surface);border-radius:var(--radius-card);box-shadow:var(--shadow-light-2),inset 0 0 0 1px var(--border-subtle);overflow:hidden}
+.destacado__media{position:relative;display:block;aspect-ratio:4/3;overflow:hidden}
+.destacado__media img{width:100%;height:100%;object-fit:cover;object-position:50% 60%;transition:transform var(--dur-slow) var(--ease-speed)}
+.destacado:hover .destacado__media img{transform:scale(1.03)}
+.destacado__badge{position:absolute;top:20px;left:16px}
+.destacado__body{display:flex;flex-direction:column;justify-content:center;gap:22px;padding:40px}
+.destacado__specs{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:10px 22px;color:var(--text-secondary);font-size:15px}
+.destacado__specs li{display:inline-flex;gap:8px;align-items:center}
+.destacado__specs .ebz-icon{color:var(--text-accent)}
+@media (max-width:1023px){.destacado{grid-template-columns:1fr}.destacado__body{padding:24px}}
+
+/* Las dos vías bajo los autos */
+.dos-vias{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:24px}
+.encargo{display:flex;flex-direction:column;gap:20px;padding:28px;background:var(--bg-surface);border-radius:var(--radius-card);box-shadow:inset 0 0 0 1px var(--border-subtle)}
+.encargo__campos{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;align-items:end}
+.encargo__ancho{grid-column:1/-1}
+.dos-vias__vende{display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:16px;padding:32px;background:var(--grafito-900);color:#fff;border-radius:var(--radius-card);position:relative;overflow:hidden}
+.dos-vias__vende::after{content:"";position:absolute;right:-30px;top:0;bottom:0;width:110px;background:var(--naranja-500);transform:skewX(var(--skew));opacity:.14}
+@media (max-width:1023px){.dos-vias{grid-template-columns:1fr}}
+@media (max-width:599px){.encargo{padding:20px}.encargo__campos{grid-template-columns:1fr}}
+
+/* Pie con 5 columnas */
+.ebz-footer__grid{grid-template-columns:1.4fr repeat(4,minmax(0,1fr))}
+@media (max-width:1023px){.ebz-footer__grid{grid-template-columns:1fr 1fr}}
+@media (max-width:599px){.ebz-footer__grid{grid-template-columns:1fr}}

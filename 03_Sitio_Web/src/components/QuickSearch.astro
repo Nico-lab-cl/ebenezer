@@ -1,0 +1,79 @@
+---
+import Icon from './Icon.astro';
+import Button from './Button.astro';
+
+/* Buscador rápido del hero. Es un formulario GET a /comprar/: funciona sin JS
+   y el catálogo lee los mismos parámetros de la URL. */
+interface Props {
+  modelos: Record<string, string[]>;
+}
+const { modelos } = Astro.props;
+const anios = Array.from({ length: 16 }, (_, i) => String(new Date().getFullYear() - i));
+const PRECIOS = [
+  ['0-8000000', 'Hasta $8.000.000'],
+  ['8000000-12000000', '$8 a $12 millones'],
+  ['12000000-18000000', '$12 a $18 millones'],
+  ['18000000-999000000', 'Más de $18 millones'],
+];
+---
+<form class="ebz-qs" data-theme="dark" action="/comprar/" method="get" role="search" data-qs data-modelos={JSON.stringify(modelos)}>
+  <div class="ebz-field">
+    <label class="ebz-label" for="qs-marca">Marca</label>
+    <div class="ebz-control">
+      <select id="qs-marca" name="marca" class="ebz-select">
+        <option value="">Todas</option>
+        {Object.keys(modelos).map((m) => <option value={m}>{m}</option>)}
+      </select>
+      <Icon name="chevron-down" size={18} class="ebz-select__chev" />
+    </div>
+  </div>
+  <div class="ebz-field">
+    <label class="ebz-label" for="qs-modelo">Modelo</label>
+    <div class="ebz-control">
+      <select id="qs-modelo" name="modelo" class="ebz-select" disabled>
+        <option value="">Elige marca</option>
+      </select>
+      <Icon name="chevron-down" size={18} class="ebz-select__chev" />
+    </div>
+  </div>
+  <div class="ebz-field">
+    <label class="ebz-label" for="qs-anio">Año desde</label>
+    <div class="ebz-control">
+      <select id="qs-anio" name="desde" class="ebz-select">
+        <option value="">Cualquiera</option>
+        {anios.map((a) => <option value={a}>{a}</option>)}
+      </select>
+      <Icon name="chevron-down" size={18} class="ebz-select__chev" />
+    </div>
+  </div>
+  <div class="ebz-field">
+    <label class="ebz-label" for="qs-precio">Precio</label>
+    <div class="ebz-control">
+      <select id="qs-precio" name="precio" class="ebz-select">
+        <option value="">Cualquiera</option>
+        {PRECIOS.map(([v, l]) => <option value={v}>{l}</option>)}
+      </select>
+      <Icon name="chevron-down" size={18} class="ebz-select__chev" />
+    </div>
+  </div>
+  <Button type="submit" size="lg" icon="search">Buscar</Button>
+</form>
+
+<script>
+  for (const form of document.querySelectorAll<HTMLFormElement>('[data-qs]')) {
+    const modelos = JSON.parse(form.dataset.modelos || '{}') as Record<string, string[]>;
+    const marca = form.querySelector<HTMLSelectElement>('[name=marca]')!;
+    const modelo = form.querySelector<HTMLSelectElement>('[name=modelo]')!;
+    marca.addEventListener('change', () => {
+      const lista = modelos[marca.value] || [];
+      modelo.innerHTML = '';
+      modelo.add(new Option(marca.value ? 'Todos' : 'Elige marca', ''));
+      for (const m of lista) modelo.add(new Option(m, m));
+      modelo.disabled = !marca.value;
+    });
+    // No mandar parámetros vacíos: la URL queda limpia (/comprar/?marca=Audi)
+    form.addEventListener('submit', () => {
+      for (const s of form.querySelectorAll('select')) if (!s.value) s.disabled = true;
+    });
+  }
+</script>

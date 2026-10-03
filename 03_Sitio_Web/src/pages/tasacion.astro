@@ -1,0 +1,32 @@
+---
+import Base from '@/layouts/Base.astro';
+import HeroVenta from '@/components/HeroVenta.astro';
+import SeccionesVenta from '@/components/SeccionesVenta.astro';
+import LeadVenta from '@/components/LeadVenta.astro';
+
+/* Página de destino para los anuncios (Meta / Google).
+   Sin menú y sin enlaces que saquen al visitante: formulario arriba, los
+   argumentos al medio y el formulario otra vez al final.
+   noindex: el contenido es el mismo de /vender-mi-auto, que es la que se indexa.
+   En los anuncios usa: https://<dominio>/tasacion/?utm_source=facebook&utm_medium=paid&utm_campaign=<nombre> */
+---
+<Base
+  title="Tasa tu auto sin costo · Consignación"
+  description="Deja tu auto en consignación con EBENEZER: fotos de estudio, anuncios pagados y atención de compradores. Sin costo hasta que se vende."
+  fab={{ context: 'vender' }}
+  minimal
+  noindex
+>
+  <HeroVenta />
+  <SeccionesVenta />
+  <section class="ebz-container sec--lg">
+    <div class="split" style="gap:56px">
+      <div class="stack" style="flex:5 1 360px">
+        <span class="ebz-overline ebz-overline-rule" style="color:var(--grafito-300)">Último paso</span>
+        <h2 class="ebz-h1">¿Lo publicamos esta semana?</h2>
+        <p class="ebz-body-lg muted">Déjanos los datos de tu auto y te enviamos la tasación por WhatsApp en menos de 24 horas hábiles.</p>
+      </div>
+      <div style="flex:5 1 400px"><LeadVenta id="lead-final" variante="panel" titulo="Tasa tu auto sin costo" /></div>
+    </div>
+  </section>
+</Base>

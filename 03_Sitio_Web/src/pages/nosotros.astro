@@ -1,0 +1,52 @@
+---
+import { Image } from 'astro:assets';
+import Base from '@/layouts/Base.astro';
+import Icon from '@/components/Icon.astro';
+import Button from '@/components/Button.astro';
+import recorte from '@/assets/marca/audi-tt-2011-frontal-recorte.png';
+
+const VALORES = [
+  ['clipboard-check', 'Revisamos antes de publicar', 'Cada auto pasa por inspección mecánica y de antecedentes. Si no pasa, no se publica.'],
+  ['receipt', 'Precio final a la vista', 'El precio publicado incluye IVA y se informa qué no está incluido. Sin cargos sorpresa al firmar.'],
+  ['message-circle', 'Te respondemos por WhatsApp', 'Fotos extra, videos o una llamada: lo que necesites para decidir sin moverte.'],
+];
+---
+<Base
+  title="Nosotros"
+  description="EBENEZER Automotora: compra y venta de autos usados y seminuevos en Viña del Mar, Concón, Valparaíso, Quilpué y Villa Alemana. Autos revisados y precio claro."
+>
+  <section style="position:relative;overflow:hidden" class="sec--lg">
+    <div class="studio" style="position:absolute;top:0;bottom:0;right:0;width:44%;clip-path:polygon(22% 0,100% 0,100% 100%,0 100%)"></div>
+    <div class="ebz-container split" style="position:relative">
+      <div class="stack" style="gap:22px;flex:6 1 440px">
+        <span class="ebz-overline ebz-overline-rule" style="color:var(--grafito-300)">Nosotros</span>
+        <h1 class="ebz-h1">Una automotora de la región, con las cuentas claras.</h1>
+        <p class="ebz-body-lg muted" style="max-width:560px">[Historia breve de EBENEZER: año de inicio, quiénes están detrás y por qué partió. 2 o 3 frases.]</p>
+      </div>
+      <div style="flex:5 1 340px;display:flex;justify-content:center">
+        <Image src={recorte} alt="Audi TT 2011 en estudio" widths={[400, 560, 800]} sizes="(max-width: 1023px) 100vw, 560px" format="webp" style="width:100%;max-width:560px;height:auto" />
+      </div>
+    </div>
+  </section>
+
+  <section class="sec sec--alt">
+    <div class="ebz-container">
+      <h2 class="ebz-h2" style="margin-bottom:36px">Cómo trabajamos</h2>
+      <div class="grid-3">
+        {VALORES.map(([ic, t, d]) => (
+          <div class="card card--sunken" style="gap:14px"><Icon name={ic!} size={32} style="color:var(--naranja-500)" /><b class="ebz-h4" style="font-style:italic">{t}</b><p class="ebz-body-sm muted">{d}</p></div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="ebz-container sec--lg">
+    <div class="row" style="justify-content:space-between;gap:40px">
+      <div class="stack" style="gap:14px;max-width:680px">
+        <span class="ebz-overline" style="color:var(--naranja-500)">Dónde atendemos</span>
+        <p class="ebz-h3">Viña del Mar · Concón · Valparaíso · Quilpué · Villa Alemana</p>
+      </div>
+      <Button size="lg" iconRight="arrow-right" href="/contacto/">Visítanos</Button>
+    </div>
+  </section>
+</Base>

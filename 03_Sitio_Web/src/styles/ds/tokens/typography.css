@@ -1,0 +1,21 @@
+/* EBENEZER — typography. Saira (display, echoes the extra-bold italic logo) + Montserrat (body, data, overline — echoes "AUTOMOTORA"). */
+:root{
+--font-display:"Saira","Arial Narrow",sans-serif;
+--font-body:"Montserrat","Helvetica Neue",Arial,sans-serif;
+--font-data:"Saira","Montserrat",sans-serif;
+/* Scale (desktop). Display/H1–H3 = Saira 800 italic, tight tracking. */
+--fs-display:clamp(48px,6.2vw,104px);/* @kind font */--lh-display:.92;/* @kind font */--ls-display:-.02em;/* @kind font */
+--fs-h1:clamp(40px,4.4vw,72px);/* @kind font */--lh-h1:.98;/* @kind font */--ls-h1:-.015em;/* @kind font */
+--fs-h2:clamp(32px,3.2vw,52px);/* @kind font */--lh-h2:1.02;/* @kind font */--ls-h2:-.01em;/* @kind font */
+--fs-h3:clamp(26px,2.3vw,36px);/* @kind font */--lh-h3:1.08;/* @kind font */--ls-h3:-.005em;/* @kind font */
+--fs-h4:24px;/* @kind font */--lh-h4:1.15;/* @kind font */
+--fs-h5:20px;/* @kind font */--lh-h5:1.2;/* @kind font */
+--fs-h6:16px;/* @kind font */--lh-h6:1.25;/* @kind font */
+--fs-body-lg:18px;/* @kind font */--lh-body-lg:1.6;/* @kind font */
+--fs-body:16px;/* @kind font */--lh-body:1.6;/* @kind font */
+--fs-body-sm:14px;/* @kind font */--lh-body-sm:1.5;/* @kind font */
+--fs-caption:12px;/* @kind font */--lh-caption:1.4;/* @kind font */
+--fs-overline:12px;/* @kind font */--ls-overline:.42em;/* @kind font */
+--fs-price-lg:44px;/* @kind font */--fs-price:28px;/* @kind font */--fs-price-sm:20px;/* @kind font */
+--fw-regular:400;/* @kind font */--fw-medium:500;/* @kind font */--fw-semibold:600;/* @kind font */--fw-bold:700;/* @kind font */--fw-extrabold:800;/* @kind font */--fw-black:900;/* @kind font */
+}

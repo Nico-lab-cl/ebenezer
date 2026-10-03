@@ -1,0 +1,19 @@
+---
+import Base from '@/layouts/Base.astro';
+import Button from '@/components/Button.astro';
+import Checkered from '@/components/Checkered.astro';
+---
+<Base title="Página no encontrada" description="La página que buscas no existe o el auto ya no está publicado." noindex>
+  <section class="ebz-container sec--lg">
+    <div class="stack" style="max-width:640px;gap:22px;padding-block:48px">
+      <Checkered />
+      <span class="ebz-display" style="color:var(--naranja-500)">404</span>
+      <h1 class="ebz-h2">Esta página no existe.</h1>
+      <p class="ebz-body-lg muted">Puede que el auto ya se haya vendido o que el enlace esté mal escrito.</p>
+      <div class="row">
+        <Button href="/comprar/" iconRight="arrow-right">Ver autos disponibles</Button>
+        <Button href="/" variant="secondary">Ir al inicio</Button>
+      </div>
+    </div>
+  </section>
+</Base>

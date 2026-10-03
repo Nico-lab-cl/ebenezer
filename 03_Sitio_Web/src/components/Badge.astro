@@ -1,0 +1,13 @@
+---
+import { ETIQUETAS } from '@/lib/vehiculos';
+
+interface Props {
+  tone: string;
+  size?: 'md' | 'lg';
+  class?: string;
+}
+const { tone, size = 'md', class: clase = '' } = Astro.props;
+---
+{ETIQUETAS[tone] && (
+  <span class={`ebz-badge ebz-badge--${tone}${size === 'lg' ? ' ebz-badge--lg' : ''} ${clase}`}><span>{ETIQUETAS[tone]}</span></span>
+)}

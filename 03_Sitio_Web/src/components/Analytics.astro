@@ -1,0 +1,53 @@
+---
+/* Medición para los anuncios. Meta Pixel y GA4 se cargan sólo si sus IDs
+   están en "Datos de la automotora"; sin IDs no se carga nada externo.
+
+   Siempre se ejecuta (es local, sin cookies):
+   - guarda el origen de la visita (utm_*, fbclid, gclid) para adjuntarlo al
+     contacto en la planilla, y así saber qué anuncio trajo a cada vendedor;
+   - window.ebzTrack(), que usan los formularios;
+   - un evento Contact por cada clic en un enlace de WhatsApp. */
+import ajustes from '@/content/ajustes.json';
+
+const pixel = String(ajustes.metaPixelId || '').replace(/\D/g, '');
+const ga = String(ajustes.ga4Id || '').trim();
+---
+{pixel && (
+  <script is:inline define:vars={{ pixel }}>
+    !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', pixel);
+    fbq('track', 'PageView');
+  </script>
+)}
+{ga && <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${ga}`}></script>}
+{ga && (
+  <script is:inline define:vars={{ ga }}>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    window.gtag = gtag;
+    gtag('js', new Date());
+    gtag('config', ga);
+  </script>
+)}
+<script is:inline>
+  (function () {
+    try {
+      var q = new URLSearchParams(location.search), o = {};
+      ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'fbclid', 'gclid'].forEach(function (k) { if (q.get(k)) o[k] = q.get(k); });
+      if (Object.keys(o).length) sessionStorage.setItem('ebz-origen', JSON.stringify(o));
+      else if (!sessionStorage.getItem('ebz-origen') && document.referrer && new URL(document.referrer).host !== location.host)
+        sessionStorage.setItem('ebz-origen', JSON.stringify({ utm_source: new URL(document.referrer).host, utm_medium: 'referral' }));
+    } catch (e) {}
+
+    window.ebzTrack = function (evento, datos) {
+      datos = datos || {};
+      if (window.fbq) window.fbq('track', evento, { content_category: datos.tipo || 'whatsapp' });
+      if (window.gtag) window.gtag('event', evento === 'Lead' ? 'generate_lead' : 'contact', datos);
+    };
+
+    document.addEventListener('click', function (e) {
+      var a = e.target.closest && e.target.closest('a[href*="wa.me"]');
+      if (a) window.ebzTrack('Contact', { tipo: 'whatsapp', pagina: location.pathname });
+    });
+  })();
+</script>

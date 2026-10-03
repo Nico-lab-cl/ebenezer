@@ -1,0 +1,32 @@
+/* EBENEZER — spacing, grid, radii, shadows, motion */
+:root{
+--space-0:0;--space-1:4px;--space-2:8px;--space-3:12px;--space-4:16px;--space-5:20px;--space-6:24px;--space-8:32px;--space-10:40px;--space-12:48px;--space-16:64px;--space-20:80px;--space-24:96px;--space-32:128px;
+/* Grid — 12 columns desktop */
+--grid-columns:12;/* @kind other */--grid-gutter:24px;--grid-margin:40px;--container-max:1200px;
+/* Breakpoints (reference; use in media queries) */
+--bp-mobile:0px;/* @kind other */--bp-tablet:600px;/* @kind other */--bp-notebook:1024px;/* @kind other */--bp-desktop:1440px;/* @kind other */--bp-wide:1760px;/* @kind other */
+/* Radii — sober, angular */
+--radius-0:0;--radius-xs:2px;--radius-sm:4px;--radius-md:6px;--radius-round:999px;
+--radius-button:2px;--radius-input:2px;--radius-card:4px;--radius-modal:6px;
+/* Skew — the brand diagonal */
+--skew:-12deg;/* @kind other */--skew-inverse:12deg;/* @kind other */--diagonal:78deg;/* @kind other */
+/* Shadows */
+--shadow-1:0 1px 2px rgba(10,12,15,.24);
+--shadow-2:0 4px 12px rgba(10,12,15,.28),0 1px 2px rgba(10,12,15,.2);
+--shadow-3:0 12px 32px rgba(10,12,15,.36),0 2px 6px rgba(10,12,15,.2);
+--shadow-4:0 24px 64px rgba(10,12,15,.48);
+--shadow-light-1:0 1px 2px rgba(32,36,42,.06),0 1px 1px rgba(32,36,42,.04);
+--shadow-light-2:0 6px 18px rgba(32,36,42,.08),0 1px 3px rgba(32,36,42,.06);
+--shadow-accent:0 8px 24px rgba(244,119,53,.32);
+--focus-ring:0 0 0 3px var(--naranja-focus);
+/* Motion — short, directional, "speed" */
+--dur-instant:80ms;/* @kind other */--dur-fast:140ms;/* @kind other */--dur-base:220ms;/* @kind other */--dur-slow:360ms;/* @kind other */
+--ease-speed:cubic-bezier(.2,.9,.1,1);/* @kind other */--ease-in:cubic-bezier(.5,0,.9,.4);/* @kind other */--ease-standard:cubic-bezier(.3,0,.2,1);/* @kind other */
+/* Layering */
+--z-header:50;/* @kind other */--z-drawer:80;/* @kind other */--z-toast:90;/* @kind other */--z-fab:70;/* @kind other */
+}
+@media (min-width:1440px){:root{--grid-gutter:24px;--grid-margin:80px;--container-max:1440px}}
+@media (min-width:1760px){:root{--grid-gutter:32px;--grid-margin:96px;--container-max:1600px}}
+@media (max-width:1023px){:root{--grid-columns:8;/* @kind other */--grid-gutter:20px;--grid-margin:32px}}
+@media (max-width:599px){:root{--grid-columns:4;/* @kind other */--grid-gutter:16px;--grid-margin:16px}}
+@media (prefers-reduced-motion:reduce){:root{--dur-instant:0ms;/* @kind other */--dur-fast:0ms;/* @kind other */--dur-base:0ms;/* @kind other */--dur-slow:0ms/* @kind other */}}

@@ -1,0 +1,73 @@
+---
+import { Image } from 'astro:assets';
+import Icon from './Icon.astro';
+import Badge from './Badge.astro';
+import Button from './Button.astro';
+import { clp, km } from '@/lib/formato';
+import { type Vehiculo, nombre, url, cuotaDesde, autoWa } from '@/lib/vehiculos';
+import { urlWhatsapp } from '@/lib/whatsapp';
+
+interface Props {
+  v: Vehiculo;
+  /** Los data-* que usa el filtro del catálogo */
+  filtrable?: boolean;
+  eager?: boolean;
+}
+const { v, filtrable = false, eager = false } = Astro.props;
+const d = v.data;
+const foto = d.fotos[0];
+const href = url(v);
+const vendido = d.etiqueta === 'vendido';
+const datos = filtrable
+  ? {
+      'data-auto': '',
+      'data-marca': d.marca,
+      'data-modelo': d.modelo,
+      'data-anio': d.anio,
+      'data-precio': d.precio,
+      'data-km': d.km,
+      'data-transmision': d.transmision,
+      'data-combustible': d.combustible,
+      'data-etiqueta': d.etiqueta,
+      'data-ingreso': d.ingreso.getTime(),
+    }
+  : {};
+---
+<article class="ebz-vcard" {...datos}>
+  <a href={href} class="ebz-vcard__media" aria-label={nombre(v)}>
+    {foto ? (
+      <Image src={foto.imagen} alt={`${nombre(v)}, vista ${foto.vista.toLowerCase() || 'frontal'}`} widths={[360, 560, 720]} sizes="(max-width: 599px) 100vw, 360px" loading={eager ? 'eager' : 'lazy'} format="webp" />
+    ) : (
+      <span class="ebz-photo-ph"><Icon name="car" size={36} />Foto en estudio</span>
+    )}
+    <span class="ebz-vcard__stripe"></span>
+  </a>
+  <Badge tone={d.etiqueta} class="ebz-vcard__badge" />
+  <div class="ebz-vcard__body">
+    <div>
+      <div class="ebz-vcard__brand">{d.marca}</div>
+      <h3 class="ebz-vcard__title"><a href={href} style="color:inherit;text-decoration:none">{d.modelo} <span class="ebz-num">{d.anio}</span></a></h3>
+      {d.version && <div class="ebz-caption" style="margin-top:2px">{d.version}</div>}
+    </div>
+    <div class="ebz-vcard__specs">
+      <span class="ebz-vcard__spec"><Icon name="gauge" size={15} /><span class="ebz-num">{km(d.km)}</span></span>
+      <span class="ebz-vcard__spec"><Icon name="cog" size={15} />{d.transmision}</span>
+      <span class="ebz-vcard__spec"><Icon name="fuel" size={15} />{d.combustible}</span>
+    </div>
+    <div class="ebz-vcard__price">
+      <div>
+        {d.precioAnterior && <div class="ebz-vcard__was ebz-num">{clp(d.precioAnterior)}</div>}
+        <div class="ebz-price">{vendido ? 'Vendido' : clp(d.precio)}</div>
+        {!vendido && <div class="ebz-vcard__cuota">Cuota ref. desde <b class="ebz-num">{clp(cuotaDesde(v))}</b>/mes</div>}
+      </div>
+    </div>
+    <div class="ebz-vcard__actions">
+      <Button variant="dark" size="sm" href={href} iconRight="arrow-right">Ver ficha</Button>
+      {!vendido && (
+        <a class="ebz-iconbtn ebz-iconbtn--outline" href={urlWhatsapp('vehiculo', autoWa(v))} target="_blank" rel="noopener" aria-label={`Consultar por WhatsApp por el ${nombre(v)}`} title="Consultar por WhatsApp">
+          <Icon name="whatsapp" size={18} />
+        </a>
+      )}
+    </div>
+  </div>
+</article>

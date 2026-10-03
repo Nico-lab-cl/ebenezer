@@ -1,0 +1,29 @@
+{
+  "publicado": true,
+  "destacado": true,
+  "etiqueta": "seminuevo",
+  "marca": "Audi",
+  "modelo": "TT",
+  "anio": 2011,
+  "version": "2.0 TFSI Coupé S tronic",
+  "km": 98000,
+  "transmision": "Automática",
+  "combustible": "Bencina",
+  "precio": 12990000,
+  "precioAnterior": null,
+  "cuotaDesde": null,
+  "fotos": [
+    { "imagen": "../../assets/vehiculos/audi-tt-2011/frontal.png", "vista": "Frontal" },
+    { "imagen": "../../assets/vehiculos/audi-tt-2011/34-trasero.png", "vista": "3/4 trasero" },
+    { "imagen": "../../assets/vehiculos/audi-tt-2011/trasera.png", "vista": "Trasera" },
+    { "imagen": "../../assets/vehiculos/audi-tt-2011/frontal-b.png", "vista": "Frontal" }
+  ],
+  "color": "",
+  "duenos": null,
+  "motor": "2.0 TFSI",
+  "traccion": "Delantera",
+  "puertas": 3,
+  "equipamiento": [],
+  "descripcion": "",
+  "ingreso": "2026-09-30"
+}

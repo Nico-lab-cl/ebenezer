@@ -1,0 +1,81 @@
+---
+import Base from '@/layouts/Base.astro';
+import Icon from '@/components/Icon.astro';
+import Button from '@/components/Button.astro';
+import WhatsAppButton from '@/components/WhatsAppButton.astro';
+import CreditSimulator from '@/components/CreditSimulator.astro';
+import { vehiculos, autoWa } from '@/lib/vehiculos';
+import ajustes from '@/content/ajustes.json';
+
+const [primero] = (await vehiculos()).filter((v) => v.data.etiqueta !== 'vendido');
+const pie = Math.round(ajustes.pieMinimo * 100);
+const PASOS = [
+  ['Simula', 'Elige el pie y el plazo en la ficha del auto. La cuota es referencial.'],
+  ['Evaluación', 'Nos envías tus antecedentes por WhatsApp y los presentamos a la financiera.'],
+  ['Firma y retira', 'Con el crédito aprobado firmas y te llevas el auto, con la transferencia hecha.'],
+];
+const REQUISITOS = [
+  'Cédula de identidad vigente',
+  'Últimas liquidaciones de sueldo o boletas de honorarios',
+  'Certificado de cotizaciones AFP',
+  `Pie disponible (desde ${pie}% del valor del auto)`,
+];
+const FAQ = [
+  ['¿La cuota que veo en la web es final?', 'No. Es referencial y depende de la evaluación crediticia. La cuota final, la tasa y la CAE se informan en la cotización formal.'],
+  ['¿Puedo dejar mi auto en parte de pago?', 'Sí. Lo tasamos y el valor se descuenta del precio del auto que compras.'],
+  ['¿Cuánto demora la evaluación?', '[Plazo habitual según la financiera]'],
+  ['¿Qué pasa si no me aprueban?', 'Te avisamos y vemos alternativas: más pie, otro plazo u otro auto.'],
+];
+---
+<Base
+  title="Financiamiento automotriz · Crédito para autos usados"
+  description={`Financia tu auto usado o seminuevo con pie desde ${pie}%. Simula la cuota, pide la evaluación por WhatsApp y conoce la CAE antes de firmar. EBENEZER Automotora, Viña del Mar.`}
+  fab={{ context: 'financiamiento' }}
+>
+  <section class="ebz-container sec--lg">
+    <div class="split" style="gap:56px">
+      <div class="stack" style="gap:22px;flex:6 1 440px">
+        <span class="ebz-overline ebz-overline-rule" style="color:var(--grafito-300)">Financiamiento automotriz</span>
+        <h1 class="ebz-h1">Financia tu auto con pie desde {pie}%.</h1>
+        <p class="ebz-body-lg muted" style="max-width:560px">Elige el auto, simula la cuota y pide la evaluación por WhatsApp. Trabajamos con {ajustes.financieras} y te mostramos la CAE antes de firmar.</p>
+        <div class="row">
+          <WhatsAppButton context="financiamiento" size="lg">Solicitar evaluación</WhatsAppButton>
+          <Button variant="secondary" size="lg" href="/comprar/">Ver autos</Button>
+        </div>
+      </div>
+      <div style="flex:5 1 380px">
+        <CreditSimulator precio={primero?.data.precio ?? 12990000} auto={primero ? autoWa(primero) : undefined} />
+      </div>
+    </div>
+  </section>
+
+  <section class="sec sec--alt">
+    <div class="ebz-container">
+      <h2 class="ebz-h2" style="margin-bottom:36px">Cómo funciona</h2>
+      <ol class="grid-3" style="list-style:none;margin:0;padding:0">
+        {PASOS.map(([t, d], i) => (
+          <li class="card card--sunken"><span class="num-step">0{i + 1}</span><b class="ebz-h5">{t}</b><p class="ebz-body-sm muted">{d}</p></li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section data-theme="light" class="sec sec--light" id="preguntas">
+    <div class="ebz-container split split--top" style="gap:56px">
+      <div class="stack" style="flex:5 1 360px">
+        <span class="ebz-overline" style="color:var(--text-accent)">Requisitos</span>
+        <h2 class="ebz-h3">Lo que te pedirán para evaluar</h2>
+        <ul class="lista-check">
+          {REQUISITOS.map((r) => <li><Icon name="check" size={18} /><span class="ebz-body">{r}</span></li>)}
+        </ul>
+        <p class="ebz-caption">Cada financiera puede pedir antecedentes adicionales.</p>
+      </div>
+      <div class="stack" style="gap:12px;flex:6 1 420px">
+        <span class="ebz-overline" style="color:var(--text-accent)">Preguntas frecuentes</span>
+        {FAQ.map(([q, a]) => (
+          <details class="faq"><summary>{q}</summary><p>{a}</p></details>
+        ))}
+      </div>
+    </div>
+  </section>
+</Base>

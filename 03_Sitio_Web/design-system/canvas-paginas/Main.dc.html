@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>EBENEZER · Inicio (consignación)</title>
+<script src="./support.js"></script>
+<script>window.EBZ_ASSETS = 'ds/ebenezer/assets/'; window.EBZ_WHATSAPP = '56900000000';</script>
+<link rel="stylesheet" href="ds/ebenezer/styles.css">
+<link rel="stylesheet" href="ds/ebenezer/tokens/typography.css">
+<link rel="stylesheet" href="ds/ebenezer/tokens/colors.css">
+<link rel="stylesheet" href="ds/ebenezer/tokens/spacing.css">
+<link rel="stylesheet" href="ds/ebenezer/tokens/base.css">
+<link rel="stylesheet" href="ds/ebenezer/components/ebz.css">
+<script src="ds/ebenezer/_ds_bundle.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+body{margin:0;background:#14171B}
+a{color:#F47735}a:hover{color:#F68A52}
+details summary{cursor:pointer;list-style:none}
+details summary::-webkit-details-marker{display:none}
+</style>
+</helmet>
+<div data-theme="dark" style="background: #14171B; color: #FFFFFF; font-family: Montserrat, sans-serif">
+  <x-import component-from-global-scope="EBENEZERDesignSystem_9e2a3a.Header" items="{{menu}}" active="Inicio"></x-import>
+  <main>
+
+    <section class="ebz-hero" data-theme="dark">
+      <div class="ebz-hero__bg" style="background-image: url('ds/ebenezer/assets/photos/carretera-bn.png')"></div>
+      <div class="ebz-hero__panel"></div>
+      <div class="ebz-container">
+        <div class="ebz-hero__in">
+          <div style="display: flex; flex-direction: column; gap: 24px">
+            <span class="ebz-overline ebz-overline-rule" style="color: #BCBFC8">Consignación de autos · Región de Valparaíso</span>
+            <h1 class="ebz-display">Vendemos tu auto por ti.</h1>
+            <p class="ebz-body-lg" style="color: #BCBFC8; max-width: 500px">Lo recibimos en consignación, lo fotografiamos en estudio y lo promocionamos con publicidad pagada. Tú no atiendes llamadas ni visitas: sólo firmas cuando se vende.</p>
+            <ul style="list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px">
+              <sc-for list="{{puntos}}" as="p" hint-placeholder-count="3">
+                <li style="display: flex; gap: 10px; align-items: center; font-weight: 600; font-size: 15px">
+                  <x-import component-from-global-scope="EBENEZERDesignSystem_9e2a3a.Icon" name="check" size="18" color="#F47735"></x-import>
+                  {{p}}
+                </li>
+              </sc-for>
+            </ul>
+            <div style="display: flex; flex-wrap: wrap; gap: 14px; margin-top: 4px">
+              <x-import component-from-global-scope="EBENEZERDesignSystem_9e2a3a.Button" size="lg" icon-right="arrow-right" href="#tasar">Tasar mi auto</x-import>
+              <x-import component-from-global-scope="EBENEZERDesignSystem_9e2a3a.Button" size="lg" variant="secondary" href="#autos">Ver autos disponibles</x-import>
+            </div>
+          </div>
+          <div style="position: relative; display: flex; flex-direction: column; align-items: flex-end; margin-bottom: -24px">
+            <div style="display: flex; align-items: center; gap: 12px; margin: 0 4% 14px 0; font-family: Saira, sans-serif; font-style: italic; font-weight: 800; color: #20242A; font-size: 18px">
+              <x-import component-from-global-scope="EBENEZERDesignSystem_9e2a3a.Badge" tone="seminuevo"></x-import>
+              <span>Así publicamos tu auto</span>
+            </div>
+            <img src="ds/ebenezer/assets/photos/audi-tt-2011-frontal-recorte.png" alt="Audi TT 2011 fotografiado en estudio" style="width: 100%; max-width: 640px; height: auto; filter: drop-shadow(0 30px 30px rgba(10,12,15,.35))">
+          </div>
+        </div>
+      </div>
+      <div class="ebz-container" style="padding-bottom: 56px" id="tasar">
+        <form style="position: relative; margin-top: -96px; z-index: 2; display: flex; flex-direction: column; gap: 18px; padding: 24px; background: #20242A; border-radius: 4px; box-shadow: 0 24px 64px rgba(10,12,15,.48), inset 0 0 0 1px rgba(255,255,255,.08)">
+          <div style="position: absolute; left: 0; top: 0; width: 120px; height: 3px; background: #F47735"></div>
+          <div style="display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 6px 16px">
+            <h2 class="ebz-h4" style="font-style: italic; font-weight: 800">Tasa tu auto sin costo</h2>
+            <p class="ebz-caption">Te respondemos por WhatsApp en menos de 24 horas hábiles.</p>
+          </div>
+          <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; align-items: end">
+            <x-import component-from-global-scope="EBENEZERDesignSystem_9e2a3a.Input" label="Patente" placeholder="Ej: DGLR28" icon="scan-line"></x-import>
+            <x-import component-from-global-scope="EBENEZERDesignSystem_9e2a3a.Input" label="Marca y modelo" placeholder="Ej: Audi TT"></x-import>
+            <x-import component-from-global-scope="EBENEZERDesignSystem_9e2a3a.Select" label="Año" placeholder="Año" options="{{anios}}"></x-import>
+            <x-import component-from-global-scope="EBENEZERDesignSystem_9e2a3a.Input" label="Kilometraje" placeholder="Ej: 98000" suffix="km"></x-import>
+            <x-import component-from-global-scope="EBENEZERDesignSystem_9e2a3a.Input" label="Tu nombre" placeholder="Nombre y apellido"></x-import>
+            <x-import component-from-global-scope="EBENEZERDesignSystem_9e2a3a.Input" label="WhatsApp" placeholder="+56 9 1234 5678" icon="phone"></x-import>
+            <x-import component-from-global-scope="EBENEZERDesignSystem_9e2a3a.Select" label="Comuna" placeholder="Comuna" options="{{comunas}}"></x-import>
+            <x-import component-from-global-scope="EBENEZERDesignSystem_9e2a3a.Button" size="lg" block="{{yes}}" icon-right="arrow-right">Quiero vender mi auto</x-import>
+          </div>
+          <p style="margin: 0; font-size: 11px; color: #A4A5AD">Usamos tus datos sólo para contactarte por la venta de tu auto.</p>
+        </form>
+      </div>
+    </section>
+
+    <section class="ebz-container" style="padding-top: 88px; padding-bottom: 88px">
+      <div style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 32px">
+        <span class="ebz-overline ebz-overline-rule" style="color: #BCBFC8">Cómo funciona</span>
+        <h2 class="ebz-h2">Consignación en 4 pasos.</h2>
+      </div>
+      <ol style="list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 24px">
+        <sc-for list="{{pasos}}" as="s" hint-placeholder-count="4">
+          <li style="display: flex; flex-direction: column; gap: 12px; padding: 28px 24px; background: #20242A; border-radius: 4px; box-shadow: inset 0 0 0 1px rgba(255,255,255,.08)">
+            <div style="display: flex; justify-content: space-between; align-items: center">
+              <span style="font-family: Saira, sans-serif; font-style: italic; font-weight: 900; font-size: 44px; line-height: 1; color: #F47735">{{s.n}}</span>
+              <x-import component-from-global-scope="EBENEZERDesignSystem_9e2a3a.Icon" name="{{s.icon}}" size="28" color="#BCBFC8"></x-import>
+            </div>
+            <b class="ebz-h5" style="font-style: italic; font-weight: 800">{{s.title}}</b>
+            <p class="ebz-body-sm" style="color: #BCBFC8">{{s.text}}</p>
+          </li>
+        </sc-for>
+      </ol>
+    </section>
+
+    <section data-theme="light" style="background: #F4F6FC; color: #20242A; padding: 72px 0">
+      <div class="ebz-container" style="display: flex; flex-wrap: wrap; gap: 56px; align-items: flex-start">
+        <div style="flex: 4 1 320px; display: flex; flex-direction: column; gap: 18px">
+          <span class="ebz-overline" style="color: #B04A16">Por qué con nosotros</span>
+          <h2 class="ebz-h2">Véndelo tú o deja que lo vendamos.</h2>
+          <p class="ebz-body-lg" style="color: #5D616B">Vender un auto usado por tu cuenta toma semanas de llamadas, visitas y regateo. Nosotros nos encargamos de eso.</p>
+          <div><x-import component-from-global-scope="EBENEZERDesignSystem_9e2a3a.Button" icon-right="arrow-right" href="#tasar">Tasar mi auto</x-import></div>
+        </div>
+        <div style="flex: 7 1 520px; min-width: 0; background: #FFFFFF; border-radius: 4px; box-shadow: 0 1px 2px rgba(32,36,42,.06), inset 0 0 0 1px #E9ECF3; overflow: hidden">
+          <div style="display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1fr) minmax(0, 1.15fr); font-size: 11px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; color: #5D616B">
+            <span style="padding: 14px 18px"></span>
+            <span style="padding: 14px 18px">Por tu cuenta</span>
+            <span style="padding: 14px 18px; background: #20242A; color: #F47735">Con EBENEZER</span>
+          </div>
+          <sc-for list="{{comparativa}}" as="c" hint-placeholder-count="7">
+            <div style="display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1fr) minmax(0, 1.15fr); border-top: 1px solid #E9ECF3; font-size: 14px; line-height: 1.45">
+              <span style="padding: 14px 18px; font-weight: 700">{{c.q}}</span>
+              <span style="padding: 14px 18px; color: #5D616B; display: flex; gap: 8px"><x-import component-from-global-scope="EBENEZERDesignSystem_9e2a3a.Icon" name="x" size="16" color="#A4A5AD"></x-import>{{c.tu}}</span>
+              <span style="padding: 14px 18px; background: #20242A; color: #FFFFFF; font-weight: 600; display: flex; gap: 8px"><x-import component-from-global-scope="EBENEZERDesignSystem_9e2a3a.Icon" name="check" size="16" color="#F47735"></x-import>{{c.eb}}</span>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </section>
+
+    <section style="position: relative; overflow: hidden; padding: 88px 0; background: #20242A">
+      <div style="position: absolute; top: 0; bottom: 0; left: 58%; right: 0; background: {{accent}}; clip-path: polygon(18% 0, 100% 0, 100% 100%, 0 100%)"></div>
+      <div class="ebz-container" style="position: relative; display: flex; flex-wrap: wrap; gap: 40px; align-items: center; justify-content: space-between">
+        <div style="flex: 6 1 420px; display: flex; flex-direction: column; gap: 18px">
+          <x-import component-from-global-scope="EBENEZERDesignSystem_9e2a3a.Checkered" width="96" size="8"></x-import>
+          <h2 class="ebz-h1">Nosotros invertimos en la publicidad de tu auto.</h2>
+          <p class="ebz-body-lg" style="color: #BCBFC8; max-width: 540px">Fotos, anuncios y atención de compradores corren por nuestra cuenta. Cobramos [X% del precio de venta] sólo cuando el auto se vende.</p>
+          <div><x-import component-from-global-scope="EBENEZERDesignSystem_9e2a3a.Button" size="lg" icon-right="arrow-right" href="#tasar">Tasar mi auto</x-import></div>
+        </div>
+        <div style="flex: 4 1 260px; display: flex; flex-direction: column; align-items: flex-end; gap: 14px; color: #14171B">
+          <span class="ebz-display" style="font-size: 120px">$0</span>
+          <span class="ebz-overline" style="font-weight: 700">Hasta que se vende</span>
+        </div>
+      </div>
+    </section>
+
+    <section data-theme="light" style="background: #F4F6FC; color: #20242A; padding: 88px 0" id="autos">
+      <div class="ebz-container" style="display: flex; flex-direction: column; gap: 28px">
+        <div style="display: flex; flex-direction: column; gap: 12px">
+          <span class="ebz-overline" style="color: #B04A16">¿Buscas auto?</span>
+          <h2 class="ebz-h2">Autos disponibles</h2>
+          <p class="ebz-body" style="color: #5D616B">Revisados, con informe de antecedentes y precio final a la vista.</p>
+        </div>
+        <article style="display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); background: #FFFFFF; border-radius: 4px; box-shadow: 0 6px 18px rgba(32,36,42,.08), inset 0 0 0 1px #E9ECF3; overflow: hidden">
+          <a href="Ficha.dc.html" style="position: relative; display: block; aspect-ratio: 4 / 3; overflow: hidden; background: linear-gradient(180deg, #A4A5AD 0%, #C9CBD3 48%, #E9ECF3 62%, #F4F6FC 100%)">
+            <img src="ds/ebenezer/assets/photos/audi-tt-2011-frontal-estudio.png" alt="Audi TT 2011 en estudio" style="width: 100%; height: 100%; object-fit: cover; object-position: 50% 60%">
+            <span style="position: absolute; top: 20px; left: 16px"><x-import component-from-global-scope="EBENEZERDesignSystem_9e2a3a.Badge" tone="seminuevo" size="lg"></x-import></span>
+          </a>
+          <div style="display: flex; flex-direction: column; justify-content: center; gap: 22px; padding: 40px">
+            <div>
+              <div class="ebz-vcard__brand">Audi</div>
+              <h3 class="ebz-h2" style="margin-top: 4px">TT <span class="ebz-num" style="color: #B04A16">2011</span></h3>
+              <p class="ebz-body" style="color: #5D616B; margin-top: 6px">2.0 TFSI Coupé S tronic</p>
+            </div>
+            <div style="display: flex; flex-wrap: wrap; gap: 10px 22px; color: #5D616B; font-size: 15px">
+              <span style="display: inline-flex; gap: 8px; align-items: center"><x-import component-from-global-scope="EBENEZERDesignSystem_9e2a3a.Icon" name="gauge" size="18" color="#B04A16"></x-import>98.000 km</span>
+              <span style="display: inline-flex; gap: 8px; align-items: center"><x-import component-from-global-scope="EBENEZERDesignSystem_9e2a3a.Icon" name="cog" size="18" color="#B04A16"></x-import>Automática</span>
+              <span style="display: inline-flex; gap: 8px; align-items: center"><x-import component-from-global-scope="EBENEZERDesignSystem_9e2a3a.Icon" name="fuel" size="18" color="#B04A16"></x-import>Bencina</span>
+            </div>
+            <div style="padding-top: 18px; border-top: 1px solid #E9ECF3">
+              <div class="ebz-price ebz-price-lg">$12.990.000</div>
+              <div class="ebz-caption" style="margin-top: 6px">IVA incluido · Cuota ref. desde <b style="color: #20242A">$339.000</b>/mes</div>
+            </div>
+            <div style="display: flex; gap: 14px; flex-wrap: wrap">
+              <x-import component-from-global-scope="EBENEZERDesignSystem_9e2a3a.Button" size="lg" icon-right="arrow-right" href="Ficha.dc.html">Ver ficha</x-import>
+              <x-import component-from-global-scope="EBENEZERDesignSystem_9e2a3a.WhatsAppButton" vehicle="{{audi}}" variant="secondary" size="lg">Consultar</x-import>
+            </div>
+          </div>
+        </article>
+        <div style="display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 24px">
+          <form style="display: flex; flex-direction: column; gap: 20px; padding: 28px; background: #FFFFFF; border-radius: 4px; box-shadow: inset 0 0 0 1px #E9ECF3">
+            <div style="display: flex; flex-direction: column; gap: 10px">
+              <span class="ebz-overline" style="color: #B04A16">Encargo</span>
+              <h3 class="ebz-h3">¿Buscas otro auto? Te lo conseguimos.</h3>
+              <p class="ebz-body-sm" style="color: #5D616B">Cuéntanos qué buscas y te avisamos apenas entre uno a consignación.</p>
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; align-items: end">
+              <x-import component-from-global-scope="EBENEZERDesignSystem_9e2a3a.Input" label="Qué auto buscas" placeholder="Ej: SUV automático 2018 o más nuevo" icon="search" style="grid-column: 1 / -1"></x-import>
+              <x-import component-from-global-scope="EBENEZERDesignSystem_9e2a3a.Select" label="Presupuesto" placeholder="Selecciona" options="{{presupuestos}}" style="grid-column: 1 / -1"></x-import>
+              <x-import component-from-global-scope="EBENEZERDesignSystem_9e2a3a.Input" label="Nombre"></x-import>
+              <x-import component-from-global-scope="EBENEZERDesignSystem_9e2a3a.Input" label="WhatsApp" placeholder="+56 9…"></x-import>
+              <div style="grid-column: 1 / -1"><x-import component-from-global-scope="EBENEZERDesignSystem_9e2a3a.Button" variant="dark" block="{{yes}}" icon-right="arrow-right">Avísame cuando llegue</x-import></div>
+            </div>
+          </form>
+          <aside data-theme="dark" style="position: relative; overflow: hidden; display: flex; flex-direction: column; align-items: flex-start; justify-content: center; gap: 16px; padding: 32px; background: #20242A; color: #FFFFFF; border-radius: 4px">
+            <div style="position: absolute; right: -30px; top: 0; bottom: 0; width: 110px; background: #F47735; transform: skewX(-12deg); opacity: .14"></div>
+            <x-import component-from-global-scope="EBENEZERDesignSystem_9e2a3a.Icon" name="car" size="36" color="#F47735"></x-import>
+            <h3 class="ebz-h3">¿Tienes un auto para vender? Lo publicamos aquí.</h3>
+            <p class="ebz-body-sm" style="color: #BCBFC8">Con fotos de estudio, ficha propia y anuncios pagados. Sin costo hasta que se vende.</p>
+            <x-import component-from-global-scope="EBENEZERDesignSystem_9e2a3a.Button" icon-right="arrow-right" href="#tasar">Tasar mi auto</x-import>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <section class="ebz-container" style="padding-top: 72px; padding-bottom: 64px">
+      <x-import component-from-global-scope="EBENEZERDesignSystem_9e2a3a.TrustBlock"></x-import>
+    </section>
+
+    <section data-theme="light" style="background: #F4F6FC; color: #20242A; padding: 72px 0">
+      <div class="ebz-container" style="display: flex; flex-wrap: wrap; gap: 56px; align-items: flex-start">
+        <div style="flex: 4 1 320px; display: flex; flex-direction: column; gap: 18px">
+          <span class="ebz-overline" style="color: #B04A16">Preguntas frecuentes</span>
+          <h2 class="ebz-h2">Lo que preguntan los dueños.</h2>
+          <div><x-import component-from-global-scope="EBENEZERDesignSystem_9e2a3a.Button" icon-right="arrow-right" href="#tasar">Tasar mi auto</x-import></div>
+        </div>
+        <div style="flex: 7 1 520px; display: flex; flex-direction: column; gap: 12px">
+          <sc-for list="{{faq}}" as="f" hint-placeholder-count="6">
+            <details style="background: #FFFFFF; border-radius: 4px; box-shadow: inset 0 0 0 1px #E9ECF3; padding: 18px 20px">
+              <summary style="font-weight: 700; display: flex; justify-content: space-between; gap: 16px">{{f.q}}<span style="color: #B04A16">+</span></summary>
+              <p class="ebz-body-sm" style="color: #5D616B; margin-top: 10px">{{f.a}}</p>
+            </details>
+          </sc-for>
+        </div>
+      </div>
+    </section>
+
+    <div style="display: flex; justify-content: center; padding: 36px 0; background: #20242A">
+      <x-import component-from-global-scope="EBENEZERDesignSystem_9e2a3a.ServiceStrip" height="36"></x-import>
+    </div>
+  </main>
+  <x-import component-from-global-scope="EBENEZERDesignSystem_9e2a3a.Footer"></x-import>
+  <x-import component-from-global-scope="EBENEZERDesignSystem_9e2a3a.WhatsAppFab" context="vender"></x-import>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#F47735","options":["#F47735","#DD6421","#30343B"]},"$preview":{"width":1440,"height":5600}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const year = new Date().getFullYear();
+    return {
+      accent: this.props.accent ?? '#F47735',
+      yes: true,
+      menu: ['Vende tu auto', 'Autos disponibles', 'Financiamiento', 'Nosotros', 'Contacto'],
+      puntos: ['Fotos de estudio y anuncios pagados', 'Nosotros atendemos a los compradores', 'Sin costo hasta que se vende'],
+      anios: Array.from({ length: 26 }, (_, i) => String(year - i)),
+      comunas: ['Viña del Mar', 'Concón', 'Valparaíso', 'Quilpué', 'Villa Alemana', 'Otra'],
+      presupuestos: ['Hasta $8 millones', '$8 a $12 millones', '$12 a $18 millones', 'Más de $18 millones'],
+      audi: { brand: 'Audi', model: 'TT', year: 2011, condition: 'Seminuevo' },
+      pasos: [
+        { n: '01', icon: 'calculator', title: 'Tasamos tu auto', text: 'Con los datos y unas fotos te proponemos un precio de venta según el mercado. El precio final lo decides tú.' },
+        { n: '02', icon: 'clipboard-check', title: 'Lo preparamos', text: 'Revisión, informe de antecedentes y fotos en estudio, como las de este sitio.' },
+        { n: '03', icon: 'zap', title: 'Lo promocionamos', text: 'Anuncios pagados en Facebook e Instagram, nuestra web y Marketplace. Filtramos a los interesados por ti.' },
+        { n: '04', icon: 'banknote', title: 'Se vende y te pagamos', text: 'Coordinamos visitas, test drive, financiamiento del comprador y la transferencia. Tú sólo firmas.' }
+      ],
+      comparativa: [
+        { q: 'Fotos', tu: 'Con el celular, donde se pueda', eb: 'En estudio, fondo gris y ángulos de catálogo' },
+        { q: 'Publicidad', tu: 'Avisos gratuitos que se pierden entre cientos', eb: 'Anuncios pagados dirigidos a compradores de la región' },
+        { q: 'Llamadas y mensajes', tu: 'Contestas a todos, a cualquier hora', eb: 'Nosotros respondemos y filtramos' },
+        { q: 'Visitas y pruebas', tu: 'Desconocidos en tu casa o en la calle', eb: 'Las coordinamos nosotros, con hora' },
+        { q: 'Financiamiento al comprador', tu: 'No: sólo compradores al contado', eb: 'Sí: más personas pueden comprarlo' },
+        { q: 'Papeles y transferencia', tu: 'Los haces tú', eb: 'Los hacemos nosotros, en digital' },
+        { q: 'Costo', tu: 'Publicar es gratis; tu tiempo, no', eb: '[X% del precio de venta], sólo si se vende' }
+      ],
+      faq: [
+        { q: '¿Cuánto cobran?', a: '[X% del precio de venta], y sólo cuando el auto se vende. Tasar, fotografiar y promocionar no tiene costo para ti.' },
+        { q: '¿Quién decide el precio?', a: 'Tú. Te proponemos un precio según el mercado y lo ajustamos juntos si hace falta.' },
+        { q: '¿Dónde queda mi auto mientras se vende?', a: '[Definir: en exhibición en nuestro local o contigo hasta cada visita]' },
+        { q: '¿Mi auto tiene crédito o prenda vigente, igual se puede?', a: 'Sí, en la mayoría de los casos. Lo revisamos en la tasación y la deuda se paga con la venta.' },
+        { q: '¿Cuándo recibo el dinero?', a: '[Plazo en que se paga al dueño tras la venta]' },
+        { q: '¿Puedo retirar mi auto si cambio de opinión?', a: '[Definir condiciones de retiro]' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

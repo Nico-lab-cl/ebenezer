@@ -1,0 +1,21 @@
+---
+import Icon from './Icon.astro';
+import ajustes from '@/content/ajustes.json';
+
+const PASOS = [
+  ['calculator', 'Tasamos tu auto', 'Con los datos y unas fotos te proponemos un precio de venta según el mercado. El precio final lo decides tú.'],
+  ['clipboard-check', 'Lo preparamos', 'Revisión, informe de antecedentes y fotos en estudio, como las de este sitio.'],
+  ['zap', 'Lo promocionamos', `${ajustes.canales.join(', ')}. Filtramos a los interesados por ti.`],
+  ['banknote', 'Se vende y te pagamos', 'Coordinamos visitas, test drive, financiamiento del comprador y la transferencia. Tú sólo firmas.'],
+];
+---
+<ol class="pasos">
+  {PASOS.map(([ic, t, d], i) => (
+    <li class="pasos__item">
+      <span class="num-step">0{i + 1}</span>
+      <Icon name={ic!} size={28} class="pasos__ic" />
+      <b class="ebz-h5" style="font-style:italic;font-weight:800">{t}</b>
+      <p class="ebz-body-sm muted">{d}</p>
+    </li>
+  ))}
+</ol>

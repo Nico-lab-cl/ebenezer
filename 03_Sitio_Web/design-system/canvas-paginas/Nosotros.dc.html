@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>EBENEZER · Nosotros</title>
+<script src="./support.js"></script>
+<script>window.EBZ_ASSETS = 'ds/ebenezer/assets/'; window.EBZ_WHATSAPP = '56900000000';</script>
+<link rel="stylesheet" href="ds/ebenezer/styles.css">
+<link rel="stylesheet" href="ds/ebenezer/tokens/typography.css">
+<link rel="stylesheet" href="ds/ebenezer/tokens/colors.css">
+<link rel="stylesheet" href="ds/ebenezer/tokens/spacing.css">
+<link rel="stylesheet" href="ds/ebenezer/tokens/base.css">
+<link rel="stylesheet" href="ds/ebenezer/components/ebz.css">
+<script src="ds/ebenezer/_ds_bundle.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+body{margin:0;background:#14171B}
+a{color:#F47735}a:hover{color:#F68A52}
+</style>
+</helmet>
+<div data-theme="dark" style="background: #14171B; color: #FFFFFF; font-family: Montserrat, sans-serif">
+  <x-import component-from-global-scope="EBENEZERDesignSystem_9e2a3a.Header" active="Nosotros"></x-import>
+  <main>
+    <section style="position: relative; overflow: hidden; padding: 96px 0 80px">
+      <div style="position: absolute; top: 0; bottom: 0; right: 0; width: 44%; background: linear-gradient(180deg, #A4A5AD 0%, #C9CBD3 48%, #E9ECF3 62%, #F4F6FC 100%); clip-path: polygon(22% 0, 100% 0, 100% 100%, 0 100%)"></div>
+      <div class="ebz-container" style="position: relative; display: flex; flex-wrap: wrap; gap: 40px; align-items: center">
+        <div style="flex: 6 1 440px; display: flex; flex-direction: column; gap: 22px">
+          <span class="ebz-overline ebz-overline-rule" style="color: #BCBFC8">Nosotros</span>
+          <h1 class="ebz-h1">Una automotora de la región, con las cuentas claras.</h1>
+          <p class="ebz-body-lg" style="color: #BCBFC8; max-width: 560px">[Historia breve de EBENEZER: año de inicio, quiénes están detrás y por qué partió. 2 o 3 frases.]</p>
+        </div>
+        <div style="flex: 5 1 360px; display: flex; justify-content: center">
+          <img src="ds/ebenezer/assets/photos/audi-tt-2011-frontal-recorte.png" alt="Audi TT 2011 en estudio" style="width: 100%; max-width: 560px; height: auto">
+        </div>
+      </div>
+    </section>
+
+    <section style="background: #20242A; padding: 72px 0">
+      <div class="ebz-container">
+        <h2 class="ebz-h2" style="margin-bottom: 36px">Cómo trabajamos</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px">
+          <sc-for list="{{values}}" as="v" hint-placeholder-count="3">
+            <div style="display: flex; flex-direction: column; gap: 14px; padding: 28px; background: #14171B; border-radius: 4px; box-shadow: inset 0 0 0 1px rgba(255,255,255,.08)">
+              <x-import component-from-global-scope="EBENEZERDesignSystem_9e2a3a.Icon" name="{{v.icon}}" size="32" color="#F47735"></x-import>
+              <b class="ebz-h4" style="font-style: italic">{{v.title}}</b>
+              <p class="ebz-body-sm" style="color: #BCBFC8">{{v.text}}</p>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </section>
+
+    <section data-theme="light" style="background: #F4F6FC; color: #20242A; padding: 72px 0">
+      <div class="ebz-container">
+        <div style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 32px">
+          <span class="ebz-overline" style="color: #B04A16">Equipo</span>
+          <h2 class="ebz-h2">Quiénes te atienden</h2>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 24px">
+          <sc-for list="{{team}}" as="p" hint-placeholder-count="3">
+            <figure style="margin: 0; background: #FFFFFF; border-radius: 4px; box-shadow: inset 0 0 0 1px #E9ECF3; overflow: hidden">
+              <div style="aspect-ratio: 4 / 3; background: linear-gradient(180deg, #A4A5AD 0%, #C9CBD3 48%, #E9ECF3 62%, #F4F6FC 100%); display: flex; align-items: center; justify-content: center; color: #434850; font-size: 13px; font-weight: 600">[Foto]</div>
+              <figcaption style="padding: 18px; display: flex; flex-direction: column; gap: 4px">
+                <b>{{p.name}}</b>
+                <span class="ebz-caption">{{p.role}}</span>
+              </figcaption>
+            </figure>
+          </sc-for>
+        </div>
+      </div>
+    </section>
+
+    <section class="ebz-container" style="padding-top: 72px; padding-bottom: 88px; display: flex; flex-wrap: wrap; gap: 40px; align-items: center; justify-content: space-between">
+      <div style="display: flex; flex-direction: column; gap: 14px; max-width: 640px">
+        <span class="ebz-overline" style="color: #F47735">Dónde atendemos</span>
+        <p class="ebz-h3">Viña del Mar · Concón · Valparaíso · Quilpué · Villa Alemana</p>
+      </div>
+      <x-import component-from-global-scope="EBENEZERDesignSystem_9e2a3a.Button" size="lg" icon-right="arrow-right" href="Contacto.dc.html">Visítanos</x-import>
+    </section>
+  </main>
+  <x-import component-from-global-scope="EBENEZERDesignSystem_9e2a3a.Footer"></x-import>
+  <x-import component-from-global-scope="EBENEZERDesignSystem_9e2a3a.WhatsAppFab" context="general"></x-import>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":2500}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      values: [
+        { icon: 'clipboard-check', title: 'Revisamos antes de publicar', text: 'Cada auto pasa por inspección mecánica y de antecedentes. Si no pasa, no se publica.' },
+        { icon: 'receipt', title: 'Precio final a la vista', text: 'El precio publicado incluye IVA y se informa qué no está incluido. Sin cargos sorpresa al firmar.' },
+        { icon: 'message-circle', title: 'Te respondemos por WhatsApp', text: 'Fotos extra, videos o una llamada: lo que necesites para decidir sin moverte.' }
+      ],
+      team: [
+        { name: '[Nombre Apellido]', role: '[Cargo]' },
+        { name: '[Nombre Apellido]', role: '[Cargo]' },
+        { name: '[Nombre Apellido]', role: '[Cargo]' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

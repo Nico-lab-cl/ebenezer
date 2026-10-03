@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>EBENEZER · Comprar</title>
+<script src="./support.js"></script>
+<script>window.EBZ_ASSETS = 'ds/ebenezer/assets/'; window.EBZ_WHATSAPP = '56900000000';</script>
+<link rel="stylesheet" href="ds/ebenezer/styles.css">
+<link rel="stylesheet" href="ds/ebenezer/tokens/typography.css">
+<link rel="stylesheet" href="ds/ebenezer/tokens/colors.css">
+<link rel="stylesheet" href="ds/ebenezer/tokens/spacing.css">
+<link rel="stylesheet" href="ds/ebenezer/tokens/base.css">
+<link rel="stylesheet" href="ds/ebenezer/components/ebz.css">
+<script src="ds/ebenezer/_ds_bundle.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+body{margin:0;background:#14171B}
+a{color:#B04A16}a:hover{color:#8A3A12}
+</style>
+</helmet>
+<div style="background: #14171B; color: #FFFFFF; font-family: Montserrat, sans-serif">
+  <x-import component-from-global-scope="EBENEZERDesignSystem_9e2a3a.Header" active="Comprar"></x-import>
+  <main data-theme="light" style="background: #F4F6FC; color: #20242A">
+    <div class="ebz-container" style="padding-top: 28px; padding-bottom: 72px">
+      <x-import component-from-global-scope="EBENEZERDesignSystem_9e2a3a.Breadcrumbs" items="{{crumbs}}"></x-import>
+      <div style="display: flex; align-items: flex-end; justify-content: space-between; gap: 20px; margin: 18px 0 28px; flex-wrap: wrap">
+        <div>
+          <h1 class="ebz-h1">Autos usados y seminuevos</h1>
+          <p class="ebz-body" style="color: #5D616B; margin-top: 8px"><b class="ebz-num" style="color: #20242A">[N] autos</b> revisados en la Región de Valparaíso</p>
+        </div>
+        <x-import component-from-global-scope="EBENEZERDesignSystem_9e2a3a.Select" label="Ordenar por" options="{{sorts}}" style="width: 240px"></x-import>
+      </div>
+      <div style="display: flex; flex-wrap: wrap; gap: 28px; align-items: flex-start">
+        <div style="flex: 0 1 290px; position: sticky; top: 96px">
+          <x-import component-from-global-scope="EBENEZERDesignSystem_9e2a3a.FilterPanel" brands="{{brands}}"></x-import>
+        </div>
+        <div style="flex: 1 1 560px; display: flex; flex-direction: column; gap: 24px">
+          <div style="display: flex; gap: 8px; flex-wrap: wrap">
+            <x-import component-from-global-scope="EBENEZERDesignSystem_9e2a3a.Tag" on-remove="{{noop}}">Audi</x-import>
+            <x-import component-from-global-scope="EBENEZERDesignSystem_9e2a3a.Tag" on-remove="{{noop}}">Automática</x-import>
+            <x-import component-from-global-scope="EBENEZERDesignSystem_9e2a3a.Tag" on-remove="{{noop}}">$5M – $25M</x-import>
+          </div>
+          <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 22px">
+            <sc-for list="{{vehicles}}" as="v" hint-placeholder-count="9">
+              <x-import component-from-global-scope="EBENEZERDesignSystem_9e2a3a.VehicleCard" vehicle="{{v}}" on-favorite="{{noop}}"></x-import>
+            </sc-for>
+          </div>
+          <div style="display: flex; justify-content: center; padding-top: 12px">
+            <x-import component-from-global-scope="EBENEZERDesignSystem_9e2a3a.Pagination" page="{{page}}" total="{{pages}}" on-change="{{setPage}}"></x-import>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+  <x-import component-from-global-scope="EBENEZERDesignSystem_9e2a3a.Footer"></x-import>
+  <x-import component-from-global-scope="EBENEZERDesignSystem_9e2a3a.WhatsAppFab" context="general"></x-import>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":2700}}'>
+class Component extends DCLogic {
+  constructor(props) { super(props); this.state = { page: 1 }; }
+  renderVals() {
+    const P = 'ds/ebenezer/assets/photos/';
+    const base = [
+      { brand: 'Audi', model: 'TT', year: 2011, version: '2.0 TFSI Coupé S tronic', km: 98000, transmission: 'Automática', fuel: 'Bencina', price: 12990000, monthly: 289000, badge: 'seminuevo', image: P + 'audi-tt-2011-frontal-estudio.png' },
+      { brand: 'Toyota', model: 'RAV4', year: 2020, version: '2.0 LE 4x2', km: 54000, transmission: 'Automática', fuel: 'Bencina', price: 19490000, monthly: 412000, badge: 'nuevo' },
+      { brand: 'Mazda', model: '3 Sport', year: 2019, version: '2.0 V', km: 61000, transmission: 'Manual', fuel: 'Bencina', price: 11490000, oldPrice: 12190000, monthly: 256000, badge: 'rebajado' },
+      { brand: 'Kia', model: 'Sportage', year: 2018, version: '2.0 EX 4x2', km: 82000, transmission: 'Automática', fuel: 'Diésel', price: 13790000, monthly: 301000, badge: 'seminuevo' },
+      { brand: 'Hyundai', model: 'Tucson', year: 2021, version: '2.0 GL', km: 39000, transmission: 'Automática', fuel: 'Bencina', price: 18990000, monthly: 398000 },
+      { brand: 'Suzuki', model: 'Swift', year: 2022, version: '1.2 GLX', km: 21000, transmission: 'Manual', fuel: 'Híbrido', price: 10290000, monthly: 229000, badge: 'nuevo' },
+      { brand: 'Audi', model: 'TT', year: 2011, version: '2.0 TFSI Coupé S tronic', km: 98000, transmission: 'Automática', fuel: 'Bencina', price: 12990000, monthly: 289000, image: P + 'audi-tt-2011-34-trasero-estudio.png' },
+      { brand: 'Toyota', model: 'Yaris', year: 2020, version: '1.5 GLi', km: 47000, transmission: 'Manual', fuel: 'Bencina', price: 9490000, monthly: 211000 },
+      { brand: 'Nissan', model: 'Kicks', year: 2021, version: '1.6 Advance CVT', km: 33000, transmission: 'Automática', fuel: 'Bencina', price: 14290000, monthly: 318000, badge: 'seminuevo' }
+    ];
+    const vehicles = base.map((v, i) => ({ ...v, id: 'v' + i, href: 'Ficha.dc.html' }));
+    return {
+      vehicles,
+      crumbs: [{ label: 'Inicio', href: 'Main.dc.html' }, { label: 'Comprar' }],
+      sorts: ['Más recientes', 'Menor precio', 'Mayor precio', 'Menor kilometraje'],
+      brands: [['Audi', 2], ['Hyundai', 1], ['Kia', 1], ['Mazda', 1], ['Nissan', 1], ['Suzuki', 1], ['Toyota', 2]],
+      page: this.state.page,
+      pages: 5,
+      setPage: (n) => this.setState({ page: n }),
+      noop: () => {}
+    };
+  }
+}
+</script>
+</body>
+</html>

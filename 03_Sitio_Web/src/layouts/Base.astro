@@ -1,0 +1,75 @@
+---
+import '@/styles/global.css';
+import { getImage } from 'astro:assets';
+import Header from '@/components/Header.astro';
+import Footer from '@/components/Footer.astro';
+import WhatsAppFab from '@/components/WhatsAppFab.astro';
+import Analytics from '@/components/Analytics.astro';
+import ajustes from '@/content/ajustes.json';
+import { automotora } from '@/lib/schema';
+import type { Contexto, AutoWa } from '@/lib/whatsapp';
+import portada from '@/assets/marca/portada-og.png';
+
+interface Props {
+  title: string;
+  description: string;
+  /** Imagen para redes (URL absoluta o ruta). Por defecto, la portada de Facebook de la marca. */
+  image?: string;
+  /** JSON-LD extra de la página */
+  schema?: object[];
+  fab?: { context?: Contexto; auto?: AutoWa } | false;
+  noindex?: boolean;
+  /** Página de anuncios: header sin menú y pie corto */
+  minimal?: boolean;
+}
+const { title, description, image, schema = [], fab = {}, noindex = false, minimal = false } = Astro.props;
+const site = Astro.site ?? new URL(ajustes.dominio);
+const canonica = new URL(Astro.url.pathname, site).href;
+const og = image ?? (await getImage({ src: portada, width: 1200, format: 'jpg' })).src;
+const ogAbs = new URL(og, site).href;
+const titulo = title.includes('EBENEZER') ? title : `${title} · EBENEZER Automotora`;
+const datos = [automotora(site), ...schema];
+---
+<!doctype html>
+<html lang="es-CL" data-theme="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{titulo}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonica} />
+    {noindex && <meta name="robots" content="noindex" />}
+    <meta name="theme-color" content="#14171B" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="es_CL" />
+    <meta property="og:site_name" content={ajustes.nombre} />
+    <meta property="og:title" content={titulo} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonica} />
+    <meta property="og:image" content={ogAbs} />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Saira:ital,wght@0,600;0,700;0,800;0,900;1,700;1,800;1,900&family=Montserrat:wght@400;500;600;700&display=swap" />
+
+    {datos.map((d) => <script type="application/ld+json" set:html={JSON.stringify(d)} />)}
+    <Analytics />
+  </head>
+  <body>
+    <a class="skip" href="#contenido">Saltar al contenido</a>
+    <Header minimal={minimal} />
+    <main id="contenido">
+      <slot />
+    </main>
+    {minimal ? (
+      <footer class="ebz-footer"><div class="ebz-container ebz-footer__bottom"><span>EBENEZER Automotora · Región de Valparaíso</span><a href="/">Ver el sitio completo</a></div></footer>
+    ) : (
+      <Footer />
+    )}
+    {fab !== false && <WhatsAppFab {...fab} />}
+  </body>
+</html>
