@@ -93,22 +93,15 @@ design-system/           referencia del diseño (Claude Design): tokens, compone
 
 ---
 
-## Subir a GitHub y publicar en Cloudflare
+## Publicar en Cloudflare
 
-El repositorio es **esta carpeta** (`03_Sitio_Web`), no `EBENEZER/` completa:
-las fuentes de NotebookLM y los PDF de marca no van al sitio.
-
-```bash
-git init -b main
-git add .
-git commit -m "Sitio EBENEZER Automotora"
-git remote add origin https://github.com/<usuario>/ebenezer-automotora.git
-git push -u origin main
-```
+Repositorio: https://github.com/Nico-lab-cl/ebenezer (todo el proyecto EBENEZER;
+el sitio vive en la carpeta `03_Sitio_Web/`).
 
 Luego en Cloudflare:
 
-1. **Workers & Pages › Create › Import a repository** y elige el repo.
+1. **Workers & Pages › Create › Import a repository** y elige `Nico-lab-cl/ebenezer`.
+   En **Root directory** (Advanced settings) pon `03_Sitio_Web`.
 2. Nombre del Worker: `ebenezer-automotora`, el mismo que `name` en `wrangler.jsonc`.
 3. Build command: `npm run build`. Deploy command: `npx wrangler deploy`.
    Wrangler también construye solo (`build.command`), así que aunque el
