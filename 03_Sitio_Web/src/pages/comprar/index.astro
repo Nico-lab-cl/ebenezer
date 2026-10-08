@@ -21,9 +21,9 @@ const r = (xs: number[], paso: number, def: [number, number]): [number, number] 
 const [pMin, pMax] = r(precios, 500000, [3000000, 40000000]);
 const [aMin, aMax] = r(anios, 1, [2008, new Date().getFullYear()]);
 const [kMin, kMax] = r(kms, 5000, [0, 200000]);
-/* Con pocos autos, filtros y paginación sobran y hacen ver el catálogo vacío.
-   Desde 8 autos aparecen solos. */
-const conFiltros = lista.length >= 8;
+/* Vista tipo e-commerce (filtros + grilla) apenas hay un auto publicado.
+   Sin autos se muestra el aviso con el encargo. */
+const conFiltros = lista.length >= 1;
 const site = Astro.site!;
 const crumbs = [{ nombre: 'Inicio', url: '/' }, { nombre: 'Comprar', url: '/comprar/' }];
 ---
@@ -95,7 +95,7 @@ const crumbs = [{ nombre: 'Inicio', url: '/' }, { nombre: 'Comprar', url: '/comp
             </fieldset>
             <div class="ebz-filters__foot">
               <Button variant="ghost" type="reset">Limpiar</Button>
-              <Button block data-cerrar-filtros>Ver <span data-total-btn>{lista.length}</span> autos</Button>
+              <Button block data-cerrar-filtros>Ver <span data-total-btn>{lista.length} {lista.length === 1 ? "auto" : "autos"}</span></Button>
             </div>
           </form>
         </div>

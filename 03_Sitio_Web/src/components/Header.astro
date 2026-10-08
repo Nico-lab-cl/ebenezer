@@ -2,6 +2,7 @@
 import Icon from './Icon.astro';
 import Button from './Button.astro';
 import WhatsAppButton from './WhatsAppButton.astro';
+import ajustes from '@/content/ajustes.json';
 
 /* `minimal`: sólo logo y WhatsApp, para la página de anuncios /tasacion
    (sin menú, para que nadie se vaya antes de dejar sus datos). */
@@ -16,6 +17,10 @@ const ITEMS = [
   { label: 'Nosotros', href: '/nosotros/' },
   { label: 'Contacto', href: '/contacto/' },
 ];
+const REDES = [
+  { nombre: 'Instagram', icono: 'instagram', href: ajustes.instagram },
+  { nombre: 'Facebook', icono: 'facebook', href: ajustes.facebook },
+].filter((r) => r.href);
 const ruta = Astro.url.pathname;
 const activo = (href: string) => ruta.startsWith(href) || (href === '/comprar/' && ruta.startsWith('/autos/'));
 ---
@@ -33,6 +38,11 @@ const activo = (href: string) => ruta.startsWith(href) || (href === '/comprar/' 
         </nav>
       )}
       <div style={`display:flex;gap:10px;align-items:center${minimal ? ';margin-left:auto' : ''}`}>
+        {!minimal && REDES.length > 0 && (
+          <div class="ebz-header__redes">
+            {REDES.map((r) => <a class="ebz-header__red" href={r.href} target="_blank" rel="noopener" aria-label={`${r.nombre} de EBENEZER`}><Icon name={r.icono} size={18} /></a>)}
+          </div>
+        )}
         {!minimal && <Button size="sm" href="/vender-mi-auto/#tasar" class="header-tasar">Tasar mi auto</Button>}
         <WhatsAppButton size="sm" context={minimal ? 'vender' : 'general'} variant={minimal ? 'primary' : 'secondary'}><span class="ebz-header__cta-label">WhatsApp</span></WhatsAppButton>
       </div>
@@ -45,6 +55,11 @@ const activo = (href: string) => ruta.startsWith(href) || (href === '/comprar/' 
     {!minimal && (
       <nav class="ebz-mnav" id="mnav" aria-label="Móvil" hidden>
         {ITEMS.map((it) => <a href={it.href}>{it.label}</a>)}
+        {REDES.length > 0 && (
+          <div class="ebz-mnav__redes">
+            {REDES.map((r) => <a href={r.href} target="_blank" rel="noopener"><Icon name={r.icono} size={18} />{r.nombre}</a>)}
+          </div>
+        )}
       </nav>
     )}
   </div>

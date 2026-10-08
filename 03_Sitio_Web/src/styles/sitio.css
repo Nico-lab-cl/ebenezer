@@ -138,6 +138,12 @@ textarea.ebz-input{height:auto;min-height:120px;padding-top:12px;padding-bottom:
 .hero-puntos li{display:flex;gap:10px;align-items:center;font-weight:600;font-size:15px}
 .hero-puntos .ebz-icon{color:var(--naranja-500)}
 .header-tasar{display:inline-flex}
+.ebz-header__redes{display:flex;gap:2px}
+.ebz-header__red{display:inline-flex;width:36px;height:36px;align-items:center;justify-content:center;color:var(--grafito-300);transition:color var(--dur-fast,.15s) ease}
+.ebz-header__red:hover,.ebz-header__red:focus-visible{color:var(--naranja-500)}
+.ebz-mnav__redes{display:flex;gap:20px;padding-top:12px}
+.ebz-mnav .ebz-mnav__redes a{display:inline-flex;gap:8px;align-items:center;padding:8px 0;border:0;font-family:var(--font-body);font-style:normal;font-weight:600;font-size:15px;color:var(--grafito-300)}
+@media (max-width:1023px){.ebz-header__redes{display:none}}
 .ebz-header__link{white-space:nowrap}
 @media (max-width:1439px){.header-tasar{display:none}.ebz-header__link{padding:0 10px}}
 

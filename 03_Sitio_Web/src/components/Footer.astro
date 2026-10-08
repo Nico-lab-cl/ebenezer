@@ -2,6 +2,8 @@
 import Icon from './Icon.astro';
 import Checkered from './Checkered.astro';
 import ajustes from '@/content/ajustes.json';
+import { real } from '@/lib/datos';
+import { numeroWhatsapp } from '@/lib/whatsapp';
 
 const COMUNAS = ['Viña del Mar', 'Concón', 'Valparaíso', 'Quilpué', 'Villa Alemana'];
 const anio = new Date().getFullYear();
@@ -39,10 +41,10 @@ const anio = new Date().getFullYear();
       <div>
         <h4>Contacto</h4>
         <ul>
-          <li style="display:flex;gap:8px"><Icon name="map-pin" size={16} style="margin-top:2px" />{ajustes.direccion}, {ajustes.comuna}</li>
-          <li style="display:flex;gap:8px"><Icon name="phone" size={16} style="margin-top:2px" />{ajustes.telefono}</li>
-          <li style="display:flex;gap:8px"><Icon name="mail" size={16} style="margin-top:2px" />{ajustes.email}</li>
-          <li style="display:flex;gap:8px"><Icon name="clock" size={16} style="margin-top:2px" />{ajustes.horario}</li>
+          {real(ajustes.direccion) && <li style="display:flex;gap:8px"><Icon name="map-pin" size={16} style="margin-top:2px" />{ajustes.direccion}, {ajustes.comuna}</li>}
+          {real(ajustes.telefono) && <li><a style="display:flex;gap:8px" href={`https://wa.me/${numeroWhatsapp()}`} target="_blank" rel="noopener"><Icon name="whatsapp" size={16} style="margin-top:2px" />{ajustes.telefono}</a></li>}
+          {real(ajustes.email) && <li><a style="display:flex;gap:8px" href={`mailto:${ajustes.email}`}><Icon name="mail" size={16} style="margin-top:2px" />{ajustes.email}</a></li>}
+          {real(ajustes.horario) && <li style="display:flex;gap:8px"><Icon name="clock" size={16} style="margin-top:2px" />{ajustes.horario}</li>}
           {(ajustes.instagram || ajustes.facebook) && (
             <li style="display:flex;gap:14px;margin-top:6px">
               {ajustes.instagram && <a href={ajustes.instagram} target="_blank" rel="noopener" aria-label="Instagram"><Icon name="instagram" size={20} /></a>}

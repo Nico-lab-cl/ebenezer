@@ -1,8 +1,9 @@
 import ajustes from '@/content/ajustes.json';
 
+import { real } from './datos';
+
 /* JSON-LD. Lo que no tiene dato real (entre corchetes) se omite: Google
    penaliza datos estructurados que no coinciden con lo que ve el usuario. */
-const real = (s: string | undefined | null) => (s && !s.includes('[') ? s : undefined);
 
 export function automotora(site: URL) {
   return {

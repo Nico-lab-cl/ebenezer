@@ -117,7 +117,7 @@ function aplicar() {
   vacio.hidden = ok.length > 0;
   const total = `${ok.length} ${ok.length === 1 ? 'auto' : 'autos'}`;
   document.querySelector('[data-total]')!.textContent = total;
-  document.querySelector('[data-total-btn]')!.textContent = String(ok.length);
+  document.querySelector('[data-total-btn]')!.textContent = total;
 
   activos.innerHTML = '';
   for (const n of ['marca', 'transmision', 'combustible'])
