@@ -7,8 +7,8 @@ import Button from '@/components/Button.astro';
 import Icon from '@/components/Icon.astro';
 import AutosDisponibles from '@/components/AutosDisponibles.astro';
 import Hero from '@/components/Hero.astro';
-import { vehiculos, url } from '@/lib/vehiculos';
-import { migas } from '@/lib/schema';
+import { vehiculos, url, nombre } from '@/lib/vehiculos';
+import { migas, listaAutos } from '@/lib/schema';
 
 const lista = await vehiculos();
 const conteo = (k: (v: (typeof lista)[number]) => string) =>
@@ -31,9 +31,9 @@ const destacado = lista.find((v) => v.id === 'audi-tt-2011' && v.data.etiqueta !
 const crumbs = [{ nombre: 'Inicio', url: '/' }, { nombre: 'Autos usados', url: '/autos-usados/' }];
 ---
 <Base
-  title="Autos usados en la Quinta Región · Revisados y con crédito"
-  description="Autos usados y seminuevos en la Región de Valparaíso, revisados antes de publicarse, con precio final a la vista y crédito directo con la automotora."
-  schema={[migas(site, crumbs)]}
+  title="Autos usados y seminuevos en la Quinta Región | EBENEZER"
+  description="Autos usados y seminuevos en la Región de Valparaíso, revisados antes de publicarse, con precio final a la vista y crédito directo. Revisa el stock."
+  schema={[listaAutos(site, lista.filter((v) => v.data.etiqueta !== 'vendido').map((v) => ({ nombre: nombre(v), url: url(v) }))), migas(site, crumbs)]}
 >
   <Hero ficha={destacado ? url(destacado) : undefined} />
   <div data-theme="light" class="sec--light" id="catalogo">

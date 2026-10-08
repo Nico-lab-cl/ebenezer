@@ -3,6 +3,8 @@ import Base from '@/layouts/Base.astro';
 import HeroVenta from '@/components/HeroVenta.astro';
 import SeccionesVenta from '@/components/SeccionesVenta.astro';
 import Icon from '@/components/Icon.astro';
+import { migas, preguntas, servicio } from '@/lib/schema';
+import { PREGUNTAS_VENDEDOR } from '@/lib/faq';
 
 const DOCS = [
   'Cédula de identidad vigente del dueño',
@@ -12,10 +14,16 @@ const DOCS = [
   'Seguro obligatorio (SOAP) vigente',
   'Si tiene crédito o prenda, los datos de la financiera',
 ];
+const site = Astro.site!;
 ---
 <Base
-  title="Vender mi auto usado rápido y seguro · Quinta Región"
-  description="¿Quieres vender tu auto usado? Te lo compramos directo o lo vendemos por ti en consignación, con tasación gratis y transferencia digital. Toda la Región de Valparaíso."
+  title="Vender mi auto usado rápido y seguro · V Región | EBENEZER"
+  description="¿Quieres vender tu auto usado? Te lo compramos o lo vendemos por ti en consignación. Tasación gratis, revisión y transferencia digital en la Quinta Región."
+  schema={[
+    servicio(site, { nombre: 'Venta de autos usados por consignación o compra directa', tipo: 'Consignación y compra de autos usados', descripcion: 'Tasación gratis, revisión visual y mecánica, publicación con fotos de estudio y anuncios pagados, atención de compradores y transferencia digital. También compra directa del auto.', url: '/vender-mi-auto/' }),
+    preguntas(PREGUNTAS_VENDEDOR),
+    migas(site, [{ nombre: 'Inicio', url: '/' }, { nombre: 'Vender mi auto', url: '/vender-mi-auto/' }]),
+  ]}
   fab={{ context: 'vender' }}
 >
   <HeroVenta />

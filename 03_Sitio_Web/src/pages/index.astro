@@ -11,6 +11,8 @@ import ServiceStrip from '@/components/ServiceStrip.astro';
 import Button from '@/components/Button.astro';
 import ZonasRegion from '@/components/ZonasRegion.astro';
 import { vehiculos } from '@/lib/vehiculos';
+import { preguntas } from '@/lib/schema';
+import { PREGUNTAS_VENDEDOR } from '@/lib/faq';
 
 /* Portada con dos vías:
    1. Vende tu auto en consignación (hero + formulario + argumentos).
@@ -21,8 +23,9 @@ const orden = [...disponibles.filter((v) => v.data.destacado), ...disponibles.fi
 const testimonios = await getCollection('testimonios', (t) => t.data.publicado);
 ---
 <Base
-  title="EBENEZER Automotora · Vende o compra tu auto en la Quinta Región"
-  description="Automotora de la Región de Valparaíso con base en el litoral central. Tasamos y vendemos tu auto, te lo compramos directo y tenemos autos usados revisados con crédito directo."
+  title="Automotora en la Quinta Región · Vende o compra | EBENEZER"
+  description="Automotora del litoral central para toda la V Región. Tasamos gratis tu auto, te lo compramos o lo vendemos por ti. Autos usados con crédito directo."
+  schema={[preguntas(PREGUNTAS_VENDEDOR)]}
   fab={{ context: 'vender' }}
 >
   <HeroVideo />

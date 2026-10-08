@@ -4,6 +4,7 @@ import { Image } from 'astro:assets';
 import Base from '@/layouts/Base.astro';
 import Icon from '@/components/Icon.astro';
 import Button from '@/components/Button.astro';
+import { migas } from '@/lib/schema';
 import recorte from '@/assets/marca/audi-tt-2011-frontal-recorte.png';
 
 const VALORES = [
@@ -13,10 +14,12 @@ const VALORES = [
 ];
 // Pendiente: se muestra cuando deje de estar entre corchetes.
 const HISTORIA = '[Historia breve de EBENEZER, año de inicio, quiénes están detrás y por qué partió. 2 o 3 frases.]';
+const site = Astro.site!;
 ---
 <Base
-  title="Nosotros"
-  description="EBENEZER Automotora: automotora del litoral central con base en El Tabo. Compra y venta de autos usados y seminuevos en toda la Región de Valparaíso, revisados y con precio claro."
+  title="Automotora del litoral central en El Tabo | EBENEZER"
+  description="EBENEZER es una automotora con base en El Tabo que compra, vende y consigna autos usados en toda la Región de Valparaíso. Autos revisados y cuentas claras."
+  schema={[migas(site, [{ nombre: 'Inicio', url: '/' }, { nombre: 'Nosotros', url: '/nosotros/' }])]}
 >
   <section style="position:relative;overflow:hidden" class="sec--lg">
     <div class="studio" style="position:absolute;top:0;bottom:0;right:0;width:44%;clip-path:polygon(22% 0,100% 0,100% 100%,0 100%)"></div>

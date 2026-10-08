@@ -18,8 +18,9 @@ function recorrer(dir, ext) {
   }
 }
 
-// Corchetes con texto en castellano: [Nombre], [N], [+56 9 …]. Ignora código como [0] o arr[i].
-const MARCADOR = /\[(?:N|[A-ZÁÉÍÓÚ+][^\]\n]{2,80})\]/g;
+// Corchetes con texto en castellano: [Nombre], [N], [+56 9 …], [plazo en que…]. Ignora código
+// como [0], arr[i] o [Math.min(...)] (sin paréntesis ni "=" dentro).
+const MARCADOR = /\[(?:N|[A-ZÁÉÍÓÚ+][^\]\n()=]{2,160}|[a-záéíóúñ]+(?: [a-záéíóúñ]+){2,}[^\]\n()=]*)\]/g;
 
 function revisar(p) {
   const texto = readFileSync(p, 'utf8');
@@ -32,6 +33,7 @@ function revisar(p) {
 recorrer(join(raiz, 'src/content'), ['.json']);
 recorrer(join(raiz, 'src/pages'), ['.astro']);
 recorrer(join(raiz, 'src/components'), ['.astro']);
+recorrer(join(raiz, 'src/lib'), ['faq.ts']);
 
 const ajustes = JSON.parse(readFileSync(join(raiz, 'src/content/ajustes.json'), 'utf8'));
 if (/^569?0+$/.test(String(ajustes.whatsapp))) pendientes.push('src/content/ajustes.json  whatsapp es el número de prueba 56900000000');

@@ -6,6 +6,7 @@ import WhatsAppButton from '@/components/WhatsAppButton.astro';
 import ajustes from '@/content/ajustes.json';
 import { numeroWhatsapp } from '@/lib/whatsapp';
 import { real } from '@/lib/datos';
+import { migas } from '@/lib/schema';
 
 // Sólo se muestran los datos que ya existen (sin dirección todavía, por ejemplo).
 const INFO = [
@@ -15,10 +16,12 @@ const INFO = [
   ['clock', 'Horario', real(ajustes.horario)],
 ].filter(([, , v]) => v) as [string, string, string][];
 const MOTIVOS = ['Quiero comprar un auto', 'Quiero vender mi auto', 'Financiamiento', 'Otro'];
+const site = Astro.site!;
 ---
 <Base
-  title="Contacto"
-  description="Contacta a EBENEZER Automotora, del litoral central para toda la Región de Valparaíso. Escríbenos por WhatsApp o déjanos tus datos y te llamamos."
+  title="Contacto por WhatsApp · Automotora V Región | EBENEZER"
+  description={`Escríbenos por WhatsApp al ${ajustes.telefono} o a ${ajustes.email}. Automotora del litoral central que atiende toda la Región de Valparaíso.`}
+  schema={[migas(site, [{ nombre: 'Inicio', url: '/' }, { nombre: 'Contacto', url: '/contacto/' }])]}
 >
   <section class="ebz-container sec--lg">
     <div class="split split--top" style="gap:56px">

@@ -5,7 +5,8 @@ import Button from '@/components/Button.astro';
 import CreditSimulator from '@/components/CreditSimulator.astro';
 import { vehiculos } from '@/lib/vehiculos';
 import ajustes from '@/content/ajustes.json';
-import { real } from '@/lib/datos';
+import { migas, preguntas, servicio } from '@/lib/schema';
+import { PREGUNTAS_CREDITO } from '@/lib/faq';
 
 const [primero] = (await vehiculos()).filter((v) => v.data.etiqueta !== 'vendido');
 const pie = Math.round(ajustes.pieMinimo * 100);
@@ -20,16 +21,17 @@ const REQUISITOS = [
   'Certificado de cotizaciones AFP',
   `Pie disponible (desde ${pie}% del valor del auto)`,
 ];
-const FAQ = [
-  ['¿La cuota que veo en la web es final?', 'No. Es referencial y depende de la evaluación crediticia. La cuota final, la tasa y la CAE se informan en la cotización formal.'],
-  ['¿Puedo dejar mi auto en parte de pago?', 'Sí. Lo tasamos y el valor se descuenta del precio del auto que compras.'],
-  ['¿Cuánto demora la evaluación?', '[Plazo habitual de la evaluación]'],
-  ['¿Qué pasa si no me aprueban?', 'Te avisamos y vemos alternativas, como más pie, otro plazo u otro auto.'],
-].filter(([, a]) => real(a));
+const FAQ = PREGUNTAS_CREDITO;
+const site = Astro.site!;
 ---
 <Base
-  title="Automotora con crédito directo · Financia tu auto usado"
-  description={`Financia tu auto usado o seminuevo con pie desde ${pie}%. Financiamiento directo con la automotora: simula la cuota, envía tu solicitud y conoce la CAE antes de firmar. Toda la Región de Valparaíso.`}
+  title="Automotora con crédito directo para autos usados | EBENEZER"
+  description={`Financia tu auto usado con crédito directo de la automotora y pie desde ${pie}%. Simula la cuota en línea y envía tu solicitud. Atendemos toda la Quinta Región.`}
+  schema={[
+    servicio(site, { nombre: 'Crédito automotriz directo', tipo: 'Financiamiento de autos usados', descripcion: `Crédito directo con la automotora para autos usados y seminuevos, con pie desde ${pie}% y cuotas de 12 a 60 meses, sujeto a evaluación.`, url: '/financiamiento/' }),
+    preguntas(FAQ),
+    migas(site, [{ nombre: 'Inicio', url: '/' }, { nombre: 'Financiamiento', url: '/financiamiento/' }]),
+  ]}
   fab={{ context: 'financiamiento' }}
 >
   <section class="ebz-container sec--lg">

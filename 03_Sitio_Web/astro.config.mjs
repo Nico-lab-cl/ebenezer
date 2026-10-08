@@ -29,7 +29,8 @@ export default defineConfig({
     react(),
     keystatic(),
     sitemap({
-      filter: (page) => !page.includes('/keystatic') && !page.includes('/admin'),
+      // Sólo páginas indexables: fuera el CMS, la landing de anuncios (noindex) y la URL vieja del catálogo.
+      filter: (page) => !/\/(keystatic|admin|tasacion|comprar|404)/.test(page),
       i18n: { defaultLocale: 'es', locales: { es: 'es-CL' } },
     }),
   ],

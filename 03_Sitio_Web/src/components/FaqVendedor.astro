@@ -1,21 +1,8 @@
 ---
-import ajustes from '@/content/ajustes.json';
-import { real } from '@/lib/datos';
-
-/* Las respuestas que todavía no están definidas (entre corchetes) no se
-   muestran: aparecen solas cuando se completan. La comisión se conversa por
-   WhatsApp, por decisión de la automotora. */
-const FAQ = [
-  ['¿Cuánto cobran?', 'Depende de tu auto y de la modalidad que elijas (consignación o venta directa). Te lo explicamos por WhatsApp junto con la tasación, sin compromiso.'],
-  ['¿Quién decide el precio?', 'Tú. Te proponemos un precio según el mercado y lo ajustamos juntos si hace falta.'],
-  ['¿Dónde queda mi auto mientras se vende?', '[Definir: en exhibición en nuestro local o contigo hasta cada visita]'],
-  ['¿Mi auto tiene crédito o prenda vigente, igual se puede?', 'Sí, en la mayoría de los casos. Lo revisamos en la tasación y la deuda se paga con la venta.'],
-  ['¿Cuándo recibo el dinero?', ajustes.plazoPago],
-  ['¿Puedo retirar mi auto si cambio de opinión?', '[Definir condiciones de retiro]'],
-].filter(([, a]) => real(a));
+import { PREGUNTAS_VENDEDOR } from '@/lib/faq';
 ---
 <div class="stack" style="gap:12px">
-  {FAQ.map(([q, a]) => (
+  {PREGUNTAS_VENDEDOR.map(([q, a]) => (
     <details class="faq"><summary>{q}</summary><p>{a}</p></details>
   ))}
 </div>

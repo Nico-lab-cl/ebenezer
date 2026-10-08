@@ -56,9 +56,10 @@ const crumbs = [
 ];
 ---
 <Base
-  title={`${titulo}${d.version ? ' ' + d.version : ''} · ${vendido ? 'Vendido' : clp(d.precio)}`}
-  description={`${titulo} ${d.version}, ${km(d.km)}, ${d.transmision.toLowerCase()}, ${d.combustible.toLowerCase()}. ${vendido ? 'Vendido.' : `Precio final ${clp(d.precio)} con IVA incluido.`} Revisado, con informe de antecedentes. EBENEZER Automotora, Región de Valparaíso.`}
+  title={`${titulo} usado · ${vendido ? 'Vendido' : clp(d.precio)} | EBENEZER`}
+  description={`${titulo} ${d.version} usado, ${km(d.km)}, ${d.transmision.toLowerCase()}, ${d.combustible.toLowerCase()}. ${vendido ? 'Vendido.' : `Precio final ${clp(d.precio)} con IVA.`} Revisado y con informe. Quinta Región.`}
   image={og}
+  imageAlt={`${titulo} usado en venta en EBENEZER Automotora`}
   schema={[
     schemaAuto(site, { nombre: titulo, marca: d.marca, modelo: d.modelo, anio: d.anio, km: d.km, transmision: d.transmision, combustible: d.combustible, color: d.color, precio: d.precio, vendido, url: url(v), imagenes: imagenesSchema }),
     migas(site, crumbs),

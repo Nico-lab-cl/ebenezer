@@ -1,20 +1,20 @@
 ---
 import '@/styles/global.css';
-import { getImage } from 'astro:assets';
 import Header from '@/components/Header.astro';
 import Footer from '@/components/Footer.astro';
 import WhatsAppFab from '@/components/WhatsAppFab.astro';
 import Analytics from '@/components/Analytics.astro';
 import ajustes from '@/content/ajustes.json';
-import { automotora } from '@/lib/schema';
+import { automotora, sitioWeb } from '@/lib/schema';
 import type { Contexto, AutoWa } from '@/lib/whatsapp';
-import portada from '@/assets/marca/portada-og.png';
 
 interface Props {
   title: string;
   description: string;
-  /** Imagen para redes (URL absoluta o ruta). Por defecto, la portada de Facebook de la marca. */
+  /** Imagen para redes (URL absoluta o ruta). Por defecto, /og/ebenezer.jpg (1200×630). */
   image?: string;
+  /** Texto alternativo de la imagen para redes */
+  imageAlt?: string;
   /** JSON-LD extra de la página */
   schema?: object[];
   fab?: { context?: Contexto; auto?: AutoWa } | false;
@@ -22,13 +22,16 @@ interface Props {
   /** Página de anuncios: header sin menú y pie corto */
   minimal?: boolean;
 }
-const { title, description, image, schema = [], fab = {}, noindex = false, minimal = false } = Astro.props;
+const { title, description, image, imageAlt, schema = [], fab = {}, noindex = false, minimal = false } = Astro.props;
 const site = Astro.site ?? new URL(ajustes.dominio);
 const canonica = new URL(Astro.url.pathname, site).href;
-const og = image ?? (await getImage({ src: portada, width: 1200, format: 'jpg' })).src;
-const ogAbs = new URL(og, site).href;
+/* Imagen para compartir: 1200×630 (proporción 1,91:1 que piden Facebook,
+   WhatsApp, LinkedIn y X). Las fichas de autos pasan la foto del auto. */
+const ogPorDefecto = !image;
+const ogAbs = new URL(image ?? '/og/ebenezer.jpg', site).href;
+const ogAlt = imageAlt ?? 'EBENEZER Automotora, compra y venta de autos en la Región de Valparaíso';
 const titulo = title.includes('EBENEZER') ? title : `${title} · EBENEZER Automotora`;
-const datos = [automotora(site), ...schema];
+const datos = [automotora(site), sitioWeb(site), ...schema];
 ---
 <!doctype html>
 <html lang="es-CL" data-theme="dark">
@@ -38,7 +41,8 @@ const datos = [automotora(site), ...schema];
     <title>{titulo}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonica} />
-    {noindex && <meta name="robots" content="noindex" />}
+    {/* max-image-preview:large permite miniaturas grandes en Google (Discover, imágenes). */}
+    <meta name="robots" content={noindex ? 'noindex, follow' : 'index, follow, max-image-preview:large'} />
     <meta name="theme-color" content="#14171B" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="sitemap" href="/sitemap-index.xml" />
@@ -50,7 +54,15 @@ const datos = [automotora(site), ...schema];
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonica} />
     <meta property="og:image" content={ogAbs} />
+    <meta property="og:image:alt" content={ogAlt} />
+    {ogPorDefecto && <meta property="og:image:width" content="1200" />}
+    {ogPorDefecto && <meta property="og:image:height" content="630" />}
+    <meta property="og:image:type" content="image/jpeg" />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={titulo} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogAbs} />
+    <meta name="twitter:image:alt" content={ogAlt} />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
