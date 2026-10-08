@@ -3,6 +3,7 @@ import { Image } from 'astro:assets';
 import Base from '@/layouts/Base.astro';
 import Icon from '@/components/Icon.astro';
 import Button from '@/components/Button.astro';
+import WhatsAppButton from '@/components/WhatsAppButton.astro';
 import { migas, preguntas } from '@/lib/schema';
 import { PREGUNTAS_NOSOTROS } from '@/lib/faq';
 import Faq from '@/components/Faq.astro';
@@ -23,16 +24,21 @@ const site = Astro.site!;
   description="EBENEZER es una automotora con base en El Tabo que compra, vende y consigna autos usados en toda la Región de Valparaíso. Autos revisados y cuentas claras."
   schema={[preguntas(PREGUNTAS_NOSOTROS), migas(site, [{ nombre: 'Inicio', url: '/' }, { nombre: 'Nosotros', url: '/nosotros/' }])]}
 >
-  <section style="position:relative;overflow:hidden" class="sec--lg">
-    <div class="studio" style="position:absolute;top:0;bottom:0;right:0;width:44%;clip-path:polygon(22% 0,100% 0,100% 100%,0 100%)"></div>
-    <div class="ebz-container split" style="position:relative">
-      <div class="stack" style="gap:22px;flex:6 1 440px">
+  <section class="nh" data-theme="dark">
+    <div class="nh__foto">
+      <Image src={patricio} alt="Patricio Escobar, fundador de EBENEZER Automotora, junto a un Audi TT" widths={[480, 720, 960, 1080]} sizes="(max-width: 1023px) 100vw, 50vw" format="webp" loading="eager" fetchpriority="high" class="nh__img" />
+      <div class="nh__velo"></div>
+      <p class="nh__firma"><b>Patricio Escobar</b><span>Fundador de EBENEZER</span></p>
+    </div>
+    <div class="ebz-container nh__in">
+      <div class="nh__texto">
         <span class="ebz-overline ebz-overline-rule" style="color:var(--grafito-300)">Nosotros</span>
         <h1 class="ebz-h1">Una automotora de la región con las cuentas claras</h1>
-        <p class="ebz-body-lg muted" style="max-width:560px">EBENEZER es una automotora que nace de la convicción de que comprar o vender un auto usado puede ser simple, seguro y transparente. Partimos en El Tabo, en el litoral central, y hoy atendemos a dueños y compradores de toda la Región de Valparaíso.</p>
-      </div>
-      <div style="flex:5 1 340px;display:flex;justify-content:center">
-        <Image src={patricio} alt="Patricio Escobar, fundador de EBENEZER Automotora, junto a un Audi TT" widths={[360, 480, 720, 960]} sizes="(max-width: 1023px) 90vw, 480px" format="webp" loading="eager" fetchpriority="high" class="foto-patricio" />
+        <p class="ebz-body-lg muted">EBENEZER es una automotora que nace de la convicción de que comprar o vender un auto usado puede ser simple, seguro y transparente. Partimos en El Tabo, en el litoral central, y hoy atendemos a dueños y compradores de toda la Región de Valparaíso.</p>
+        <div class="row">
+          <WhatsAppButton size="lg">Habla con Patricio</WhatsAppButton>
+          <Button size="lg" variant="secondary" href="/autos-usados/">Ver autos</Button>
+        </div>
       </div>
     </div>
   </section>
@@ -84,5 +90,31 @@ const site = Astro.site!;
 </Base>
 
 <style>
-  .foto-patricio{width:100%;max-width:480px;height:auto;aspect-ratio:4/5;object-fit:cover;box-shadow:0 30px 60px rgba(10,12,15,.45);border-bottom:4px solid var(--naranja-500)}
+  /* Hero de Nosotros
+     Escritorio: la foto llena la mitad derecha, de borde a borde, con el corte
+     diagonal de la marca y una línea naranja en el corte; un velo grafito la
+     funde con el fondo del texto.
+     Móvil y tablet: la foto va arriba a todo el ancho, con el corte diagonal
+     abajo, y el texto sube un poco sobre el degradado. */
+  .nh{position:relative;isolation:isolate;overflow:hidden;background:var(--grafito-950);color:#fff}
+  .nh__foto{position:absolute;top:0;right:0;bottom:0;width:52%;z-index:-1;background:var(--naranja-500);clip-path:polygon(16% 0,100% 0,100% 100%,0 100%)}
+  .nh__img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:32% 22%;clip-path:polygon(calc(16% + 6px) 0,100% 0,100% 100%,6px 100%)}
+  .nh__velo{position:absolute;inset:0;pointer-events:none;background:
+    linear-gradient(90deg,rgba(20,23,27,.55) 0%,rgba(20,23,27,0) 32%),
+    linear-gradient(0deg,rgba(20,23,27,.85) 0%,rgba(20,23,27,0) 34%)}
+  .nh__firma{position:absolute;right:clamp(20px,4vw,56px);bottom:clamp(20px,4vw,48px);margin:0;display:flex;flex-direction:column;align-items:flex-end;gap:2px;text-align:right}
+  .nh__firma b{font-family:var(--font-display);font-style:italic;font-weight:800;font-size:clamp(20px,1.8vw,26px);line-height:1.1}
+  .nh__firma span{font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--naranja-500)}
+  .nh__in{display:flex;align-items:center;min-height:clamp(560px,80vh,780px);padding-block:72px}
+  .nh__texto{display:flex;flex-direction:column;gap:22px;width:min(560px,44%)}
+  .nh__texto .ebz-h1{text-wrap:balance}
+  @media (max-width:1279px){.nh__texto{width:min(520px,46%)}}
+  @media (max-width:1023px){
+    .nh__foto{position:relative;width:100%;height:min(112vw,620px);clip-path:polygon(0 0,100% 0,100% 88%,0 100%)}
+    .nh__img{object-position:38% 18%;clip-path:polygon(0 0,100% 0,100% calc(88% - 6px),0 calc(100% - 6px))}
+    .nh__velo{background:linear-gradient(0deg,rgba(20,23,27,.9) 0%,rgba(20,23,27,0) 38%)}
+    .nh__firma{left:20px;right:auto;bottom:calc(12% + 18px);align-items:flex-start;text-align:left}
+    .nh__in{min-height:0;padding-top:28px;padding-bottom:64px}
+    .nh__texto{width:100%;max-width:640px}
+  }
 </style>
