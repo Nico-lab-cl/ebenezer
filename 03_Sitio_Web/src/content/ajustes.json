@@ -6,7 +6,6 @@
   "email": "contacto@automotoraebenezer.cl",
   "direccion": "",
   "comuna": "El Tabo",
-  "horario": "[Lun a Vie 10:00–19:00 · Sáb 10:00–14:00]",
   "mapaUrl": "",
   "instagram": "https://www.instagram.com/automotora.ebenezer/",
   "facebook": "https://www.facebook.com/profile.php?id=61595043808004",
@@ -19,11 +18,6 @@
       "texto": "Mecánica, carrocería, frenos y electrónica revisados antes de publicar. Te entregamos el informe."
     },
     {
-      "icono": "shield-check",
-      "titulo": "Garantía mecánica",
-      "texto": "[Cobertura: qué incluye, plazo y kilómetros]."
-    },
-    {
       "icono": "file-pen-line",
       "titulo": "Transferencia digital",
       "texto": "Firma electrónica y trámite ante el Registro Civil sin que tengas que hacer filas."
@@ -34,8 +28,6 @@
       "texto": "Multas, prendas, dueños anteriores y encargo por robo, verificados para cada auto."
     }
   ],
-  "comision": "[X% del precio de venta]",
-  "plazoPago": "[plazo en que se paga al dueño tras la venta]",
   "canales": [
     "Anuncios pagados en Facebook e Instagram",
     "Nuestra web y catálogo",

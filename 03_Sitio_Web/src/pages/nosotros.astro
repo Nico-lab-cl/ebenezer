@@ -1,25 +1,27 @@
 ---
-import { real } from '@/lib/datos';
 import { Image } from 'astro:assets';
 import Base from '@/layouts/Base.astro';
 import Icon from '@/components/Icon.astro';
 import Button from '@/components/Button.astro';
-import { migas } from '@/lib/schema';
+import { migas, preguntas } from '@/lib/schema';
+import { PREGUNTAS_NOSOTROS } from '@/lib/faq';
+import Faq from '@/components/Faq.astro';
 import recorte from '@/assets/marca/audi-tt-2011-frontal-recorte.png';
 
 const VALORES = [
-  ['clipboard-check', 'Revisamos antes de publicar', 'Cada auto pasa por inspección mecánica y de antecedentes. Si no pasa, no se publica.'],
+  ['clipboard-check', 'Revisamos antes de publicar', 'Cada auto pasa por una revisión visual y mecánica antes de salir a la venta.'],
   ['receipt', 'Precio final a la vista', 'El precio publicado incluye IVA y se informa qué no está incluido. Sin cargos sorpresa al firmar.'],
   ['message-circle', 'Te respondemos por WhatsApp', 'Fotos extra, videos o una llamada, lo que necesites para decidir sin moverte.'],
 ];
-// Pendiente: se muestra cuando deje de estar entre corchetes.
-const HISTORIA = '[Historia breve de EBENEZER, año de inicio, quiénes están detrás y por qué partió. 2 o 3 frases.]';
+/* Texto de presentación: borrador con datos confirmados (fundador, base en El
+   Tabo, servicios, forma de trabajo). Patricio debe revisarlo y completar la
+   historia (año de inicio, por qué el nombre, su trayectoria). */
 const site = Astro.site!;
 ---
 <Base
   title="Automotora del litoral central en El Tabo | EBENEZER"
   description="EBENEZER es una automotora con base en El Tabo que compra, vende y consigna autos usados en toda la Región de Valparaíso. Autos revisados y cuentas claras."
-  schema={[migas(site, [{ nombre: 'Inicio', url: '/' }, { nombre: 'Nosotros', url: '/nosotros/' }])]}
+  schema={[preguntas(PREGUNTAS_NOSOTROS), migas(site, [{ nombre: 'Inicio', url: '/' }, { nombre: 'Nosotros', url: '/nosotros/' }])]}
 >
   <section style="position:relative;overflow:hidden" class="sec--lg">
     <div class="studio" style="position:absolute;top:0;bottom:0;right:0;width:44%;clip-path:polygon(22% 0,100% 0,100% 100%,0 100%)"></div>
@@ -27,10 +29,23 @@ const site = Astro.site!;
       <div class="stack" style="gap:22px;flex:6 1 440px">
         <span class="ebz-overline ebz-overline-rule" style="color:var(--grafito-300)">Nosotros</span>
         <h1 class="ebz-h1">Una automotora de la región con las cuentas claras</h1>
-        {real(HISTORIA) && <p class="ebz-body-lg muted" style="max-width:560px">{HISTORIA}</p>}
+        <p class="ebz-body-lg muted" style="max-width:560px">EBENEZER es una automotora que nace de la convicción de que comprar o vender un auto usado puede ser simple, seguro y transparente. Partimos en El Tabo, en el litoral central, y hoy atendemos a dueños y compradores de toda la Región de Valparaíso.</p>
       </div>
       <div style="flex:5 1 340px;display:flex;justify-content:center">
-        <Image src={recorte} alt="Audi TT 2011 en estudio" widths={[400, 560, 800]} sizes="(max-width: 1023px) 100vw, 560px" format="webp" style="width:100%;max-width:560px;height:auto" />
+        <Image src={recorte} alt="Auto en venta en EBENEZER Automotora fotografiado en estudio" widths={[400, 560, 800]} sizes="(max-width: 1023px) 100vw, 560px" format="webp" style="width:100%;max-width:560px;height:auto" />
+      </div>
+    </div>
+  </section>
+
+  <section class="ebz-container sec">
+    <div class="split split--top" style="gap:56px">
+      <div class="stack" style="flex:4 1 320px">
+        <span class="ebz-overline" style="color:var(--naranja-500)">Fundador</span>
+        <h2 class="ebz-h2">Quién está detrás de EBENEZER</h2>
+      </div>
+      <div class="stack" style="flex:7 1 520px;gap:16px">
+        <p class="ebz-body-lg">EBENEZER es un proyecto de Patricio Escobar. Él atiende personalmente a cada cliente, desde la primera conversación por WhatsApp hasta la firma de la transferencia.</p>
+        <p class="ebz-body muted">Vendemos tu auto en consignación o te lo compramos directo, publicamos autos usados revisados y ofrecemos crédito directo con la automotora. La idea es que sepas siempre en qué etapa va tu auto o tu compra, sin letra chica.</p>
       </div>
     </div>
   </section>
@@ -50,9 +65,19 @@ const site = Astro.site!;
     <div class="row" style="justify-content:space-between;gap:40px">
       <div class="stack" style="gap:14px;max-width:680px">
         <span class="ebz-overline" style="color:var(--naranja-500)">Dónde atendemos</span>
-        <p class="ebz-h3">Base en El Tabo · atendemos toda la Región de Valparaíso</p>
+        <h2 class="ebz-h3">Base en El Tabo · atendemos toda la Región de Valparaíso</h2>
       </div>
-      <Button size="lg" iconRight="arrow-right" href="/contacto/">Visítanos</Button>
+      <Button size="lg" iconRight="arrow-right" href="/contacto/">Escríbenos</Button>
+    </div>
+  </section>
+
+  <section data-theme="light" class="sec sec--light" id="preguntas">
+    <div class="ebz-container split split--top" style="gap:56px">
+      <div class="stack" style="flex:4 1 320px">
+        <span class="ebz-overline" style="color:var(--text-accent)">Preguntas frecuentes</span>
+        <h2 class="ebz-h2">Sobre EBENEZER Automotora</h2>
+      </div>
+      <div style="flex:7 1 520px"><Faq items={PREGUNTAS_NOSOTROS} /></div>
     </div>
   </section>
 </Base>

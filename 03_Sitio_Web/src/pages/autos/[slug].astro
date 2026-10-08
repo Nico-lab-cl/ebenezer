@@ -12,7 +12,9 @@ import TrustBlock from '@/components/TrustBlock.astro';
 import VehicleCard from '@/components/VehicleCard.astro';
 import { vehiculos, nombre, url, autoWa, type Vehiculo } from '@/lib/vehiculos';
 import { clp, km } from '@/lib/formato';
-import { auto as schemaAuto, migas } from '@/lib/schema';
+import { auto as schemaAuto, migas, preguntas } from '@/lib/schema';
+import { PREGUNTAS_FICHA } from '@/lib/faq';
+import Faq from '@/components/Faq.astro';
 
 export async function getStaticPaths() {
   const lista = await vehiculos();
@@ -63,6 +65,7 @@ const crumbs = [
   schema={[
     schemaAuto(site, { nombre: titulo, marca: d.marca, modelo: d.modelo, anio: d.anio, km: d.km, transmision: d.transmision, combustible: d.combustible, color: d.color, precio: d.precio, vendido, url: url(v), imagenes: imagenesSchema }),
     migas(site, crumbs),
+    preguntas(PREGUNTAS_FICHA),
   ]}
   fab={{ auto: wa }}
 >
@@ -136,6 +139,16 @@ const crumbs = [
       </div>
     </div>
   </div>
+
+  <section data-theme="light" class="sec sec--light" id="preguntas" style="padding-top:0">
+    <div class="ebz-container split split--top" style="gap:56px">
+      <div class="stack" style="flex:4 1 320px">
+        <span class="ebz-overline" style="color:var(--text-accent)">Preguntas frecuentes</span>
+        <h2 class="ebz-h2">Antes de comprar este auto</h2>
+      </div>
+      <div style="flex:7 1 520px"><Faq items={PREGUNTAS_FICHA} /></div>
+    </div>
+  </section>
 
   <section data-theme="dark" class="sec" style="background:var(--grafito-950)">
     <div class="ebz-container"><TrustBlock /></div>

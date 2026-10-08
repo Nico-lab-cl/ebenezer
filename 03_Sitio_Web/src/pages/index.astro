@@ -4,7 +4,7 @@ import Base from '@/layouts/Base.astro';
 import HeroVideo from '@/components/HeroVideo.astro';
 import SeccionesVenta from '@/components/SeccionesVenta.astro';
 import AutosDisponibles from '@/components/AutosDisponibles.astro';
-import FaqVendedor from '@/components/FaqVendedor.astro';
+import Faq from '@/components/Faq.astro';
 import TrustBlock from '@/components/TrustBlock.astro';
 import Testimonial from '@/components/Testimonial.astro';
 import ServiceStrip from '@/components/ServiceStrip.astro';
@@ -12,7 +12,7 @@ import Button from '@/components/Button.astro';
 import ZonasRegion from '@/components/ZonasRegion.astro';
 import { vehiculos } from '@/lib/vehiculos';
 import { preguntas } from '@/lib/schema';
-import { PREGUNTAS_VENDEDOR } from '@/lib/faq';
+import { PREGUNTAS_INICIO } from '@/lib/faq';
 
 /* Portada con dos vías:
    1. Vende tu auto en consignación (hero + formulario + argumentos).
@@ -25,7 +25,7 @@ const testimonios = await getCollection('testimonios', (t) => t.data.publicado);
 <Base
   title="Automotora en la Quinta Región · Vende o compra | EBENEZER"
   description="Automotora del litoral central para toda la V Región. Tasamos gratis tu auto, te lo compramos o lo vendemos por ti. Autos usados con crédito directo."
-  schema={[preguntas(PREGUNTAS_VENDEDOR)]}
+  schema={[preguntas(PREGUNTAS_INICIO)]}
   fab={{ context: 'vender' }}
 >
   <HeroVideo />
@@ -69,10 +69,10 @@ const testimonios = await getCollection('testimonios', (t) => t.data.publicado);
     <div class="ebz-container split split--top" style="gap:56px">
       <div class="stack" style="flex:4 1 320px">
         <span class="ebz-overline" style="color:var(--text-accent)">Preguntas frecuentes</span>
-        <h2 class="ebz-h2">Lo que preguntan los dueños</h2>
+        <h2 class="ebz-h2">Preguntas frecuentes</h2>
         <div class="row"><Button href="#tasar" iconRight="arrow-right">Tasar mi auto</Button></div>
       </div>
-      <div style="flex:7 1 520px"><FaqVendedor /></div>
+      <div style="flex:7 1 520px"><Faq items={PREGUNTAS_INICIO} /></div>
     </div>
   </section>
 

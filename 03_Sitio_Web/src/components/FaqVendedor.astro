@@ -1,8 +1,5 @@
 ---
+import Faq from './Faq.astro';
 import { PREGUNTAS_VENDEDOR } from '@/lib/faq';
 ---
-<div class="stack" style="gap:12px">
-  {PREGUNTAS_VENDEDOR.map(([q, a]) => (
-    <details class="faq"><summary>{q}</summary><p>{a}</p></details>
-  ))}
-</div>
+<Faq items={PREGUNTAS_VENDEDOR} />

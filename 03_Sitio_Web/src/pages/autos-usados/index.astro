@@ -8,7 +8,9 @@ import Icon from '@/components/Icon.astro';
 import AutosDisponibles from '@/components/AutosDisponibles.astro';
 import Hero from '@/components/Hero.astro';
 import { vehiculos, url, nombre } from '@/lib/vehiculos';
-import { migas, listaAutos } from '@/lib/schema';
+import { migas, listaAutos, preguntas } from '@/lib/schema';
+import { PREGUNTAS_COMPRADOR } from '@/lib/faq';
+import Faq from '@/components/Faq.astro';
 
 const lista = await vehiculos();
 const conteo = (k: (v: (typeof lista)[number]) => string) =>
@@ -33,7 +35,7 @@ const crumbs = [{ nombre: 'Inicio', url: '/' }, { nombre: 'Autos usados', url: '
 <Base
   title="Autos usados y seminuevos en la Quinta Región | EBENEZER"
   description="Autos usados y seminuevos en la Región de Valparaíso, revisados antes de publicarse, con precio final a la vista y crédito directo. Revisa el stock."
-  schema={[listaAutos(site, lista.filter((v) => v.data.etiqueta !== 'vendido').map((v) => ({ nombre: nombre(v), url: url(v) }))), migas(site, crumbs)]}
+  schema={[listaAutos(site, lista.filter((v) => v.data.etiqueta !== 'vendido').map((v) => ({ nombre: nombre(v), url: url(v) }))), preguntas(PREGUNTAS_COMPRADOR), migas(site, crumbs)]}
 >
   <Hero ficha={destacado ? url(destacado) : undefined} />
   <div data-theme="light" class="sec--light" id="catalogo">
@@ -122,9 +124,18 @@ const crumbs = [{ nombre: 'Inicio', url: '/' }, { nombre: 'Autos usados', url: '
       )}
     </div>
   </div>
+  <section data-theme="light" class="sec sec--light" id="preguntas" style="padding-top:0">
+    <div class="ebz-container split split--top" style="gap:56px">
+      <div class="stack" style="flex:4 1 320px">
+        <span class="ebz-overline" style="color:var(--text-accent)">Preguntas frecuentes</span>
+        <h2 class="ebz-h2">Comprar un auto usado con EBENEZER</h2>
+      </div>
+      <div style="flex:7 1 520px"><Faq items={PREGUNTAS_COMPRADOR} /></div>
+    </div>
+  </section>
 </Base>
 
 <script>
-  // Los filtros sólo existen con 8 autos o más
+  // Los filtros existen apenas hay un auto publicado
   if (document.querySelector("[data-filtros]")) import("../../scripts/catalogo.ts");
 </script>

@@ -1,0 +1,15 @@
+---
+import type { Pregunta } from '@/lib/faq';
+
+/* Lista de preguntas frecuentes (acordeón). El JSON-LD FAQPage de la página
+   se arma con la misma lista (ver lib/schema.ts, preguntas()). */
+interface Props {
+  items: Pregunta[];
+}
+const { items } = Astro.props;
+---
+<div class="stack" style="gap:12px">
+  {items.map(([q, a]) => (
+    <details class="faq"><summary>{q}</summary><p>{a}</p></details>
+  ))}
+</div>

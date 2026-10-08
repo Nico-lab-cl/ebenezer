@@ -45,7 +45,6 @@ const anio = new Date().getFullYear();
           {real(ajustes.direccion) && <li style="display:flex;gap:8px"><Icon name="map-pin" size={16} style="margin-top:2px" />{ajustes.direccion}, {ajustes.comuna}</li>}
           {real(ajustes.telefono) && <li><a style="display:flex;gap:8px" href={`https://wa.me/${numeroWhatsapp()}`} target="_blank" rel="noopener"><Icon name="whatsapp" size={16} style="margin-top:2px" />{ajustes.telefono}</a></li>}
           {real(ajustes.email) && <li><a style="display:flex;gap:8px" href={`mailto:${ajustes.email}`}><Icon name="mail" size={16} style="margin-top:2px" />{ajustes.email}</a></li>}
-          {real(ajustes.horario) && <li style="display:flex;gap:8px"><Icon name="clock" size={16} style="margin-top:2px" />{ajustes.horario}</li>}
           {(ajustes.instagram || ajustes.facebook) && (
             <li style="display:flex;gap:14px;margin-top:6px">
               {ajustes.instagram && <a href={ajustes.instagram} target="_blank" rel="noopener" aria-label="Instagram"><Icon name="instagram" size={20} /></a>}

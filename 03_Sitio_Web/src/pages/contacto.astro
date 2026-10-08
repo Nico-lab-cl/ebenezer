@@ -6,14 +6,15 @@ import WhatsAppButton from '@/components/WhatsAppButton.astro';
 import ajustes from '@/content/ajustes.json';
 import { numeroWhatsapp } from '@/lib/whatsapp';
 import { real } from '@/lib/datos';
-import { migas } from '@/lib/schema';
+import { migas, preguntas } from '@/lib/schema';
+import { PREGUNTAS_CONTACTO } from '@/lib/faq';
+import Faq from '@/components/Faq.astro';
 
 // Sólo se muestran los datos que ya existen (sin dirección todavía, por ejemplo).
 const INFO = [
   ['map-pin', 'Dirección', real(ajustes.direccion) && `${ajustes.direccion}, ${ajustes.comuna}`],
   ['phone', 'WhatsApp', real(ajustes.telefono)],
   ['mail', 'Email', real(ajustes.email)],
-  ['clock', 'Horario', real(ajustes.horario)],
 ].filter(([, , v]) => v) as [string, string, string][];
 const MOTIVOS = ['Quiero comprar un auto', 'Quiero vender mi auto', 'Financiamiento', 'Otro'];
 const site = Astro.site!;
@@ -21,7 +22,7 @@ const site = Astro.site!;
 <Base
   title="Contacto por WhatsApp · Automotora V Región | EBENEZER"
   description={`Escríbenos por WhatsApp al ${ajustes.telefono} o a ${ajustes.email}. Automotora del litoral central que atiende toda la Región de Valparaíso.`}
-  schema={[migas(site, [{ nombre: 'Inicio', url: '/' }, { nombre: 'Contacto', url: '/contacto/' }])]}
+  schema={[preguntas(PREGUNTAS_CONTACTO), migas(site, [{ nombre: 'Inicio', url: '/' }, { nombre: 'Contacto', url: '/contacto/' }])]}
 >
   <section class="ebz-container sec--lg">
     <div class="split split--top" style="gap:56px">
@@ -46,17 +47,27 @@ const site = Astro.site!;
         <div class="ebz-field" style="grid-column:1/-1"><label class="ebz-label" for="c-motivo">Motivo</label><div class="ebz-control"><select id="c-motivo" name="motivo" class="ebz-select" required><option value="">Selecciona</option>{MOTIVOS.map((m) => <option>{m}</option>)}</select><Icon name="chevron-down" size={18} class="ebz-select__chev" /></div></div>
         <div class="ebz-field" style="grid-column:1/-1"><label class="ebz-label" for="c-msg">Mensaje</label><textarea id="c-msg" name="mensaje" class="ebz-input" rows="4" placeholder="Cuéntanos qué auto buscas o qué necesitas"></textarea></div>
         <div style="grid-column:1/-1" class="form-nav">
-          <span class="ebz-caption" style="align-self:center">Te respondemos en horario de atención.</span>
+          <span class="ebz-caption" style="align-self:center">Te respondemos lo antes posible.</span>
           <Button type="submit" iconRight="arrow-right">Enviar</Button>
         </div>
         <div class="lead__oculto" aria-hidden="true"><label>No llenar<input name="sitio_web" tabindex="-1" autocomplete="off" /></label></div>
         </div>
         <div class="lead__gracias" data-gracias hidden style="grid-column:1/-1">
           <p class="ebz-h3" tabindex="-1">Mensaje recibido</p>
-          <p class="ebz-body muted">Te contactamos en horario de atención. Si es urgente, escríbenos por WhatsApp.</p>
+          <p class="ebz-body muted">Te contactamos lo antes posible. Si es urgente, escríbenos por WhatsApp.</p>
           <Button href="#" target="_blank" icon="whatsapp" data-gracias-wa>Seguir por WhatsApp</Button>
         </div>
       </form>
+    </div>
+  </section>
+
+  <section data-theme="light" class="sec sec--light" id="preguntas">
+    <div class="ebz-container split split--top" style="gap:56px">
+      <div class="stack" style="flex:4 1 320px">
+        <span class="ebz-overline" style="color:var(--text-accent)">Preguntas frecuentes</span>
+        <h2 class="ebz-h2">Antes de escribirnos</h2>
+      </div>
+      <div style="flex:7 1 520px"><Faq items={PREGUNTAS_CONTACTO} /></div>
     </div>
   </section>
 </Base>
