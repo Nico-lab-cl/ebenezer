@@ -12,18 +12,17 @@ import ajustes from '@/content/ajustes.json';
 
    Dos modos, tomados de lo mejor de la competencia:
    - en la ficha de un auto (`auto`): el valor es el precio del auto, fijo;
-   - en /financiamiento (`autos`): se elige un auto del stock o se escribe el
-     valor de cualquier auto (input + slider), como en Auto360 y Lovende.
+   - en /financiamiento (`editable`): se escribe el valor de cualquier auto
+     (input + slider), como en Auto360.
    En ambos: pie en % (desde el mínimo), plazo, cuota, monto a financiar, total
    en cuotas y tasa anual referencial. La CAE no se calcula aquí porque depende
    de gastos y seguros que sólo se conocen en la cotización formal. */
 interface Props {
   precio: number;
   auto?: AutoWa;
-  autos?: { nombre: string; precio: number }[];
+  editable?: boolean;
 }
-const { precio, auto, autos } = Astro.props;
-const editable = Boolean(autos);
+const { precio, auto, editable = false } = Astro.props;
 const tasa = ajustes.tasaMensual;
 const plazos = [12, 24, 36, 48, 60];
 const pieMinPct = Math.round(ajustes.pieMinimo * 100);
@@ -51,20 +50,10 @@ const f = (k: string) => `sim-${editable ? 'libre' : precio}-${k}`;
   {editable && (
     <>
       <div class="ebz-field">
-        <label class="ebz-label" for={f('auto')}>Auto</label>
-        <div class="ebz-control">
-          <select id={f('auto')} class="ebz-select" data-sim-auto>
-            <option value="">Otro auto (ingresa el valor)</option>
-            {autos!.map((a) => <option value={a.nombre} data-precio={a.precio} selected={a.precio === precio}>{a.nombre} · {clp(a.precio)}</option>)}
-          </select>
-          <Icon name="chevron-down" size={18} class="ebz-select__chev" />
-        </div>
-      </div>
-      <div class="ebz-field">
         <label class="ebz-label" for={f('valor')}>Valor del auto</label>
         <div class="ebz-control"><span class="lead__prefijo">$</span><input id={f('valor')} class="ebz-input lead__con-prefijo ebz-num" inputmode="numeric" value={miles(precio)} data-sim-valor aria-describedby={f('valor-ayuda')} /></div>
         <input type="range" min={VALOR_MIN} max={VALOR_MAX} step="100000" value={Math.min(Math.max(precio, VALOR_MIN), VALOR_MAX)} aria-label="Valor del auto" data-sim-valor-rango />
-        <span class="sim__ayuda" id={f('valor-ayuda')}>Elige un auto del stock o escribe el valor del que te interesa.</span>
+        <span class="sim__ayuda" id={f('valor-ayuda')}>Escribe el valor del auto que te interesa o mueve la barra.</span>
       </div>
     </>
   )}
@@ -96,7 +85,7 @@ const f = (k: string) => `sim-${editable ? 'libre' : precio}-${k}`;
   <form class="sim__solicitud" data-lead="credito" data-wa={numeroWhatsapp()} data-sheets={ajustes.sheetsUrl} data-sim-form>
     <div class="sim__campos" data-campos>
       <p class="ebz-label sim__titulo">Solicitud de evaluación</p>
-      <input type="hidden" name="auto_interes" value={editable ? (autos!.find((a) => a.precio === precio)?.nombre ?? '') : nombreAuto} data-h-auto />
+      <input type="hidden" name="auto_interes" value={nombreAuto} />
       <input type="hidden" name="precio_auto" value={clp(precio)} data-h-precio />
       <input type="hidden" name="pie" value={clp(pie)} data-h-pie />
       <input type="hidden" name="plazo" value={n} data-h-plazo />
@@ -167,7 +156,6 @@ const f = (k: string) => `sim-${editable ? 'libre' : precio}-${k}`;
     const wa = q<HTMLAnchorElement>('[data-sim-wa]')!;
     const form = q<HTMLFormElement>('[data-sim-form]')!;
     const abrir = q<HTMLButtonElement>('[data-sim-abrir]')!;
-    const elegir = q<HTMLSelectElement>('[data-sim-auto]');
     const valor = q<HTMLInputElement>('[data-sim-valor]');
     const rangoValor = q<HTMLInputElement>('[data-sim-valor-rango]');
     const h = (k: string) => form.querySelector<HTMLInputElement>(`[data-h-${k}]`)!;
@@ -195,30 +183,17 @@ const f = (k: string) => `sim-${editable ? 'libre' : precio}-${k}`;
       h('pie').value = clp(pie);
       h('plazo').value = String(n);
       h('cuota').value = clp(c);
-      if (elegir) h('auto').value = elegir.value;
       const texto = `${el.dataset.msg}. Simulé un auto de ${clp(precio)} con ${clp(pie)} de pie a ${n} meses (cuota ref. ${clp(c)}).`;
       wa.href = `https://wa.me/${el.dataset.wa}?text=${encodeURIComponent(texto)}`;
     };
 
-    // Modo libre (/financiamiento): auto del stock, valor escrito o slider.
-    const fijarValor = (v: number, desde: 'select' | 'input' | 'rango') => {
+    // Modo libre (/financiamiento): valor escrito o slider, sincronizados.
+    const fijarValor = (v: number, desde: 'input' | 'rango') => {
       precio = v;
       if (valor && desde !== 'input') valor.value = miles(v);
       if (rangoValor && desde !== 'rango') rangoValor.value = String(v);
-      if (elegir && desde !== 'select') {
-        const igual = [...elegir.options].find((o) => Number(o.dataset.precio) === v);
-        elegir.value = igual ? igual.value : '';
-      }
       pintar();
     };
-    elegir?.addEventListener('change', () => {
-      const p = Number(elegir.selectedOptions[0]?.dataset.precio);
-      if (p) fijarValor(p, 'select');
-      else {
-        pintar();
-        valor?.focus();
-      }
-    });
     valor?.addEventListener('input', () => {
       const digitos = valor.value.replace(/\D/g, '').slice(0, 10);
       valor.value = digitos ? miles(Number(digitos)) : '';

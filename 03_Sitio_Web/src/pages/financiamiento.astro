@@ -3,11 +3,10 @@ import Base from '@/layouts/Base.astro';
 import Icon from '@/components/Icon.astro';
 import Button from '@/components/Button.astro';
 import CreditSimulator from '@/components/CreditSimulator.astro';
-import { vehiculos, nombre } from '@/lib/vehiculos';
+import { vehiculos } from '@/lib/vehiculos';
 import ajustes from '@/content/ajustes.json';
 
-const disponibles = (await vehiculos()).filter((v) => v.data.etiqueta !== 'vendido');
-const [primero] = disponibles;
+const [primero] = (await vehiculos()).filter((v) => v.data.etiqueta !== 'vendido');
 const pie = Math.round(ajustes.pieMinimo * 100);
 const PASOS = [
   ['Simula', 'Elige el pie y el plazo. La cuota es referencial.'],
@@ -44,7 +43,7 @@ const FAQ = [
         </div>
       </div>
       <div style="flex:5 1 380px">
-        <CreditSimulator precio={primero?.data.precio ?? 12990000} autos={disponibles.map((v) => ({ nombre: nombre(v), precio: v.data.precio }))} />
+        <CreditSimulator precio={primero?.data.precio ?? 12990000} editable />
       </div>
     </div>
   </section>
