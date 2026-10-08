@@ -12,7 +12,7 @@ interface Props {
 const { minimal = false } = Astro.props;
 const ITEMS = [
   { label: 'Vende tu auto', href: '/vender-mi-auto/' },
-  { label: 'Autos disponibles', href: '/comprar/' },
+  { label: 'Autos disponibles', href: '/autos-usados/' },
   { label: 'Financiamiento', href: '/financiamiento/' },
   { label: 'Nosotros', href: '/nosotros/' },
   { label: 'Contacto', href: '/contacto/' },
@@ -22,7 +22,7 @@ const REDES = [
   { nombre: 'Facebook', icono: 'facebook', href: ajustes.facebook },
 ].filter((r) => r.href);
 const ruta = Astro.url.pathname;
-const activo = (href: string) => ruta.startsWith(href) || (href === '/comprar/' && ruta.startsWith('/autos/'));
+const activo = (href: string) => ruta.startsWith(href) || (href === '/autos-usados/' && ruta.startsWith('/autos/'));
 ---
 <header class="ebz-header">
   <div class="ebz-container">

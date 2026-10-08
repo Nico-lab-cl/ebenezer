@@ -1,0 +1,346 @@
+<title>Arquitectura SEO EBENEZER</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Saira:ital,wght@0,600;0,800;1,800&family=Montserrat:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: columna de lectura de 900px; árbol de páginas y tablas con scroll propio. Colores de marca EBENEZER. */
+:root{
+  --bg:#F4F6FC; --surface:#FFFFFF; --sunken:#E9ECF3; --line:#D5D8E0;
+  --fg:#20242A; --muted:#5D616B; --accent:#F47735; --accent-ink:#B04A16; --accent-soft:#FEF3EC;
+  --ok:#23764F; --ok-bg:#E6F4EC; --warn:#8A5A10; --warn-bg:#FBF1DC;
+  --display:"Saira","Arial Narrow",sans-serif; --body:"Montserrat","Helvetica Neue",Arial,sans-serif;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#14171B; --surface:#20242A; --sunken:#0F1114; --line:rgba(255,255,255,.14);
+  --fg:#FFFFFF; --muted:#BCBFC8; --accent:#F47735; --accent-ink:#F8A375; --accent-soft:rgba(244,119,53,.12);
+  --ok:#4CC38A; --ok-bg:rgba(76,195,138,.12); --warn:#E8B64A; --warn-bg:rgba(232,182,74,.12); color-scheme:dark; } }
+:root[data-theme="dark"]{
+  --bg:#14171B; --surface:#20242A; --sunken:#0F1114; --line:rgba(255,255,255,.14);
+  --fg:#FFFFFF; --muted:#BCBFC8; --accent:#F47735; --accent-ink:#F8A375; --accent-soft:rgba(244,119,53,.12);
+  --ok:#4CC38A; --ok-bg:rgba(76,195,138,.12); --warn:#E8B64A; --warn-bg:rgba(232,182,74,.12); color-scheme:dark; }
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:15px;line-height:1.6;padding-inline:16px;padding-block:0 64px}
+.wrap{max-width:900px;margin:0 auto;display:flex;flex-direction:column;gap:44px}
+header.top{padding-block:40px 10px;border-bottom:3px solid var(--accent);display:flex;flex-direction:column;gap:10px}
+.eyebrow{font-family:var(--display);font-weight:600;text-transform:uppercase;letter-spacing:.12em;font-size:12px;color:var(--accent-ink)}
+h1{font-family:var(--display);font-style:italic;font-weight:800;font-size:clamp(30px,6vw,46px);line-height:1.05;margin:0;text-wrap:balance}
+h2{font-family:var(--display);font-weight:800;font-size:26px;line-height:1.15;margin:0;text-wrap:balance}
+h3{font-family:var(--display);font-weight:800;font-size:19px;margin:0}
+p{margin:0;max-width:70ch} .muted{color:var(--muted)} .small{font-size:13px}
+section{display:flex;flex-direction:column;gap:14px}
+ul,ol{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px;max-width:72ch}
+code{font-size:12.5px;background:var(--sunken);padding:1px 6px;border-radius:4px;white-space:nowrap}
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:13.5px;min-width:640px}
+th,td{padding:8px 12px;text-align:left;vertical-align:top;border-bottom:1px solid var(--line)}
+thead th{font-family:var(--display);font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.06em;background:var(--sunken);white-space:nowrap}
+tbody tr:last-child td{border-bottom:0}
+td.n{font-variant-numeric:tabular-nums;white-space:nowrap;text-align:right}
+.sd{display:inline-block;min-width:28px;text-align:center;font-size:12px;font-weight:700;padding:1px 6px;border-radius:99px}
+.sd.f{background:var(--ok-bg);color:var(--ok)} .sd.m{background:var(--warn-bg);color:var(--warn)}
+/* Árbol de sitio */
+.arbol{font-size:14px;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px 18px;overflow-x:auto}
+.arbol ul{list-style:none;padding-left:20px;border-left:1px dashed var(--line);margin-left:6px;gap:4px}
+.arbol>ul{border:0;padding-left:0;margin:0}
+.arbol li{white-space:nowrap}
+.tag{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:1px 7px;border-radius:4px;margin-right:6px;vertical-align:1px}
+.t-p{background:var(--accent);color:#14171B} .t-c{background:var(--sunken);color:var(--fg)} .t-l{background:var(--ok-bg);color:var(--ok)} .t-h{background:var(--fg);color:var(--bg)}
+/* Fichas de página */
+.pag{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:18px 20px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.pag__head{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:baseline}
+.kw{display:flex;flex-wrap:wrap;gap:6px}
+.kw span{font-size:12.5px;background:var(--accent-soft);color:var(--accent-ink);padding:2px 8px;border-radius:99px;white-space:nowrap}
+.kw span b{font-weight:700}
+.meta{font-size:13px;color:var(--muted);display:flex;flex-direction:column;gap:2px}
+.meta b{color:var(--fg);font-weight:600}
+.h{font-size:14px;list-style:none;padding:0;gap:3px}
+.h li{display:flex;gap:8px;align-items:baseline}
+.h .lv{flex:none;width:30px;font-family:var(--display);font-weight:800;font-size:12px;color:var(--accent-ink)}
+.h .h2{padding-left:0} .h .h3{padding-left:22px} .h .h3 .lv{color:var(--muted)}
+.h .h1 span:last-child{font-weight:700}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+.callout{border-left:4px solid var(--accent);background:var(--surface);padding:14px 18px;border-radius:0 10px 10px 0;display:flex;flex-direction:column;gap:6px}
+a{color:var(--accent-ink)}
+</style>
+
+<div class="wrap">
+<header class="top">
+  <span class="eyebrow">EBENEZER Automotora · SEO · octubre 2026</span>
+  <h1>Pilares, clusters y estructura de títulos para la Región de Valparaíso</h1>
+  <p class="muted">Base en El Tabo (litoral central) y alcance a toda la V Región. Volúmenes de búsqueda mensuales en Chile y dificultad SEO (0–100) de Ubersuggest, consultados el 8 de octubre de 2026.</p>
+</header>
+
+<section>
+  <h2>La idea en corto</h2>
+  <ul>
+    <li><strong>La marca se posiciona como automotora de la Región de Valparaíso,</strong> no de una ciudad. Viña del Mar pasa a ser una página de ciudad más, porque es el mercado con más búsquedas de la región.</li>
+    <li><strong>Tres pilares</strong> según lo que busca la gente: vender su auto, comprar un auto usado y financiar. Cada pilar tiene páginas de apoyo (clusters) que enlazan hacia él.</li>
+    <li><strong>El litoral se busca como "San Antonio".</strong> "Automotora san antonio" tiene 320 búsquedas con dificultad 15. El Tabo, Cartagena, Algarrobo y El Quisco no registran volumen propio, así que van como comunas atendidas dentro de esa página.</li>
+    <li><strong>Las páginas de ciudad son las más fáciles de ganar.</strong> Quilpué, Quillota, San Felipe y Los Andes tienen dificultad 11 a 14 con 300 a 900 búsquedas al mes cada una.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>Mapa del sitio</h2>
+  <div class="arbol">
+    <ul>
+      <li><span class="tag t-h">Inicio</span><code>/</code> automotora quinta región · vender mi auto</li>
+      <li><ul>
+        <li><span class="tag t-p">Pilar 1</span><code>/vender-mi-auto/</code> vender mi auto</li>
+        <li><ul>
+          <li><span class="tag t-c">Cluster</span><code>/vender-mi-auto/compramos-tu-auto/</code></li>
+          <li><span class="tag t-c">Cluster</span><code>/vender-mi-auto/consignacion/</code></li>
+          <li><span class="tag t-c">Cluster</span><code>/vender-mi-auto/tasacion/</code></li>
+          <li><span class="tag t-c">Guía</span><code>/guias/transferencia-de-vehiculo-online/</code></li>
+          <li><span class="tag t-c">Guía</span><code>/guias/documentos-para-vender-un-auto/</code></li>
+          <li><span class="tag t-c">Guía</span><code>/guias/vender-auto-con-deuda-o-prenda/</code></li>
+        </ul></li>
+        <li><span class="tag t-p">Pilar 2</span><code>/autos-usados/</code> autos usados quinta región <span class="muted small">(hoy /comprar/, con redirección 301)</span></li>
+        <li><ul>
+          <li><span class="tag t-l">Ciudad</span><code>/autos-usados/san-antonio/</code> litoral central, base El Tabo</li>
+          <li><span class="tag t-l">Ciudad</span><code>/autos-usados/quilpue-villa-alemana/</code></li>
+          <li><span class="tag t-l">Ciudad</span><code>/autos-usados/san-felipe/</code></li>
+          <li><span class="tag t-l">Ciudad</span><code>/autos-usados/quillota/</code> con La Calera y Limache</li>
+          <li><span class="tag t-l">Ciudad</span><code>/autos-usados/los-andes/</code></li>
+          <li><span class="tag t-l">Ciudad</span><code>/autos-usados/valparaiso/</code></li>
+          <li><span class="tag t-l">Ciudad</span><code>/autos-usados/vina-del-mar/</code></li>
+          <li><span class="tag t-c">Ficha</span><code>/autos/[auto]/</code> cada auto del stock</li>
+        </ul></li>
+        <li><span class="tag t-p">Pilar 3</span><code>/financiamiento/</code> automotora con crédito directo</li>
+      </ul></li>
+    </ul>
+  </div>
+  <p class="small muted">La landing de anuncios <code>/tasacion/</code> sigue sin indexar. La versión para Google es <code>/vender-mi-auto/tasacion/</code>.</p>
+</section>
+
+<section>
+  <h2>Palabras clave por página</h2>
+  <div class="tbl"><table>
+    <thead><tr><th>Página</th><th>Palabra principal</th><th>Vol.</th><th>Dif.</th><th>Secundarias (vol. · dif.)</th></tr></thead>
+    <tbody>
+      <tr><td>Inicio</td><td>automotora quinta región</td><td class="n">110</td><td><span class="sd m">38</span></td><td>vender mi auto (1.300 · 15) como apoyo hacia el pilar 1</td></tr>
+      <tr><td>Pilar 1 · Vender</td><td>vender mi auto</td><td class="n">1.300</td><td><span class="sd f">15</span></td><td>quiero vender mi auto (390 · 15), vender mi auto usado (320 · 14), donde vender mi auto usado en chile (210 · 14), donde vender mi auto (210 · 15)</td></tr>
+      <tr><td>Compramos tu auto</td><td>compramos tu auto</td><td class="n">1.000</td><td><span class="sd f">14</span></td><td>te compramos tu auto (140 · 22), compramos tu auto usado (50 · 29)</td></tr>
+      <tr><td>Consignación</td><td>autos en consignación</td><td class="n">110</td><td><span class="sd m">35</span></td><td>consignación de vehículos (110 · 31), consignación de autos (20 · 37)</td></tr>
+      <tr><td>Tasación</td><td>tasar mi auto</td><td class="n">210</td><td><span class="sd f">14</span></td><td>tasación de autos (210 · 22), tasar mi auto chile (40 · 34)</td></tr>
+      <tr><td>Guía transferencia</td><td>transferencia de vehículo online</td><td class="n">390</td><td><span class="sd f">24</span></td><td>—</td></tr>
+      <tr><td>Guía documentos</td><td>documentos para vender un auto</td><td class="n">170</td><td><span class="sd f">16</span></td><td>—</td></tr>
+      <tr><td>Guía deuda o prenda</td><td>compramos tu auto con deuda</td><td class="n">40</td><td><span class="sd m">29</span></td><td>puedo vender mi auto con deuda de tag (40 · 26), vender mi auto en prenda (30 · 32), si aún lo estoy pagando (20 · 30)</td></tr>
+      <tr><td>Pilar 2 · Autos usados</td><td>autos usados quinta región chile</td><td class="n">320</td><td><span class="sd m">27</span></td><td>chile autos usados quinta región (210 · 30), autos usados quinta región (140 · 30)</td></tr>
+      <tr><td>San Antonio y litoral</td><td>automotora san antonio</td><td class="n">320</td><td><span class="sd f">15</span></td><td>autos usados san antonio (170 · 13), venta de autos usados san antonio (30 · 25)</td></tr>
+      <tr><td>Quilpué y Villa Alemana</td><td>automotora quilpué</td><td class="n">880</td><td><span class="sd f">11</span></td><td>automotora villa alemana (320 · 12), autos usados quilpué (320 · 13), autos usados quilpué belloto villa alemana (140 · 13)</td></tr>
+      <tr><td>San Felipe</td><td>automotora san felipe</td><td class="n">590</td><td><span class="sd f">14</span></td><td>autos usados san felipe (320 · 13), venta de autos usados san felipe (50 · 29)</td></tr>
+      <tr><td>Quillota</td><td>automotora quillota</td><td class="n">320</td><td><span class="sd f">11</span></td><td>autos usados quillota (260 · 13), venta de autos usados quillota calera y limache (110 · 12)</td></tr>
+      <tr><td>Los Andes</td><td>automotora los andes</td><td class="n">390</td><td><span class="sd f">12</span></td><td>autos usados los andes (90 · 29), venta de autos usados los andes san esteban (90 · 17)</td></tr>
+      <tr><td>Valparaíso</td><td>automotora valparaíso</td><td class="n">720</td><td><span class="sd f">24</span></td><td>autos usados valparaíso (590 · 23), venta de autos usados valparaíso (110 · 23)</td></tr>
+      <tr><td>Viña del Mar</td><td>automotora viña del mar</td><td class="n">2.400</td><td><span class="sd m">32</span></td><td>autos usados viña del mar (1.600 · 17), autos seminuevos viña del mar (260 · 17), venta de autos usados viña del mar (170 · 15)</td></tr>
+      <tr><td>Pilar 3 · Financiamiento</td><td>automotora con crédito directo</td><td class="n">140</td><td><span class="sd f">23</span></td><td>crédito automotriz autos usados (40 · 34)</td></tr>
+    </tbody>
+  </table></div>
+  <p class="small muted">"Automotora los andes" incluye búsquedas de una empresa de Puerto Montt con ese nombre ("automotora los andes puerto montt", 90). El volumen real para la ciudad es menor.</p>
+</section>
+
+<section>
+  <h2>Estructura de títulos de cada página</h2>
+  <p>Un solo H1 por página con la palabra principal. Los H2 responden lo que busca esa persona y los H3 bajan al detalle. La palabra principal va también en el <code>&lt;title&gt;</code>, la URL, la meta descripción y las primeras 100 palabras.</p>
+
+  <h3 style="margin-top:8px">Inicio</h3>
+  <div class="pag">
+    <div class="meta"><span><b>Title</b> EBENEZER Automotora · Vende o compra tu auto en la Quinta Región</span><span><b>Meta</b> Automotora de la Región de Valparaíso con base en el litoral central. Tasamos y vendemos tu auto, autos usados revisados y crédito directo.</span></div>
+    <ul class="h">
+      <li class="h1"><span class="lv">H1</span><span>Vendemos tu auto en toda la Quinta Región</span></li>
+      <li class="h2"><span class="lv">H2</span><span>Tasa tu auto sin costo</span></li>
+      <li class="h2"><span class="lv">H2</span><span>Dos formas de vender tu auto</span></li>
+      <li class="h3"><span class="lv">H3</span><span>Te compramos tu auto</span></li>
+      <li class="h3"><span class="lv">H3</span><span>Consignación, lo vendemos por ti</span></li>
+      <li class="h2"><span class="lv">H2</span><span>Autos usados disponibles</span></li>
+      <li class="h2"><span class="lv">H2</span><span>Atendemos toda la Región de Valparaíso</span></li>
+      <li class="h3"><span class="lv">H3</span><span>Litoral central · Gran Valparaíso · Marga Marga · Aconcagua · Quillota</span></li>
+      <li class="h2"><span class="lv">H2</span><span>Automotora con crédito directo</span></li>
+      <li class="h2"><span class="lv">H2</span><span>Preguntas frecuentes</span></li>
+    </ul>
+  </div>
+
+  <h3 style="margin-top:8px">Pilar 1 y sus clusters · Vender</h3>
+  <div class="grid">
+    <div class="pag">
+      <div class="pag__head"><span class="tag t-p">Pilar</span><code>/vender-mi-auto/</code></div>
+      <div class="meta"><span><b>Title</b> Vender mi auto usado rápido y seguro · Quinta Región | EBENEZER</span></div>
+      <ul class="h">
+        <li class="h1"><span class="lv">H1</span><span>Vende tu auto usado sin perder tiempo</span></li>
+        <li class="h2"><span class="lv">H2</span><span>Tasa tu auto gratis</span></li>
+        <li class="h2"><span class="lv">H2</span><span>Venta directa o consignación</span></li>
+        <li class="h3"><span class="lv">H3</span><span>Compramos tu auto</span></li>
+        <li class="h3"><span class="lv">H3</span><span>Lo vendemos por ti</span></li>
+        <li class="h2"><span class="lv">H2</span><span>Cómo vendemos tu auto paso a paso</span></li>
+        <li class="h3"><span class="lv">H3</span><span>Tasación</span></li>
+        <li class="h3"><span class="lv">H3</span><span>Revisión visual y mecánica</span></li>
+        <li class="h3"><span class="lv">H3</span><span>Fotos y publicación</span></li>
+        <li class="h3"><span class="lv">H3</span><span>Transferencia digital</span></li>
+        <li class="h2"><span class="lv">H2</span><span>¿Dónde vender mi auto usado en Chile?</span></li>
+        <li class="h2"><span class="lv">H2</span><span>Documentos y deudas</span></li>
+        <li class="h2"><span class="lv">H2</span><span>Preguntas frecuentes</span></li>
+      </ul>
+    </div>
+    <div class="pag">
+      <div class="pag__head"><span class="tag t-c">Cluster</span><code>/vender-mi-auto/compramos-tu-auto/</code></div>
+      <ul class="h">
+        <li class="h1"><span class="lv">H1</span><span>Compramos tu auto usado en la Quinta Región</span></li>
+        <li class="h2"><span class="lv">H2</span><span>Cómo te hacemos la oferta</span></li>
+        <li class="h2"><span class="lv">H2</span><span>Pago y transferencia digital</span></li>
+        <li class="h2"><span class="lv">H2</span><span>¿Te conviene venderlo directo o en consignación?</span></li>
+        <li class="h2"><span class="lv">H2</span><span>Preguntas frecuentes</span></li>
+      </ul>
+    </div>
+    <div class="pag">
+      <div class="pag__head"><span class="tag t-c">Cluster</span><code>/vender-mi-auto/consignacion/</code></div>
+      <ul class="h">
+        <li class="h1"><span class="lv">H1</span><span>Autos en consignación, vendemos tu auto por ti</span></li>
+        <li class="h2"><span class="lv">H2</span><span>Qué es la consignación de vehículos</span></li>
+        <li class="h2"><span class="lv">H2</span><span>Qué incluye</span></li>
+        <li class="h3"><span class="lv">H3</span><span>Fotos de estudio y anuncios pagados</span></li>
+        <li class="h3"><span class="lv">H3</span><span>Atención de compradores y visitas</span></li>
+        <li class="h2"><span class="lv">H2</span><span>Sigues usando tu auto hasta que haya comprador</span></li>
+        <li class="h2"><span class="lv">H2</span><span>El contrato de consignación</span></li>
+        <li class="h2"><span class="lv">H2</span><span>Preguntas frecuentes</span></li>
+      </ul>
+    </div>
+    <div class="pag">
+      <div class="pag__head"><span class="tag t-c">Cluster</span><code>/vender-mi-auto/tasacion/</code></div>
+      <ul class="h">
+        <li class="h1"><span class="lv">H1</span><span>Tasa tu auto gratis y online</span></li>
+        <li class="h2"><span class="lv">H2</span><span>Formulario de tasación</span></li>
+        <li class="h2"><span class="lv">H2</span><span>Qué miramos para tasar tu auto</span></li>
+        <li class="h3"><span class="lv">H3</span><span>Año, kilometraje y versión</span></li>
+        <li class="h3"><span class="lv">H3</span><span>Estado y mantenciones</span></li>
+        <li class="h3"><span class="lv">H3</span><span>Precios del mercado</span></li>
+        <li class="h2"><span class="lv">H2</span><span>Tasación fiscal del SII o precio de mercado</span></li>
+        <li class="h2"><span class="lv">H2</span><span>Qué pasa después de tasar</span></li>
+      </ul>
+    </div>
+    <div class="pag">
+      <div class="pag__head"><span class="tag t-c">Guía</span><code>/guias/transferencia-de-vehiculo-online/</code></div>
+      <ul class="h">
+        <li class="h1"><span class="lv">H1</span><span>Transferencia de vehículo online en Chile</span></li>
+        <li class="h2"><span class="lv">H2</span><span>Qué es la transferencia electrónica</span></li>
+        <li class="h2"><span class="lv">H2</span><span>Requisitos para transferir</span></li>
+        <li class="h2"><span class="lv">H2</span><span>Paso a paso</span></li>
+        <li class="h2"><span class="lv">H2</span><span>Transferencia digital al vender con EBENEZER</span></li>
+      </ul>
+    </div>
+    <div class="pag">
+      <div class="pag__head"><span class="tag t-c">Guía</span><code>/guias/documentos-para-vender-un-auto/</code></div>
+      <ul class="h">
+        <li class="h1"><span class="lv">H1</span><span>Documentos para vender un auto en Chile</span></li>
+        <li class="h2"><span class="lv">H2</span><span>Lista de documentos</span></li>
+        <li class="h3"><span class="lv">H3</span><span>Certificado de inscripción y anotaciones</span></li>
+        <li class="h3"><span class="lv">H3</span><span>Permiso de circulación, revisión técnica y SOAP</span></li>
+        <li class="h2"><span class="lv">H2</span><span>Si el auto tiene prenda o multas</span></li>
+        <li class="h2"><span class="lv">H2</span><span>Te ayudamos con los papeles</span></li>
+      </ul>
+    </div>
+    <div class="pag">
+      <div class="pag__head"><span class="tag t-c">Guía</span><code>/guias/vender-auto-con-deuda-o-prenda/</code></div>
+      <ul class="h">
+        <li class="h1"><span class="lv">H1</span><span>¿Puedo vender mi auto con deuda o prenda?</span></li>
+        <li class="h2"><span class="lv">H2</span><span>Auto con crédito vigente</span></li>
+        <li class="h2"><span class="lv">H2</span><span>Deudas de TAG y multas</span></li>
+        <li class="h2"><span class="lv">H2</span><span>Si aún lo estás pagando</span></li>
+        <li class="h2"><span class="lv">H2</span><span>Cómo lo resolvemos en la venta</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <h3 style="margin-top:8px">Pilar 2 y páginas de ciudad · Autos usados</h3>
+  <div class="grid">
+    <div class="pag">
+      <div class="pag__head"><span class="tag t-p">Pilar</span><code>/autos-usados/</code></div>
+      <div class="meta"><span><b>Title</b> Autos usados en la Quinta Región · Revisados y con crédito | EBENEZER</span></div>
+      <ul class="h">
+        <li class="h1"><span class="lv">H1</span><span>Autos usados en la Quinta Región</span></li>
+        <li class="h2"><span class="lv">H2</span><span>Autos disponibles</span></li>
+        <li class="h2"><span class="lv">H2</span><span>Revisados antes de publicarse</span></li>
+        <li class="h2"><span class="lv">H2</span><span>Financia tu auto con crédito directo</span></li>
+        <li class="h2"><span class="lv">H2</span><span>Autos usados cerca de ti</span></li>
+        <li class="h3"><span class="lv">H3</span><span>Un enlace a cada página de ciudad</span></li>
+        <li class="h2"><span class="lv">H2</span><span>¿No encuentras el que buscas?</span></li>
+      </ul>
+    </div>
+    <div class="pag">
+      <div class="pag__head"><span class="tag t-l">Plantilla de ciudad</span><code>/autos-usados/[ciudad]/</code></div>
+      <ul class="h">
+        <li class="h1"><span class="lv">H1</span><span>Automotora en [ciudad] · autos usados y venta de tu auto</span></li>
+        <li class="h2"><span class="lv">H2</span><span>Autos usados para [ciudad]</span></li>
+        <li class="h2"><span class="lv">H2</span><span>Vende tu auto en [ciudad]</span></li>
+        <li class="h3"><span class="lv">H3</span><span>Tasación gratis</span></li>
+        <li class="h3"><span class="lv">H3</span><span>Compramos tu auto o lo consignamos</span></li>
+        <li class="h2"><span class="lv">H2</span><span>Comunas que atendemos</span></li>
+        <li class="h2"><span class="lv">H2</span><span>Cómo funciona si vives en [ciudad]</span></li>
+        <li class="h2"><span class="lv">H2</span><span>Preguntas frecuentes de [ciudad]</span></li>
+      </ul>
+    </div>
+    <div class="pag">
+      <div class="pag__head"><span class="tag t-l">Ciudad base</span><code>/autos-usados/san-antonio/</code></div>
+      <ul class="h">
+        <li class="h1"><span class="lv">H1</span><span>Automotora en San Antonio y el litoral central</span></li>
+        <li class="h2"><span class="lv">H2</span><span>Autos usados en San Antonio</span></li>
+        <li class="h2"><span class="lv">H2</span><span>Vende tu auto en el litoral central</span></li>
+        <li class="h2"><span class="lv">H2</span><span>Comunas que atendemos</span></li>
+        <li class="h3"><span class="lv">H3</span><span>San Antonio, Cartagena, El Tabo, El Quisco, Algarrobo y Santo Domingo</span></li>
+        <li class="h2"><span class="lv">H2</span><span>Somos del litoral, con base en El Tabo</span></li>
+        <li class="h2"><span class="lv">H2</span><span>Preguntas frecuentes</span></li>
+      </ul>
+    </div>
+  </div>
+  <p class="small muted">Las demás ciudades siguen la plantilla con su palabra principal en el H1. Algunos ejemplos: "Automotora en Quilpué y Villa Alemana", "Automotora en San Felipe", "Automotora en Quillota, La Calera y Limache".</p>
+
+  <h3 style="margin-top:8px">Pilar 3 · Financiamiento</h3>
+  <div class="pag">
+    <div class="pag__head"><span class="tag t-p">Pilar</span><code>/financiamiento/</code></div>
+    <div class="meta"><span><b>Title</b> Automotora con crédito directo · Financia tu auto usado | EBENEZER</span></div>
+    <ul class="h">
+      <li class="h1"><span class="lv">H1</span><span>Automotora con crédito directo</span></li>
+      <li class="h2"><span class="lv">H2</span><span>Simula tu crédito</span></li>
+      <li class="h2"><span class="lv">H2</span><span>Cómo funciona el crédito directo</span></li>
+      <li class="h3"><span class="lv">H3</span><span>Simula · Envía tu solicitud · Firma y retira</span></li>
+      <li class="h2"><span class="lv">H2</span><span>Requisitos</span></li>
+      <li class="h2"><span class="lv">H2</span><span>Deja tu auto en parte de pago</span></li>
+      <li class="h2"><span class="lv">H2</span><span>Preguntas frecuentes</span></li>
+    </ul>
+  </div>
+  <p class="small muted">No conviene apuntar a "automotora con crédito directo con dicom" (20 búsquedas) mientras no esté definido si aprueban con deudas.</p>
+</section>
+
+<section>
+  <h2>Enlaces internos</h2>
+  <ul>
+    <li>Cada cluster enlaza a su pilar con la palabra principal del pilar como texto del enlace, por ejemplo "vender mi auto" o "autos usados en la Quinta Región".</li>
+    <li>Cada pilar enlaza a todos sus clusters desde un H2 o H3.</li>
+    <li>Las páginas de ciudad enlazan a los tres pilares, y el pilar 2 enlaza a todas las ciudades.</li>
+    <li>Las guías enlazan a la tasación, porque es la conversión más cercana para quien todavía duda.</li>
+    <li>Migas de pan en todas las páginas: Inicio › Pilar › Cluster.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>Antes de crear páginas, hay que corregir la ubicación</h2>
+  <div class="callout">
+    <p>Hoy el sitio le dice a Google que la automotora está en Viña del Mar: lo dice el título de la portada, varias descripciones, la lista de comunas del footer y del schema, y el campo "comuna" de ajustes. Si se crean páginas de ciudad con esa señal, compiten entre sí y confunden a Google.</p>
+    <ul>
+      <li>Ubicación base: El Tabo, Región de Valparaíso. Área atendida: toda la región.</li>
+      <li>Perfil de Google Business como negocio que atiende un área, sin dirección pública, con las provincias de la región como zona.</li>
+      <li>Cada página de ciudad necesita contenido propio y verdadero: autos y comunas reales, cómo se coordina la revisión y la visita desde esa zona, y preguntas de esa ciudad. Si solo cambia el nombre de la ciudad, Google la trata como página puerta y no la posiciona.</li>
+    </ul>
+  </div>
+</section>
+
+<section>
+  <h2>Orden sugerido</h2>
+  <ol>
+    <li><strong>Ubicación y pilares existentes:</strong> corregir la ubicación y ajustar los títulos, H1, H2 y metas de la portada, /vender-mi-auto, /comprar (que pasa a /autos-usados) y /financiamiento.</li>
+    <li><strong>Ciudades fáciles:</strong> San Antonio y el litoral, que es la base; luego Quilpué y Villa Alemana, San Felipe y Quillota. Todas tienen dificultad 11 a 15.</li>
+    <li><strong>Clusters de venta:</strong> compramos tu auto, tasación y consignación.</li>
+    <li><strong>Guías:</strong> transferencia online, documentos, y deuda o prenda.</li>
+    <li><strong>Ciudades competidas:</strong> Valparaíso, Viña del Mar y Los Andes, cuando el sitio ya tenga algo de autoridad.</li>
+  </ol>
+</section>
+</div>

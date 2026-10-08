@@ -2,7 +2,7 @@
 import Icon from './Icon.astro';
 import Button from './Button.astro';
 
-/* Buscador rápido del hero. Es un formulario GET a /comprar/: funciona sin JS
+/* Buscador rápido del hero. Es un formulario GET a /autos-usados/: funciona sin JS
    y el catálogo lee los mismos parámetros de la URL. */
 interface Props {
   modelos: Record<string, string[]>;
@@ -16,7 +16,7 @@ const PRECIOS = [
   ['18000000-999000000', 'Más de $18 millones'],
 ];
 ---
-<form class="ebz-qs" data-theme="dark" action="/comprar/" method="get" role="search" data-qs data-modelos={JSON.stringify(modelos)}>
+<form class="ebz-qs" data-theme="dark" action="/autos-usados/" method="get" role="search" data-qs data-modelos={JSON.stringify(modelos)}>
   <div class="ebz-field">
     <label class="ebz-label" for="qs-marca">Marca</label>
     <div class="ebz-control">
@@ -71,7 +71,7 @@ const PRECIOS = [
       for (const m of lista) modelo.add(new Option(m, m));
       modelo.disabled = !marca.value;
     });
-    // No mandar parámetros vacíos: la URL queda limpia (/comprar/?marca=Audi)
+    // No mandar parámetros vacíos: la URL queda limpia (/autos-usados/?marca=Audi)
     form.addEventListener('submit', () => {
       for (const s of form.querySelectorAll('select')) if (!s.value) s.disabled = true;
     });

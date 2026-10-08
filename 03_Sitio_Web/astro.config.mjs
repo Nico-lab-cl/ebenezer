@@ -22,6 +22,8 @@ export default defineConfig({
   trailingSlash: 'ignore',
   redirects: {
     '/admin': '/keystatic',
+    // El catálogo cambió de URL por SEO ("autos usados"); los enlaces viejos siguen funcionando.
+    '/comprar': '/autos-usados/',
   },
   integrations: [
     react(),

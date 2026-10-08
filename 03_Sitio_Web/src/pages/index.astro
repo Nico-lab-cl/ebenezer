@@ -9,6 +9,7 @@ import TrustBlock from '@/components/TrustBlock.astro';
 import Testimonial from '@/components/Testimonial.astro';
 import ServiceStrip from '@/components/ServiceStrip.astro';
 import Button from '@/components/Button.astro';
+import ZonasRegion from '@/components/ZonasRegion.astro';
 import { vehiculos } from '@/lib/vehiculos';
 
 /* Portada con dos vías:
@@ -20,8 +21,8 @@ const orden = [...disponibles.filter((v) => v.data.destacado), ...disponibles.fi
 const testimonios = await getCollection('testimonios', (t) => t.data.publicado);
 ---
 <Base
-  title="EBENEZER Automotora · Vende tu auto en consignación en Viña del Mar"
-  description="Deja tu auto en consignación: lo fotografiamos en estudio, lo promocionamos con anuncios pagados y atendemos a los compradores. O te lo compramos directo. Viña del Mar, Concón, Valparaíso, Quilpué y Villa Alemana."
+  title="EBENEZER Automotora · Vende o compra tu auto en la Quinta Región"
+  description="Automotora de la Región de Valparaíso con base en el litoral central. Tasamos y vendemos tu auto, te lo compramos directo y tenemos autos usados revisados con crédito directo."
   fab={{ context: 'vender' }}
 >
   <HeroVideo />
@@ -33,7 +34,7 @@ const testimonios = await getCollection('testimonios', (t) => t.data.publicado);
       <div class="sec-head">
         <div class="sec-head__t">
           <span class="ebz-overline" style="color:var(--text-accent)">¿Buscas auto?</span>
-          <h2 class="ebz-h2">Autos disponibles</h2>
+          <h2 class="ebz-h2">Autos usados disponibles</h2>
           <p class="ebz-body muted">Revisados, con informe de antecedentes y precio final a la vista.</p>
         </div>
       </div>
@@ -58,6 +59,8 @@ const testimonios = await getCollection('testimonios', (t) => t.data.publicado);
       </div>
     </section>
   )}
+
+  <ZonasRegion />
 
   <section data-theme="light" class="sec sec--light" id="preguntas">
     <div class="ebz-container split split--top" style="gap:56px">

@@ -21,7 +21,8 @@ export function automotora(site: URL) {
       addressRegion: 'Región de Valparaíso',
       addressCountry: 'CL',
     },
-    areaServed: ['Viña del Mar', 'Concón', 'Valparaíso', 'Quilpué', 'Villa Alemana'].map((name) => ({ '@type': 'City', name })),
+    // Base en El Tabo (litoral central); atiende toda la región.
+    areaServed: { '@type': 'AdministrativeArea', name: 'Región de Valparaíso' },
     sameAs: [ajustes.instagram, ajustes.facebook].filter(Boolean),
   };
 }

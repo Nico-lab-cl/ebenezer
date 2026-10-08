@@ -28,11 +28,11 @@ const conFiltros = lista.length >= 1;
 const site = Astro.site!;
 // El auto de la foto del hero (por ahora, el Audi TT del recorte).
 const destacado = lista.find((v) => v.id === 'audi-tt-2011' && v.data.etiqueta !== 'vendido');
-const crumbs = [{ nombre: 'Inicio', url: '/' }, { nombre: 'Comprar', url: '/comprar/' }];
+const crumbs = [{ nombre: 'Inicio', url: '/' }, { nombre: 'Autos usados', url: '/autos-usados/' }];
 ---
 <Base
-  title="Autos usados y seminuevos disponibles"
-  description="Autos usados y seminuevos revisados, con precio final y financiamiento, en la Región de Valparaíso. ¿No está el que buscas? Te lo conseguimos."
+  title="Autos usados en la Quinta Región · Revisados y con crédito"
+  description="Autos usados y seminuevos en la Región de Valparaíso, revisados antes de publicarse, con precio final a la vista y crédito directo con la automotora."
   schema={[migas(site, crumbs)]}
 >
   <Hero ficha={destacado ? url(destacado) : undefined} />
@@ -42,7 +42,7 @@ const crumbs = [{ nombre: 'Inicio', url: '/' }, { nombre: 'Comprar', url: '/comp
       <div class="cat__bar">
         <div>
           <h2 class="ebz-h1">Autos disponibles</h2>
-          <p class="ebz-body muted" style="margin-top:8px"><b class="ebz-num" style="color:var(--text-primary)" data-total>{lista.length} {lista.length === 1 ? "auto" : "autos"}</b> revisados en la Región de Valparaíso</p>
+          <p class="ebz-body muted" style="margin-top:8px"><b class="ebz-num" style="color:var(--text-primary)" data-total>{lista.length} {lista.length === 1 ? "auto" : "autos"}</b> revisados para la Región de Valparaíso</p>
         </div>
         {conFiltros && (
         <div class="cat__tools">
@@ -110,7 +110,7 @@ const crumbs = [{ nombre: 'Inicio', url: '/' }, { nombre: 'Comprar', url: '/comp
             {lista.map((v, i) => <VehicleCard v={v} filtrable eager={i < 3} />)}
           </div>
           <div class="cat__empty" data-vacio hidden>
-            <h2 class="ebz-h4">No hay autos con esos filtros</h2>
+            <p class="ebz-h4">No hay autos con esos filtros</p>
             <p class="ebz-body muted" style="margin:8px 0 18px">Cuéntanos qué buscas y te avisamos cuando llegue.</p>
             <Button href="/contacto/" variant="secondary">Avísame</Button>
           </div>

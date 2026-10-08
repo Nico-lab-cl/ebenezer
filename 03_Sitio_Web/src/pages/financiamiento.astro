@@ -28,19 +28,19 @@ const FAQ = [
 ].filter(([, a]) => real(a));
 ---
 <Base
-  title="Financiamiento automotriz · Crédito para autos usados"
-  description={`Financia tu auto usado o seminuevo con pie desde ${pie}%. Financiamiento directo con la automotora: simula la cuota, envía tu solicitud y conoce la CAE antes de firmar. EBENEZER Automotora, Viña del Mar.`}
+  title="Automotora con crédito directo · Financia tu auto usado"
+  description={`Financia tu auto usado o seminuevo con pie desde ${pie}%. Financiamiento directo con la automotora: simula la cuota, envía tu solicitud y conoce la CAE antes de firmar. Toda la Región de Valparaíso.`}
   fab={{ context: 'financiamiento' }}
 >
   <section class="ebz-container sec--lg">
     <div class="split" style="gap:56px">
       <div class="stack" style="gap:22px;flex:6 1 440px">
         <span class="ebz-overline ebz-overline-rule" style="color:var(--grafito-300)">Financiamiento automotriz</span>
-        <h1 class="ebz-h1">Financia tu auto con pie desde {pie}%</h1>
+        <h1 class="ebz-h1">Automotora con crédito directo y pie desde {pie}%</h1>
         <p class="ebz-body-lg muted" style="max-width:560px">Financiamiento directo con {ajustes.nombre}, sin intermediarios. Simula la cuota, envía tu solicitud y te mostramos la CAE antes de firmar.</p>
         <div class="row">
           <Button size="lg" href="#simulador" iconRight="arrow-right">Simular mi crédito</Button>
-          <Button variant="secondary" size="lg" href="/comprar/">Ver autos</Button>
+          <Button variant="secondary" size="lg" href="/autos-usados/">Ver autos</Button>
         </div>
       </div>
       <div style="flex:5 1 380px">
@@ -51,7 +51,7 @@ const FAQ = [
 
   <section class="sec sec--alt">
     <div class="ebz-container">
-      <h2 class="ebz-h2" style="margin-bottom:36px">Cómo funciona</h2>
+      <h2 class="ebz-h2" style="margin-bottom:36px">Cómo funciona el crédito directo</h2>
       <ol class="grid-3" style="list-style:none;margin:0;padding:0">
         {PASOS.map(([t, d], i) => (
           <li class="card card--sunken"><span class="num-step">0{i + 1}</span><b class="ebz-h5">{t}</b><p class="ebz-body-sm muted">{d}</p></li>
@@ -64,14 +64,14 @@ const FAQ = [
     <div class="ebz-container split split--top" style="gap:56px">
       <div class="stack" style="flex:5 1 360px">
         <span class="ebz-overline" style="color:var(--text-accent)">Requisitos</span>
-        <h2 class="ebz-h3">Lo que te pedirán para evaluar</h2>
+        <h2 class="ebz-h3">Requisitos para el crédito directo</h2>
         <ul class="lista-check">
           {REQUISITOS.map((r) => <li><Icon name="check" size={18} /><span class="ebz-body">{r}</span></li>)}
         </ul>
         <p class="ebz-caption">Según el caso, podemos pedirte antecedentes adicionales.</p>
       </div>
       <div class="stack" style="gap:12px;flex:6 1 420px">
-        <span class="ebz-overline" style="color:var(--text-accent)">Preguntas frecuentes</span>
+        <h2 class="ebz-overline" style="color:var(--text-accent);margin:0">Preguntas frecuentes</h2>
         {FAQ.map(([q, a]) => (
           <details class="faq"><summary>{q}</summary><p>{a}</p></details>
         ))}

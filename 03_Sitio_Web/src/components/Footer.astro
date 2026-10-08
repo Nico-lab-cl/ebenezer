@@ -5,7 +5,8 @@ import ajustes from '@/content/ajustes.json';
 import { real } from '@/lib/datos';
 import { numeroWhatsapp } from '@/lib/whatsapp';
 
-const COMUNAS = ['Viña del Mar', 'Concón', 'Valparaíso', 'Quilpué', 'Villa Alemana'];
+// Zonas de la región que atiende la automotora (base en El Tabo).
+const ZONAS = ['Litoral central', 'Gran Valparaíso', 'Marga Marga', 'Quillota', 'Aconcagua'];
 const anio = new Date().getFullYear();
 ---
 <footer class="ebz-footer">
@@ -13,7 +14,7 @@ const anio = new Date().getFullYear();
     <div class="ebz-footer__grid">
       <div style="display:flex;flex-direction:column;gap:20px">
         <img src="/assets/logo/ebenezer-logo-blanco.svg" alt="EBENEZER Automotora, compra y venta de autos" style="height:52px;width:auto" loading="lazy" />
-        <p style="max-width:320px;line-height:1.6">Autos usados y seminuevos revisados, con precio claro y transferencia digital. Región de Valparaíso.</p>
+        <p style="max-width:320px;line-height:1.6">Autos usados y seminuevos revisados, con precio claro y transferencia digital. Automotora del litoral central para toda la Quinta Región.</p>
         <Checkered />
       </div>
       <div>
@@ -27,8 +28,8 @@ const anio = new Date().getFullYear();
       <div>
         <h4>Comprar</h4>
         <ul>
-          <li><a href="/comprar/">Catálogo</a></li>
-          <li><a href="/financiamiento/">Financiamiento</a></li>
+          <li><a href="/autos-usados/">Autos usados</a></li>
+          <li><a href="/financiamiento/">Crédito directo</a></li>
         </ul>
       </div>
       <div>
@@ -55,7 +56,7 @@ const anio = new Date().getFullYear();
       </div>
     </div>
     <div class="ebz-footer__bottom">
-      <span>{COMUNAS.join(' · ')}</span>
+      <span>Atendemos toda la Región de Valparaíso · {ZONAS.join(' · ')}</span>
       <span>© {anio} {ajustes.nombre} · Precios en CLP con IVA incluido</span>
     </div>
   </div>

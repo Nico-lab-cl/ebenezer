@@ -26,7 +26,7 @@ const lista = limite ? autos.slice(0, limite) : autos;
   )}
   {vitrina ? lista.map((v) => <AutoDestacado v={v} />) : <div class="grid-autos">{lista.map((v) => <VehicleCard v={v} />)}</div>}
   {limite && autos.length > limite && (
-    <div><Button variant="secondary" iconRight="arrow-right" href="/comprar/">Ver los {autos.length} autos</Button></div>
+    <div><Button variant="secondary" iconRight="arrow-right" href="/autos-usados/">Ver los {autos.length} autos</Button></div>
   )}
   <div class="dos-vias">
     <Encargo id={idEncargo} />

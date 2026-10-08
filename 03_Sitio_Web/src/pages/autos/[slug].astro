@@ -50,8 +50,8 @@ const og = d.fotos[0] ? (await getImage({ src: d.fotos[0].imagen, width: 1200, f
 const imagenesSchema = await Promise.all(d.fotos.slice(0, 4).map(async (f) => new URL((await getImage({ src: f.imagen, width: 1200, format: 'jpg' })).src, site).href));
 const crumbs = [
   { nombre: 'Inicio', url: '/' },
-  { nombre: 'Comprar', url: '/comprar/' },
-  { nombre: d.marca, url: `/comprar/?marca=${encodeURIComponent(d.marca)}` },
+  { nombre: 'Autos usados', url: '/autos-usados/' },
+  { nombre: d.marca, url: `/autos-usados/?marca=${encodeURIComponent(d.marca)}` },
   { nombre: `${d.modelo} ${d.anio}`, url: url(v) },
 ];
 ---
@@ -122,7 +122,7 @@ const crumbs = [
               )}
             </div>
             {vendido ? (
-              <Button href="/comprar/" size="lg" block iconRight="arrow-right">Ver autos disponibles</Button>
+              <Button href="/autos-usados/" size="lg" block iconRight="arrow-right">Ver autos disponibles</Button>
             ) : (
               <>
                 <WhatsAppButton auto={wa} size="lg" block>Consultar por WhatsApp</WhatsAppButton>

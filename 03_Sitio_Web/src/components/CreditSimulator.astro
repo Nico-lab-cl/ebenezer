@@ -43,7 +43,7 @@ const f = (k: string) => `sim-${editable ? 'libre' : precio}-${k}`;
 ---
 <section class="ebz-sim" data-theme="dark" aria-label="Simulador de crédito" id={editable ? 'simulador' : undefined} data-sim data-precio={precio} data-tasa={tasa} data-wa={numeroWhatsapp()} data-msg={base}>
   <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px">
-    <h3 class="ebz-h5" style="font-style:italic;font-weight:800">Simula tu crédito</h3>
+    <h2 class="ebz-h5" style="font-style:italic;font-weight:800">Simula tu crédito</h2>
     {!editable && <span class="ebz-caption">Valor <b class="ebz-num" style="color:#fff">{clp(precio)}</b></span>}
   </div>
 
@@ -129,7 +129,7 @@ const f = (k: string) => `sim-${editable ? 'libre' : precio}-${k}`;
     </div>
     <div class="lead__gracias" data-gracias hidden>
       <span class="lead__ok"><Icon name="check" size={28} /></span>
-      <h3 class="ebz-h4" tabindex="-1">Recibimos tu solicitud</h3>
+      <p class="ebz-h4" tabindex="-1">Recibimos tu solicitud</p>
       <p class="ebz-body-sm muted">Te escribimos por WhatsApp para pedirte los antecedentes y evaluar tu crédito.</p>
       <Button href="#" target="_blank" icon="whatsapp" variant="secondary" data-gracias-wa>Seguir por WhatsApp</Button>
     </div>

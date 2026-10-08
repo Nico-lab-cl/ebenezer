@@ -16,7 +16,7 @@ interface Props {
   variante?: 'barra' | 'panel';
   titulo?: string;
 }
-const { id, variante = 'panel', titulo = 'Tasación sin costo' } = Astro.props;
+const { id, variante = 'panel', titulo = 'Tasa tu auto gratis' } = Astro.props;
 const anios = Array.from({ length: 41 }, (_, i) => String(new Date().getFullYear() + 1 - i));
 // Marcas más comunes en el mercado de usados en Chile; el resto va en "Otra marca".
 const MARCAS = ['Audi', 'BMW', 'BYD', 'Changan', 'Chery', 'Chevrolet', 'Citroën', 'Dodge', 'DFSK', 'Fiat', 'Ford', 'Geely', 'Great Wall', 'Haval', 'Honda', 'Hyundai', 'JAC', 'Jeep', 'Kia', 'Land Rover', 'Mahindra', 'Maxus', 'Mazda', 'Mercedes-Benz', 'MG', 'Mini', 'Mitsubishi', 'Nissan', 'Opel', 'Peugeot', 'Porsche', 'Ram', 'Renault', 'Seat', 'Skoda', 'SsangYong', 'Subaru', 'Suzuki', 'Toyota', 'Volkswagen', 'Volvo'];
@@ -139,7 +139,7 @@ const f = (n: string) => `${id}-${n}`;
 
   <div class="lead__gracias" data-gracias hidden>
     <span class="lead__ok"><Icon name="check" size={28} /></span>
-    <h3 class="ebz-h3" tabindex="-1">Recibimos tu auto</h3>
+    <p class="ebz-h3" tabindex="-1">Recibimos tu auto</p>
     <p class="ebz-body muted">Te escribimos por WhatsApp en menos de 24 horas hábiles con la tasación. Si quieres adelantar, mándanos fotos ahora. El mensaje ya va con tus datos y nosotros nos encargamos de que se vean bien.</p>
     <Button href="#" target="_blank" icon="whatsapp" data-gracias-wa>Enviar fotos por WhatsApp</Button>
   </div>

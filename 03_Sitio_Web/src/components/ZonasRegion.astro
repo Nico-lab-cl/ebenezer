@@ -1,0 +1,36 @@
+---
+import Icon from './Icon.astro';
+
+/* Zonas de la Región de Valparaíso que atiende la automotora, con base en
+   El Tabo. Refuerza para Google que el alcance es toda la región y no una
+   sola ciudad. Cuando existan las páginas de ciudad (ver
+   01_Fuentes_NotebookLM/arquitectura-seo-2026-10.html), cada zona enlaza a la suya. */
+const ZONAS: [string, string[]][] = [
+  ['Litoral central', ['El Tabo', 'San Antonio', 'Cartagena', 'El Quisco', 'Algarrobo', 'Santo Domingo']],
+  ['Gran Valparaíso', ['Valparaíso', 'Viña del Mar', 'Concón', 'Quintero', 'Puchuncaví', 'Casablanca']],
+  ['Marga Marga', ['Quilpué', 'Villa Alemana', 'Limache', 'Olmué']],
+  ['Quillota', ['Quillota', 'La Calera', 'La Cruz', 'Hijuelas', 'Nogales']],
+  ['Aconcagua', ['San Felipe', 'Los Andes', 'Llaillay', 'Putaendo', 'Calle Larga', 'Rinconada']],
+  ['Petorca', ['La Ligua', 'Cabildo', 'Papudo', 'Zapallar', 'Petorca']],
+];
+---
+<section class="ebz-container sec" id="zonas">
+  <div class="sec-head"><div class="sec-head__t">
+    <span class="ebz-overline ebz-overline-rule" style="color:var(--grafito-300)">Base en El Tabo</span>
+    <h2 class="ebz-h2">Atendemos toda la Región de Valparaíso</h2>
+    <p class="ebz-body muted" style="max-width:620px">Somos del litoral central y trabajamos con dueños y compradores de toda la Quinta Región. La tasación, la revisión y la transferencia se coordinan contigo, estés donde estés.</p>
+  </div></div>
+  <div class="zonas">
+    {ZONAS.map(([zona, comunas]) => (
+      <div class="zonas__item">
+        <h3 class="ebz-h5" style="font-style:italic;font-weight:800;display:flex;gap:8px;align-items:center"><Icon name="map-pin" size={18} style="color:var(--naranja-500)" />{zona}</h3>
+        <p class="ebz-body-sm muted">{comunas.join(' · ')}</p>
+      </div>
+    ))}
+  </div>
+</section>
+
+<style>
+  .zonas{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+  .zonas__item{display:flex;flex-direction:column;gap:8px;padding:18px 20px;background:var(--grafito-900);border-left:3px solid var(--naranja-500)}
+</style>
