@@ -18,7 +18,8 @@ interface Props {
 }
 const { id, variante = 'panel', titulo = 'Tasación sin costo' } = Astro.props;
 const anios = Array.from({ length: 41 }, (_, i) => String(new Date().getFullYear() + 1 - i));
-const MARCAS = ['Audi', 'BMW', 'Chery', 'Chevrolet', 'Citroën', 'Fiat', 'Ford', 'Great Wall', 'Honda', 'Hyundai', 'Jeep', 'Kia', 'Mazda', 'Mercedes-Benz', 'MG', 'Mitsubishi', 'Nissan', 'Peugeot', 'Renault', 'Subaru', 'Suzuki', 'Toyota', 'Volkswagen', 'Volvo'];
+// Marcas más comunes en el mercado de usados en Chile; el resto va en "Otra marca".
+const MARCAS = ['Audi', 'BMW', 'BYD', 'Changan', 'Chery', 'Chevrolet', 'Citroën', 'Dodge', 'DFSK', 'Fiat', 'Ford', 'Geely', 'Great Wall', 'Haval', 'Honda', 'Hyundai', 'JAC', 'Jeep', 'Kia', 'Land Rover', 'Mahindra', 'Maxus', 'Mazda', 'Mercedes-Benz', 'MG', 'Mini', 'Mitsubishi', 'Nissan', 'Opel', 'Peugeot', 'Porsche', 'Ram', 'Renault', 'Seat', 'Skoda', 'SsangYong', 'Subaru', 'Suzuki', 'Toyota', 'Volkswagen', 'Volvo'];
 const URGENCIAS = ['Lo antes posible', 'Este mes', 'En 1 a 3 meses', 'Sólo quiero saber cuánto vale'];
 const f = (n: string) => `${id}-${n}`;
 ---
@@ -34,12 +35,18 @@ const f = (n: string) => `${id}-${n}`;
       <legend class="lead__legend">Tu auto</legend>
       <div class="ebz-field">
         <label class="ebz-label" for={f('patente')}>Patente</label>
-        <div class="ebz-control"><Icon name="scan-line" size={18} /><input id={f('patente')} name="patente" class="ebz-input ebz-input--icon" placeholder="Ej: DGLR28" required minlength="6" maxlength="8" autocomplete="off" style="text-transform:uppercase" /></div>
+        <div class="ebz-control"><Icon name="scan-line" size={18} /><input id={f('patente')} name="patente" class="ebz-input ebz-input--icon" placeholder="Ej: DGLR28" required minlength="6" maxlength="9" autocomplete="off" autocapitalize="characters" spellcheck="false" style="text-transform:uppercase" data-patente /></div>
       </div>
       <div class="ebz-field">
         <label class="ebz-label" for={f('marca')}>Marca</label>
-        <div class="ebz-control"><input id={f('marca')} name="marca" class="ebz-input" placeholder="Ej: Toyota" list={f('marcas')} required autocomplete="off" /></div>
-        <datalist id={f('marcas')}>{MARCAS.map((m) => <option value={m} />)}</datalist>
+        <div class="ebz-control">
+          <select id={f('marca')} name="marca" class="ebz-select" required data-marca><option value="">Selecciona</option>{MARCAS.map((m) => <option>{m}</option>)}<option value="Otra">Otra marca</option></select>
+          <Icon name="chevron-down" size={18} class="ebz-select__chev" />
+        </div>
+      </div>
+      <div class="ebz-field lead__ancho" data-marca-otra hidden>
+        <label class="ebz-label" for={f('marca-otra')}>¿Cuál marca?</label>
+        <div class="ebz-control"><input id={f('marca-otra')} name="marca_otra" class="ebz-input" placeholder="Escribe la marca" autocomplete="off" disabled /></div>
       </div>
       <div class="ebz-field lead__ancho">
         <label class="ebz-label" for={f('modelo')}>Modelo y versión</label>

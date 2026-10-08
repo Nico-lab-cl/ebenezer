@@ -1,44 +1,78 @@
 ---
 import Button from './Button.astro';
 import Icon from './Icon.astro';
-import { clp, cuota, redondear } from '@/lib/formato';
+import { clp, cuota, miles, redondear } from '@/lib/formato';
 import { mensaje, numeroWhatsapp, type AutoWa } from '@/lib/whatsapp';
 import ajustes from '@/content/ajustes.json';
 
-/* Simulador de crédito + solicitud. El HTML trae el resultado inicial ya
-   calculado (funciona sin JS); el script lo recalcula al mover el pie o el
-   plazo y copia esos valores a la solicitud, que se guarda en la planilla
-   (pestaña "Crédito") como cualquier otro formulario. El financiamiento es
-   directo con la automotora.
-   `autos`: si se pasa, la solicitud ofrece elegir el auto de interés
-   (en /financiamiento). En la ficha el auto ya se conoce. */
+/* Simulador de crédito + solicitud de evaluación. El financiamiento es directo
+   con la automotora. El HTML trae el resultado inicial ya calculado (funciona
+   sin JS); el script recalcula y copia los valores a la solicitud, que se guarda
+   en la planilla (pestaña "Crédito").
+
+   Dos modos, tomados de lo mejor de la competencia:
+   - en la ficha de un auto (`auto`): el valor es el precio del auto, fijo;
+   - en /financiamiento (`autos`): se elige un auto del stock o se escribe el
+     valor de cualquier auto (input + slider), como en Auto360 y Lovende.
+   En ambos: pie en % (desde el mínimo), plazo, cuota, monto a financiar, total
+   en cuotas y tasa anual referencial. La CAE no se calcula aquí porque depende
+   de gastos y seguros que sólo se conocen en la cotización formal. */
 interface Props {
   precio: number;
   auto?: AutoWa;
-  autos?: string[];
+  autos?: { nombre: string; precio: number }[];
 }
 const { precio, auto, autos } = Astro.props;
+const editable = Boolean(autos);
 const tasa = ajustes.tasaMensual;
 const plazos = [12, 24, 36, 48, 60];
-const pieMin = redondear(precio * ajustes.pieMinimo);
-const pieMax = redondear(precio * 0.8);
-const pie = redondear(precio * 0.3);
+const pieMinPct = Math.round(ajustes.pieMinimo * 100);
+const piePct = Math.max(pieMinPct, 30);
+const pie = redondear((precio * piePct) / 100);
 const n = 36;
 const c = cuota(precio - pie, tasa, n);
 const base = mensaje('financiamiento', auto);
-const tasaTxt = (tasa * 100).toFixed(2).replace('.', ',');
+const pct = (x: number) => (x * 100).toFixed(1).replace('.', ',') + '%';
+const tasaTxt = (tasa * 100).toFixed(2).replace('.', ',') + '%';
+const tasaAnual = pct(Math.pow(1 + tasa, 12) - 1);
 const nombreAuto = auto ? [auto.marca, auto.modelo, auto.anio].filter(Boolean).join(' ') : '';
+const VALOR_MIN = 2000000;
+const VALOR_MAX = 60000000;
 const SITUACIONES = ['Dependiente', 'Independiente', 'Pensionado', 'Otra'];
-const f = (k: string) => `sim-${precio}-${k}`;
+const RENTAS = ['Menos de $500.000', '$500.000 a $1.000.000', '$1.000.000 a $1.500.000', '$1.500.000 a $2.500.000', 'Más de $2.500.000'];
+const f = (k: string) => `sim-${editable ? 'libre' : precio}-${k}`;
 ---
-<section class="ebz-sim" data-theme="dark" aria-label="Simulador de crédito" data-sim data-precio={precio} data-tasa={tasa} data-wa={numeroWhatsapp()} data-msg={base}>
+<section class="ebz-sim" data-theme="dark" aria-label="Simulador de crédito" id={editable ? 'simulador' : undefined} data-sim data-precio={precio} data-tasa={tasa} data-wa={numeroWhatsapp()} data-msg={base}>
   <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px">
     <h3 class="ebz-h5" style="font-style:italic;font-weight:800">Simula tu crédito</h3>
-    <span class="ebz-caption">Valor <b class="ebz-num" style="color:#fff">{clp(precio)}</b></span>
+    {!editable && <span class="ebz-caption">Valor <b class="ebz-num" style="color:#fff">{clp(precio)}</b></span>}
   </div>
+
+  {editable && (
+    <>
+      <div class="ebz-field">
+        <label class="ebz-label" for={f('auto')}>Auto</label>
+        <div class="ebz-control">
+          <select id={f('auto')} class="ebz-select" data-sim-auto>
+            <option value="">Otro auto (ingresa el valor)</option>
+            {autos!.map((a) => <option value={a.nombre} data-precio={a.precio} selected={a.precio === precio}>{a.nombre} · {clp(a.precio)}</option>)}
+          </select>
+          <Icon name="chevron-down" size={18} class="ebz-select__chev" />
+        </div>
+      </div>
+      <div class="ebz-field">
+        <label class="ebz-label" for={f('valor')}>Valor del auto</label>
+        <div class="ebz-control"><span class="lead__prefijo">$</span><input id={f('valor')} class="ebz-input lead__con-prefijo ebz-num" inputmode="numeric" value={miles(precio)} data-sim-valor aria-describedby={f('valor-ayuda')} /></div>
+        <input type="range" min={VALOR_MIN} max={VALOR_MAX} step="100000" value={Math.min(Math.max(precio, VALOR_MIN), VALOR_MAX)} aria-label="Valor del auto" data-sim-valor-rango />
+        <span class="sim__ayuda" id={f('valor-ayuda')}>Elige un auto del stock o escribe el valor del que te interesa.</span>
+      </div>
+    </>
+  )}
+
   <div class="ebz-field">
-    <label class="ebz-label" style="display:flex;justify-content:space-between" for={f('pie')}>Pie <span class="ebz-num" style="color:#fff;letter-spacing:0;font-size:14px" data-pie-txt>{clp(pie)} · {Math.round((pie / precio) * 100)}%</span></label>
-    <input id={f('pie')} type="range" min={pieMin} max={pieMax} step="100000" value={pie} data-pie />
+    <label class="ebz-label" style="display:flex;justify-content:space-between" for={f('pie')}>Pie <span class="ebz-num" style="color:#fff;letter-spacing:0;font-size:14px" data-pie-txt>{clp(pie)} · {piePct}%</span></label>
+    <input id={f('pie')} type="range" min={pieMinPct} max="80" step="1" value={piePct} data-pie />
+    <span class="sim__ayuda">Pie mínimo {pieMinPct}%.</span>
   </div>
   <div class="ebz-field">
     <span class="ebz-label">Plazo (meses)</span>
@@ -49,7 +83,12 @@ const f = (k: string) => `sim-${precio}-${k}`;
   <div class="ebz-sim__result" aria-live="polite">
     <div class="ebz-label">Cuota referencial</div>
     <div class="ebz-price ebz-price-lg" style="color:var(--naranja-500);margin-top:6px"><span data-cuota>{clp(c)}</span><span style="font-size:16px;color:var(--grafito-300);font-style:normal;font-weight:600"> /mes</span></div>
-    <div class="ebz-caption" style="margin-top:8px">Monto a financiar <b class="ebz-num" style="color:#fff" data-monto>{clp(precio - pie)}</b> · <span data-n>{n}</span> cuotas</div>
+    <dl class="sim__detalle">
+      <div><dt>Monto a financiar</dt><dd class="ebz-num" data-monto>{clp(precio - pie)}</dd></div>
+      <div><dt>Cuotas</dt><dd class="ebz-num" data-n>{n}</dd></div>
+      <div><dt>Total en cuotas</dt><dd class="ebz-num" data-total>{clp(c * n)}</dd></div>
+      <div><dt>Tasa anual ref.</dt><dd class="ebz-num">{tasaAnual}</dd></div>
+    </dl>
   </div>
 
   <Button type="button" block iconRight="arrow-right" data-sim-abrir hidden>Solicitar evaluación</Button>
@@ -57,21 +96,11 @@ const f = (k: string) => `sim-${precio}-${k}`;
   <form class="sim__solicitud" data-lead="credito" data-wa={numeroWhatsapp()} data-sheets={ajustes.sheetsUrl} data-sim-form>
     <div class="sim__campos" data-campos>
       <p class="ebz-label sim__titulo">Solicitud de evaluación</p>
-      <input type="hidden" name="precio_auto" value={precio} />
+      <input type="hidden" name="auto_interes" value={editable ? (autos!.find((a) => a.precio === precio)?.nombre ?? '') : nombreAuto} data-h-auto />
+      <input type="hidden" name="precio_auto" value={clp(precio)} data-h-precio />
       <input type="hidden" name="pie" value={clp(pie)} data-h-pie />
       <input type="hidden" name="plazo" value={n} data-h-plazo />
       <input type="hidden" name="cuota_simulada" value={clp(c)} data-h-cuota />
-      {autos && autos.length > 0 ? (
-        <div class="ebz-field lead__ancho">
-          <label class="ebz-label" for={f('auto')}>Auto de interés</label>
-          <div class="ebz-control">
-            <select id={f('auto')} name="auto_interes" class="ebz-select"><option value="">Aún no elijo</option>{autos.map((a) => <option>{a}</option>)}</select>
-            <Icon name="chevron-down" size={18} class="ebz-select__chev" />
-          </div>
-        </div>
-      ) : (
-        <input type="hidden" name="auto_interes" value={nombreAuto} />
-      )}
       <div class="ebz-field lead__ancho">
         <label class="ebz-label" for={f('nombre')}>Nombre</label>
         <div class="ebz-control"><input id={f('nombre')} name="nombre" class="ebz-input" placeholder="Nombre y apellido" autocomplete="name" required /></div>
@@ -92,7 +121,14 @@ const f = (k: string) => `sim-${precio}-${k}`;
         </div>
       </div>
       <div class="ebz-field">
-        <label class="ebz-label" for={f('pdp')}>¿Auto en parte de pago?</label>
+        <label class="ebz-label" for={f('renta')}>Renta líquida mensual</label>
+        <div class="ebz-control">
+          <select id={f('renta')} name="renta" class="ebz-select" required><option value="">Selecciona</option>{RENTAS.map((r) => <option>{r}</option>)}</select>
+          <Icon name="chevron-down" size={18} class="ebz-select__chev" />
+        </div>
+      </div>
+      <div class="ebz-field lead__ancho">
+        <label class="ebz-label" for={f('pdp')}>¿Tienes un auto para dejar en parte de pago?</label>
         <div class="ebz-control">
           <select id={f('pdp')} name="parte_de_pago" class="ebz-select" required><option value="">Selecciona</option><option>No</option><option>Sí</option></select>
           <Icon name="chevron-down" size={18} class="ebz-select__chev" />
@@ -100,7 +136,7 @@ const f = (k: string) => `sim-${precio}-${k}`;
       </div>
       <label class="lead__check"><input type="checkbox" name="acepta_contacto" value="sí" required /> <span>Acepto que me contacten por WhatsApp sobre esta solicitud.</span></label>
       <div class="lead__oculto" aria-hidden="true"><label>No llenar<input name="sitio_web" tabindex="-1" autocomplete="off" /></label></div>
-      <div class="lead__ancho"><Button type="submit" block iconRight="arrow-right">Enviar solicitud</Button></div>
+      <div class="lead__ancho"><Button type="submit" block iconRight="arrow-right">Enviar solicitud con esta simulación</Button></div>
     </div>
     <div class="lead__gracias" data-gracias hidden>
       <span class="lead__ok"><Icon name="check" size={28} /></span>
@@ -111,23 +147,29 @@ const f = (k: string) => `sim-${precio}-${k}`;
   </form>
 
   <a class="sim__wa" href={`https://wa.me/${numeroWhatsapp()}?text=${encodeURIComponent(base)}`} target="_blank" rel="noopener" data-sim-wa>¿Prefieres conversarlo? Escríbenos por WhatsApp</a>
-  <p class="ebz-sim__fine">Financiamiento directo con {ajustes.nombre}. Valores referenciales, sujetos a evaluación crediticia. Tasa mensual referencial {tasaTxt}%. No incluye gastos operacionales, impuestos ni seguros. La CAE se informa en la cotización formal.</p>
+  <p class="ebz-sim__fine">Financiamiento directo con {ajustes.nombre}. Valores referenciales, sujetos a evaluación crediticia. Tasa mensual referencial {tasaTxt} (anual {tasaAnual}). No incluye gastos operacionales, impuestos ni seguros. La CAE se informa en la cotización formal.</p>
 </section>
 
 <script>
   import '@/scripts/leads';
 
-  const clp = (n: number) => '$' + Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+  const miles = (n: number) => Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+  const clp = (n: number) => '$' + miles(n);
+  const redondear = (n: number) => Math.round(n / 100000) * 100000;
   const cuota = (k: number, r: number, n: number) => (r === 0 ? k / n : (k * r) / (1 - Math.pow(1 + r, -n)));
 
   for (const el of document.querySelectorAll<HTMLElement>('[data-sim]')) {
-    const precio = Number(el.dataset.precio);
     const tasa = Number(el.dataset.tasa);
-    const rango = el.querySelector<HTMLInputElement>('[data-pie]')!;
+    let precio = Number(el.dataset.precio);
+    const q = <T extends Element>(s: string) => el.querySelector<T>(s);
+    const rangoPie = q<HTMLInputElement>('[data-pie]')!;
     const botones = [...el.querySelectorAll<HTMLButtonElement>('[data-plazo]')];
-    const wa = el.querySelector<HTMLAnchorElement>('[data-sim-wa]')!;
-    const form = el.querySelector<HTMLFormElement>('[data-sim-form]')!;
-    const abrir = el.querySelector<HTMLButtonElement>('[data-sim-abrir]')!;
+    const wa = q<HTMLAnchorElement>('[data-sim-wa]')!;
+    const form = q<HTMLFormElement>('[data-sim-form]')!;
+    const abrir = q<HTMLButtonElement>('[data-sim-abrir]')!;
+    const elegir = q<HTMLSelectElement>('[data-sim-auto]');
+    const valor = q<HTMLInputElement>('[data-sim-valor]');
+    const rangoValor = q<HTMLInputElement>('[data-sim-valor-rango]');
     const h = (k: string) => form.querySelector<HTMLInputElement>(`[data-h-${k}]`)!;
     let n = Number(botones.find((b) => b.getAttribute('aria-pressed') === 'true')?.dataset.plazo ?? 36);
 
@@ -137,28 +179,62 @@ const f = (k: string) => `sim-${precio}-${k}`;
     abrir.addEventListener('click', () => {
       abrir.hidden = true;
       form.hidden = false;
-      form.querySelector<HTMLElement>('select,input:not([type=hidden])')?.focus();
+      form.querySelector<HTMLElement>('input:not([type=hidden]),select')?.focus();
     });
 
     const pintar = () => {
-      const pie = Number(rango.value);
-      const c = cuota(precio - pie, tasa, n);
-      el.querySelector('[data-pie-txt]')!.textContent = `${clp(pie)} · ${Math.round((pie / precio) * 100)}%`;
-      el.querySelector('[data-cuota]')!.textContent = clp(c);
-      el.querySelector('[data-monto]')!.textContent = clp(precio - pie);
-      el.querySelector('[data-n]')!.textContent = String(n);
+      const pie = redondear((precio * Number(rangoPie.value)) / 100);
+      const monto = Math.max(precio - pie, 0);
+      const c = monto > 0 ? cuota(monto, tasa, n) : 0;
+      q('[data-pie-txt]')!.textContent = `${clp(pie)} · ${rangoPie.value}%`;
+      q('[data-cuota]')!.textContent = clp(c);
+      q('[data-monto]')!.textContent = clp(monto);
+      q('[data-n]')!.textContent = String(n);
+      q('[data-total]')!.textContent = clp(c * n);
+      h('precio').value = clp(precio);
       h('pie').value = clp(pie);
       h('plazo').value = String(n);
       h('cuota').value = clp(c);
-      const texto = `${el.dataset.msg}. Simulé ${clp(pie)} de pie a ${n} meses (cuota ref. ${clp(c)}).`;
+      if (elegir) h('auto').value = elegir.value;
+      const texto = `${el.dataset.msg}. Simulé un auto de ${clp(precio)} con ${clp(pie)} de pie a ${n} meses (cuota ref. ${clp(c)}).`;
       wa.href = `https://wa.me/${el.dataset.wa}?text=${encodeURIComponent(texto)}`;
     };
-    rango.addEventListener('input', pintar);
+
+    // Modo libre (/financiamiento): auto del stock, valor escrito o slider.
+    const fijarValor = (v: number, desde: 'select' | 'input' | 'rango') => {
+      precio = v;
+      if (valor && desde !== 'input') valor.value = miles(v);
+      if (rangoValor && desde !== 'rango') rangoValor.value = String(v);
+      if (elegir && desde !== 'select') {
+        const igual = [...elegir.options].find((o) => Number(o.dataset.precio) === v);
+        elegir.value = igual ? igual.value : '';
+      }
+      pintar();
+    };
+    elegir?.addEventListener('change', () => {
+      const p = Number(elegir.selectedOptions[0]?.dataset.precio);
+      if (p) fijarValor(p, 'select');
+      else {
+        pintar();
+        valor?.focus();
+      }
+    });
+    valor?.addEventListener('input', () => {
+      const digitos = valor.value.replace(/\D/g, '').slice(0, 10);
+      valor.value = digitos ? miles(Number(digitos)) : '';
+      const v = Number(digitos);
+      valor.setCustomValidity(v && v < 1000000 ? 'Ingresa un valor desde $1.000.000.' : '');
+      if (v >= 1000000) fijarValor(v, 'input');
+    });
+    rangoValor?.addEventListener('input', () => fijarValor(Number(rangoValor.value), 'rango'));
+
+    rangoPie.addEventListener('input', pintar);
     for (const b of botones)
       b.addEventListener('click', () => {
         n = Number(b.dataset.plazo);
         for (const o of botones) o.setAttribute('aria-pressed', String(o === b));
         pintar();
       });
+    pintar();
   }
 </script>

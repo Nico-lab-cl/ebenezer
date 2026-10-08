@@ -11,6 +11,7 @@
    Formularios por pasos: los <fieldset data-paso> se muestran de a uno.
    "Continuar" valida sólo los campos del paso visible. */
 import { comunasDe } from '@/lib/comunas';
+import { MENSAJE_PATENTE, normalizarPatente, patenteValida } from '@/lib/patente';
 
 declare global {
   interface Window {
@@ -52,7 +53,8 @@ const TEXTOS: Record<string, (d: Record<string, string>) => string> = {
   credito: (d) =>
     INTRO +
     `quiero solicitar financiamiento${d.auto_interes ? ' para el ' + d.auto_interes : ''}.\n` +
-    (d.cuota_simulada ? `Simulé ${d.pie} de pie a ${d.plazo} meses (cuota ref. ${d.cuota_simulada}).\n` : '') +
+    (d.cuota_simulada ? `Simulé un auto de ${d.precio_auto} con ${d.pie} de pie a ${d.plazo} meses (cuota ref. ${d.cuota_simulada}).\n` : '') +
+    (d.renta ? `Renta líquida: ${d.renta}.\n` : '') +
     `Soy ${d.nombre}${d.situacion_laboral ? ", " + d.situacion_laboral.toLowerCase() : ""}.` +
     (d.parte_de_pago === 'Sí' ? ' Tengo un auto para dejar en parte de pago.' : ''),
   compra: (d) => INTRO + `busco un ${d.busca}${d.presupuesto ? ' (presupuesto ' + d.presupuesto + ')' : ''}. Soy ${d.nombre}. Avísenme si les llega uno.`,
@@ -69,6 +71,30 @@ for (const input of document.querySelectorAll<HTMLInputElement>('input[data-mile
   input.addEventListener('input', () => {
     const digitos = input.value.replace(/\D/g, '').slice(0, 11);
     input.value = digitos.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+  });
+}
+
+/* Patente: se normaliza (dg-lr-28 → DGLR28) y se valida contra los formatos chilenos. */
+for (const input of document.querySelectorAll<HTMLInputElement>('input[data-patente]')) {
+  const revisar = () => input.setCustomValidity(input.value && !patenteValida(input.value) ? MENSAJE_PATENTE : '');
+  input.addEventListener('input', () => {
+    input.value = normalizarPatente(input.value).slice(0, 6);
+    revisar();
+  });
+  revisar();
+}
+
+/* Marca "Otra marca" → aparece el campo para escribirla. */
+for (const marca of document.querySelectorAll<HTMLSelectElement>('select[data-marca]')) {
+  const caja = marca.form?.querySelector<HTMLElement>('[data-marca-otra]');
+  const otra = caja?.querySelector<HTMLInputElement>('input');
+  if (!caja || !otra) continue;
+  marca.addEventListener('change', () => {
+    const es = marca.value === 'Otra';
+    caja.hidden = !es;
+    otra.disabled = !es;
+    otra.required = es;
+    if (es) otra.focus();
   });
 }
 
@@ -132,7 +158,9 @@ for (const form of document.querySelectorAll<HTMLFormElement>('form[data-lead]')
     btn?.setAttribute('disabled', '');
     btn?.classList.add('ebz-btn--loading');
 
-    if (d.patente) d.patente = d.patente.toUpperCase().replace(/[^A-Z0-9]/g, '');
+    if (d.patente) d.patente = normalizarPatente(d.patente);
+    if (d.marca === 'Otra' && d.marca_otra) d.marca = d.marca_otra.trim();
+    delete d.marca_otra;
     const esBot = Boolean(d.sitio_web); // honeypot: los humanos no lo ven
     delete d.sitio_web;
     if (!esBot) {

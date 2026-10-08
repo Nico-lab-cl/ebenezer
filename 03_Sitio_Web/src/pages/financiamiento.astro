@@ -2,7 +2,6 @@
 import Base from '@/layouts/Base.astro';
 import Icon from '@/components/Icon.astro';
 import Button from '@/components/Button.astro';
-import WhatsAppButton from '@/components/WhatsAppButton.astro';
 import CreditSimulator from '@/components/CreditSimulator.astro';
 import { vehiculos, nombre } from '@/lib/vehiculos';
 import ajustes from '@/content/ajustes.json';
@@ -40,12 +39,12 @@ const FAQ = [
         <h1 class="ebz-h1">Financia tu auto con pie desde {pie}%.</h1>
         <p class="ebz-body-lg muted" style="max-width:560px">Financiamiento directo con {ajustes.nombre}, sin intermediarios. Simula la cuota, envía tu solicitud y te mostramos la CAE antes de firmar.</p>
         <div class="row">
-          <WhatsAppButton context="financiamiento" size="lg">Solicitar evaluación</WhatsAppButton>
+          <Button size="lg" href="#simulador" iconRight="arrow-right">Simular mi crédito</Button>
           <Button variant="secondary" size="lg" href="/comprar/">Ver autos</Button>
         </div>
       </div>
       <div style="flex:5 1 380px">
-        <CreditSimulator precio={primero?.data.precio ?? 12990000} autos={disponibles.map(nombre)} />
+        <CreditSimulator precio={primero?.data.precio ?? 12990000} autos={disponibles.map((v) => ({ nombre: nombre(v), precio: v.data.precio }))} />
       </div>
     </div>
   </section>

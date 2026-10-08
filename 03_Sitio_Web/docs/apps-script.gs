@@ -34,7 +34,7 @@ const PESTANAS = {
   },
   credito: {
     nombre: 'Crédito',
-    columnas: ['auto_interes', 'precio_auto', 'pie', 'plazo', 'cuota_simulada', 'situacion_laboral', 'parte_de_pago'],
+    columnas: ['auto_interes', 'precio_auto', 'pie', 'plazo', 'cuota_simulada', 'situacion_laboral', 'renta', 'parte_de_pago'],
   },
   compra: { nombre: 'Compradores', columnas: ['busca', 'presupuesto'] },
   contacto: { nombre: 'Contacto', columnas: ['motivo', 'mensaje'] },
@@ -59,8 +59,14 @@ function prepararHoja(l, tipo) {
   const def = PESTANAS[tipo];
   const columnas = columnasDe(def);
   const hoja = l.getSheetByName(def.nombre) || l.insertSheet(def.nombre);
-  if (hoja.getLastRow() === 0) {
-    hoja.appendRow(columnas);
+  // Escribe el encabezado si la pestaña está vacía, o lo actualiza si todavía no
+  // tiene contactos y las columnas cambiaron (p. ej. al agregar un campo nuevo).
+  const filas = hoja.getLastRow();
+  const encabezado = filas ? hoja.getRange(1, 1, 1, hoja.getLastColumn()).getValues()[0].join('|') : '';
+  if (filas === 0 || (filas === 1 && encabezado !== columnas.join('|'))) {
+    if (hoja.getMaxColumns() < columnas.length) hoja.insertColumnsAfter(hoja.getMaxColumns(), columnas.length - hoja.getMaxColumns());
+    hoja.getRange(1, 1, 1, hoja.getMaxColumns()).clearContent();
+    hoja.getRange(1, 1, 1, columnas.length).setValues([columnas]);
     hoja.setFrozenRows(1);
     hoja.getRange(1, 1, 1, columnas.length).setFontWeight('bold').setBackground('#20242A').setFontColor('#FFFFFF');
     const regla = SpreadsheetApp.newDataValidation().requireValueInList(ESTADOS[tipo], true).setAllowInvalid(true).build();
