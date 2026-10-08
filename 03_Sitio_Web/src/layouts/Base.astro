@@ -1,8 +1,22 @@
 ---
+/* Fuentes servidas desde el propio sitio (no desde Google): así ningún tercero
+   recibe la IP del visitante sin su consentimiento (Ley 21.719). */
+import '@fontsource/saira/600.css';
+import '@fontsource/saira/700.css';
+import '@fontsource/saira/800.css';
+import '@fontsource/saira/900.css';
+import '@fontsource/saira/700-italic.css';
+import '@fontsource/saira/800-italic.css';
+import '@fontsource/saira/900-italic.css';
+import '@fontsource/montserrat/400.css';
+import '@fontsource/montserrat/500.css';
+import '@fontsource/montserrat/600.css';
+import '@fontsource/montserrat/700.css';
 import '@/styles/global.css';
 import Header from '@/components/Header.astro';
 import Footer from '@/components/Footer.astro';
 import WhatsAppFab from '@/components/WhatsAppFab.astro';
+import CookieAviso from '@/components/CookieAviso.astro';
 import Analytics from '@/components/Analytics.astro';
 import ajustes from '@/content/ajustes.json';
 import { automotora, sitioWeb } from '@/lib/schema';
@@ -64,9 +78,6 @@ const datos = [automotora(site), sitioWeb(site), ...schema];
     <meta name="twitter:image" content={ogAbs} />
     <meta name="twitter:image:alt" content={ogAlt} />
 
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Saira:ital,wght@0,600;0,700;0,800;0,900;1,700;1,800;1,900&family=Montserrat:wght@400;500;600;700&display=swap" />
 
     {datos.map((d) => <script type="application/ld+json" set:html={JSON.stringify(d)} />)}
     <Analytics />
@@ -78,10 +89,11 @@ const datos = [automotora(site), sitioWeb(site), ...schema];
       <slot />
     </main>
     {minimal ? (
-      <footer class="ebz-footer"><div class="ebz-container ebz-footer__bottom"><span>EBENEZER Automotora · Región de Valparaíso</span><a href="/">Ver el sitio completo</a></div></footer>
+      <footer class="ebz-footer"><div class="ebz-container ebz-footer__bottom"><span>EBENEZER Automotora · Región de Valparaíso</span><a href="/">Ver el sitio completo</a><nav class="pie-legal" aria-label="Legal"><a href="/politica-de-privacidad/">Política de privacidad</a><a href="/politica-de-cookies/">Cookies</a><a href="/terminos/">Términos de uso</a><button type="button" data-ck-config>Configurar cookies</button></nav></div></footer>
     ) : (
       <Footer />
     )}
     {fab !== false && <WhatsAppFab {...fab} />}
+    <CookieAviso />
   </body>
 </html>

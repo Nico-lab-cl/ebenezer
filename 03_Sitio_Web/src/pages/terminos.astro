@@ -1,0 +1,53 @@
+---
+import LegalPagina from '@/components/LegalPagina.astro';
+import ajustes from '@/content/ajustes.json';
+
+/* Términos de uso del sitio. Aclaran que precios, tasaciones y simulaciones
+   son referenciales, en línea con la Ley N° 19.496 del consumidor. */
+const ACTUALIZADA = '8 de octubre de 2026';
+const pie = Math.round(ajustes.pieMinimo * 100);
+const INDICE = [
+  { id: 'uso', texto: 'Uso del sitio' },
+  { id: 'autos', texto: 'Autos publicados y precios' },
+  { id: 'fotos', texto: 'Fotos de los autos' },
+  { id: 'tasacion', texto: 'Tasación en línea' },
+  { id: 'credito', texto: 'Simulador de crédito' },
+  { id: 'propiedad', texto: 'Propiedad intelectual' },
+  { id: 'datos', texto: 'Datos personales' },
+  { id: 'ley', texto: 'Ley aplicable' },
+];
+---
+<LegalPagina
+  titulo="Términos de uso"
+  metaTitulo="Términos de uso del sitio | EBENEZER Automotora"
+  descripcion="Condiciones de uso del sitio de EBENEZER Automotora. Precios, tasaciones y simulaciones de crédito referenciales, fotos de los autos y ley aplicable."
+  ruta="/terminos/"
+  actualizada={ACTUALIZADA}
+  indice={INDICE}
+>
+  <p>Estos términos regulan el uso del sitio {ajustes.dominio.replace('https://', '')} de {ajustes.nombre}. Al usarlo aceptas estas condiciones. Nada de lo que aquí se dice limita los derechos que te reconoce la Ley N° 19.496 sobre protección de los derechos de los consumidores.</p>
+
+  <h2 id="uso">Uso del sitio</h2>
+  <p>Puedes usar el sitio para conocer nuestros autos, pedir una tasación, simular un crédito y contactarnos. Te pedimos entregar datos verdaderos en los formularios y no usar el sitio para enviar contenido falso, ofensivo o automatizado.</p>
+
+  <h2 id="autos">Autos publicados y precios</h2>
+  <p>Los precios publicados son finales e incluyen IVA. La transferencia no está incluida y te informamos su costo antes de firmar. Los autos están sujetos a disponibilidad, porque pueden venderse en cualquier momento. Revisamos cada auto antes de publicarlo, aunque la información de la ficha puede tener errores involuntarios. Por eso la confirmamos contigo antes de cerrar la compra.</p>
+
+  <h2 id="fotos">Fotos de los autos</h2>
+  <p>Las fotos pueden tener ajustes de luz, color y fondo para que se vean mejor. Nunca alteramos el estado real del auto, como golpes, rayas o desgaste. Te recomendamos ver el auto en persona antes de comprar.</p>
+
+  <h2 id="tasacion">Tasación en línea</h2>
+  <p>La tasación que hacemos a partir del formulario es una estimación. El valor final de compra o de consignación se confirma después de revisar el auto y sus antecedentes.</p>
+
+  <h2 id="credito">Simulador de crédito</h2>
+  <p>El simulador entrega una cuota referencial con una tasa referencial y un pie desde {pie}% del valor del auto. No es una oferta de crédito ni una aprobación. Las condiciones finales, la tasa, la carga anual equivalente (CAE) y el costo total se informan en la cotización formal, después de evaluar tus antecedentes.</p>
+
+  <h2 id="propiedad">Propiedad intelectual</h2>
+  <p>La marca EBENEZER, el logo, los textos, las fotos y el diseño del sitio son de {ajustes.nombre} o se usan con autorización. No puedes copiarlos ni usarlos con fines comerciales sin nuestro permiso.</p>
+
+  <h2 id="datos">Datos personales</h2>
+  <p>El tratamiento de tus datos se rige por nuestra <a href="/politica-de-privacidad/">política de privacidad</a> y nuestra <a href="/politica-de-cookies/">política de cookies</a>.</p>
+
+  <h2 id="ley">Ley aplicable</h2>
+  <p>Estos términos se rigen por las leyes de la República de Chile. Para cualquier consulta escríbenos a <a href={`mailto:${ajustes.email}`}>{ajustes.email}</a> o por WhatsApp al {ajustes.telefono}.</p>
+</LegalPagina>

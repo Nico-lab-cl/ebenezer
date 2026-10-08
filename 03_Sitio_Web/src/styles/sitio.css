@@ -176,11 +176,17 @@ textarea.ebz-input{height:auto;min-height:120px;padding-top:12px;padding-bottom:
 .lead__ayuda:empty{display:none}
 .lead__prefijo{position:absolute;left:14px;font-weight:600;color:var(--text-tertiary);pointer-events:none}
 .lead__con-prefijo{padding-left:30px}
-.lead__check{grid-column:1/-1;display:flex;gap:10px;align-items:flex-start;font-size:13px;line-height:1.45;color:var(--grafito-300);cursor:pointer}
+.lead__check{grid-column:1/-1;display:flex;gap:10px;align-items:flex-start;font-size:13px;line-height:1.45;color:var(--text-secondary);cursor:pointer}
 .lead__check input{width:18px;height:18px;margin:1px 0 0;flex:none;accent-color:var(--naranja-500)}
 .lead__progreso{display:none;height:3px;background:rgba(255,255,255,.1)}
 .lead--pasos .lead__progreso{display:block}
 .lead__progreso span{display:block;height:100%;width:33.3%;background:var(--naranja-500);transition:width var(--dur-fast,.15s) ease}
+/* Enlaces legales del pie (privacidad, cookies, términos) */
+.pie-legal{display:flex;flex-wrap:wrap;gap:6px 18px;align-items:center}
+.pie-legal a,.pie-legal button{color:var(--grafito-400);font:inherit;font-size:12px;text-decoration:underline;text-underline-offset:3px;background:none;border:0;padding:0;cursor:pointer}
+.pie-legal a:hover,.pie-legal button:hover{color:#fff}
+.lead__aviso{grid-column:1/-1;margin:0;font-size:11.5px;line-height:1.5;color:var(--grafito-400)}
+.lead__aviso a,.lead__check a{color:inherit;text-decoration:underline;text-underline-offset:2px}
 .lead__oculto{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
 .lead__gracias{display:flex;flex-direction:column;align-items:flex-start;gap:14px;padding:8px 0}
 .lead__gracias [tabindex="-1"]:focus{outline:none}

@@ -123,7 +123,8 @@ const f = (k: string) => `sim-${editable ? 'libre' : precio}-${k}`;
           <Icon name="chevron-down" size={18} class="ebz-select__chev" />
         </div>
       </div>
-      <label class="lead__check"><input type="checkbox" name="acepta_contacto" value="sí" required /> <span>Acepto que me contacten por WhatsApp sobre esta solicitud.</span></label>
+      <label class="lead__check"><input type="checkbox" name="consentimiento" value="Política de privacidad 2026-10-08" required /> <span>Acepto que EBENEZER use estos datos para responder mi solicitud y contactarme por WhatsApp, según la <a href="/politica-de-privacidad/" target="_blank">Política de privacidad</a>.</span></label>
+      <label class="lead__check"><input type="checkbox" name="consentimiento_sensibles" value="Datos socioeconómicos para evaluar crédito" required /> <span>Autorizo expresamente el uso de mi situación laboral y mi rango de renta, que son datos sensibles, sólo para evaluar este crédito.</span></label>
       <div class="lead__oculto" aria-hidden="true"><label>No llenar<input name="sitio_web" tabindex="-1" autocomplete="off" /></label></div>
       <div class="lead__ancho"><Button type="submit" block iconRight="arrow-right">Enviar solicitud con esta simulación</Button></div>
     </div>

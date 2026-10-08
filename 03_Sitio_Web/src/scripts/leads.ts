@@ -161,6 +161,9 @@ for (const form of document.querySelectorAll<HTMLFormElement>('form[data-lead]')
     if (d.patente) d.patente = normalizarPatente(d.patente);
     if (d.marca === 'Otra' && d.marca_otra) d.marca = d.marca_otra.trim();
     delete d.marca_otra;
+    // Prueba del consentimiento (Ley 21.719): qué aceptó y de qué versión de la política.
+    if (d.consentimiento_sensibles) d.consentimiento = [d.consentimiento, d.consentimiento_sensibles].filter(Boolean).join(' · ');
+    delete d.consentimiento_sensibles;
     const esBot = Boolean(d.sitio_web); // honeypot: los humanos no lo ven
     delete d.sitio_web;
     if (!esBot) {

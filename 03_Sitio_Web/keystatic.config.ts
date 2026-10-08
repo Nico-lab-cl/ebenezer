@@ -139,6 +139,8 @@ export default config({
       format: { data: 'json' },
       schema: {
         nombre: fields.text({ label: 'Nombre comercial' }),
+        razonSocial: fields.text({ label: 'Razón social', description: 'Responsable de los datos personales (Ley 21.719). Aparece en la política de privacidad.' }),
+        rut: fields.text({ label: 'RUT de la empresa' }),
         dominio: fields.url({ label: 'Dominio', description: 'Con https://. Se usa en canónicas y sitemap.' }),
         whatsapp: fields.text({ label: 'WhatsApp', description: 'Sólo dígitos con código país. Ej: 56912345678' }),
         telefono: fields.text({ label: 'Teléfono visible' }),

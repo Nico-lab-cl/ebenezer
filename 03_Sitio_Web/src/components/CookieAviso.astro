@@ -1,0 +1,118 @@
+---
+/* Aviso de cookies y panel de preferencias (Ley 21.719).
+
+   - Se muestra hasta que la persona decide. Rechazar tiene el mismo peso
+     visual que aceptar, y cerrar el aviso sin elegir no acepta nada.
+   - Las categorías opcionales parten desmarcadas (sin casillas premarcadas).
+   - Retirar el consentimiento es tan fácil como darlo: el enlace
+     "Configurar cookies" del pie de página abre el mismo panel.
+   La carga real de Google Analytics y Meta Pixel está en Analytics.astro. */
+---
+<div class="ck" data-ck hidden role="region" aria-label="Aviso de cookies">
+  <div class="ck__txt">
+    <p class="ck__tit">Tu privacidad</p>
+    <p>Usamos almacenamiento propio necesario para que el sitio funcione. Si nos autorizas, también usamos cookies de <b>medición</b> (Google Analytics) y de <b>publicidad</b> (Meta) para saber qué anuncios funcionan. Puedes cambiar tu decisión cuando quieras. <a href="/politica-de-cookies/">Política de cookies</a></p>
+  </div>
+  <div class="ck__btns">
+    <button type="button" class="ck__btn ck__btn--no" data-ck-rechazar>Rechazar</button>
+    <button type="button" class="ck__btn" data-ck-abrir>Configurar</button>
+    <button type="button" class="ck__btn ck__btn--si" data-ck-aceptar>Aceptar todo</button>
+  </div>
+</div>
+
+<dialog class="ckd" data-ckd aria-labelledby="ckd-tit">
+  <form method="dialog" class="ckd__in">
+    <p class="ck__tit" id="ckd-tit">Preferencias de cookies</p>
+    <p class="ckd__intro">Elige qué nos autorizas. Las opciones vienen desactivadas y puedes cambiarlas cuando quieras desde "Configurar cookies", al pie de cada página.</p>
+
+    <div class="ckd__op">
+      <div><b>Necesarias</b><span>Recuerdan tu decisión sobre cookies y el origen de tu visita mientras navegas, para adjuntarlo a la solicitud que nos envíes. No salen de tu navegador hasta que envías un formulario.</span></div>
+      <span class="ckd__siempre">Siempre activas</span>
+    </div>
+    <label class="ckd__op">
+      <div><b>Medición</b><span>Google Analytics. Estadísticas de visitas para mejorar el sitio. Los datos se procesan en servidores de Google, incluso fuera de Chile.</span></div>
+      <input type="checkbox" class="ckd__sw" data-ck-analitica />
+    </label>
+    <label class="ckd__op">
+      <div><b>Publicidad</b><span>Meta Pixel (Facebook e Instagram). Mide qué anuncios te trajeron y nos permite mostrar anuncios a personas interesadas. Los datos se procesan en servidores de Meta, incluso fuera de Chile.</span></div>
+      <input type="checkbox" class="ckd__sw" data-ck-publicidad />
+    </label>
+
+    <div class="ckd__btns">
+      <button type="submit" class="ck__btn ck__btn--no" value="rechazar" data-ckd-rechazar>Rechazar todo</button>
+      <button type="submit" class="ck__btn" value="guardar" data-ckd-guardar>Guardar selección</button>
+      <button type="submit" class="ck__btn ck__btn--si" value="aceptar" data-ckd-aceptar>Aceptar todo</button>
+    </div>
+    <p class="ckd__links"><a href="/politica-de-privacidad/">Política de privacidad</a> · <a href="/politica-de-cookies/">Política de cookies</a></p>
+  </form>
+</dialog>
+
+<script>
+  type Consentimiento = { analitica: boolean; publicidad: boolean };
+  const api = (window as unknown as { ebzConsentimiento?: { actual: () => Consentimiento | null; guardar: (a: boolean, p: boolean) => Consentimiento } }).ebzConsentimiento;
+  const aviso = document.querySelector<HTMLElement>('[data-ck]');
+  const panel = document.querySelector<HTMLDialogElement>('[data-ckd]');
+  if (api && aviso && panel) {
+    const swA = panel.querySelector<HTMLInputElement>('[data-ck-analitica]')!;
+    const swP = panel.querySelector<HTMLInputElement>('[data-ck-publicidad]')!;
+    const decidir = (a: boolean, p: boolean) => {
+      api.guardar(a, p);
+      aviso.hidden = true;
+    };
+    const abrir = () => {
+      const c = api.actual();
+      swA.checked = Boolean(c?.analitica);
+      swP.checked = Boolean(c?.publicidad);
+      panel.showModal();
+    };
+
+    if (!api.actual()) aviso.hidden = false;
+    aviso.querySelector('[data-ck-rechazar]')!.addEventListener('click', () => decidir(false, false));
+    aviso.querySelector('[data-ck-aceptar]')!.addEventListener('click', () => decidir(true, true));
+    aviso.querySelector('[data-ck-abrir]')!.addEventListener('click', abrir);
+    panel.querySelector('[data-ckd-rechazar]')!.addEventListener('click', () => decidir(false, false));
+    panel.querySelector('[data-ckd-aceptar]')!.addEventListener('click', () => decidir(true, true));
+    panel.querySelector('[data-ckd-guardar]')!.addEventListener('click', () => decidir(swA.checked, swP.checked));
+    // Enlaces "Configurar cookies" (pie de página, política de cookies)
+    document.addEventListener('click', (e) => {
+      const t = (e.target as HTMLElement).closest('[data-ck-config]');
+      if (t) {
+        e.preventDefault();
+        abrir();
+      }
+    });
+  }
+</script>
+
+<style>
+  .ck{position:fixed;left:16px;right:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:60;max-width:760px;margin-inline:auto;display:flex;flex-wrap:wrap;gap:14px 20px;align-items:center;padding:18px 20px;background:var(--grafito-900);color:#fff;box-shadow:0 18px 48px rgba(0,0,0,.45),inset 0 0 0 1px rgba(255,255,255,.1);border-top:3px solid var(--naranja-500)}
+  .ck__txt{flex:1 1 360px;display:flex;flex-direction:column;gap:4px;font-size:13.5px;line-height:1.5;color:var(--grafito-300)}
+  .ck__txt p{margin:0}
+  .ck__txt b{color:#fff}
+  .ck__txt a,.ckd__links a{color:var(--naranja-400,#F68A52);text-decoration:underline;text-underline-offset:3px}
+  .ck__tit{margin:0;font-family:var(--font-display);font-style:italic;font-weight:800;font-size:17px;color:#fff}
+  .ck__btns,.ckd__btns{display:flex;flex-wrap:wrap;gap:8px}
+  .ck__btn{flex:1 1 auto;min-width:112px;height:42px;padding:0 16px;border:0;cursor:pointer;font-family:var(--font-display);font-weight:800;font-style:italic;font-size:14px;letter-spacing:.02em;text-transform:uppercase;background:transparent;color:#fff;box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.55)}
+  .ck__btn:hover{box-shadow:inset 0 0 0 1.5px #fff}
+  /* Rechazar pesa lo mismo que aceptar: botón relleno, mismo tamaño */
+  .ck__btn--no{background:#fff;color:var(--grafito-950);box-shadow:none}
+  .ck__btn--no:hover{background:var(--grafito-100);box-shadow:none}
+  .ck__btn--si{background:var(--naranja-500);color:var(--grafito-950);box-shadow:none}
+  .ck__btn--si:hover{background:var(--naranja-400,#F68A52);box-shadow:none}
+  .ck__btn:focus-visible{outline:3px solid var(--naranja-500);outline-offset:2px}
+  .ckd{width:min(560px,calc(100% - 32px));max-height:calc(100% - 32px);padding:0;border:0;background:var(--grafito-900);color:#fff;box-shadow:0 24px 64px rgba(0,0,0,.6)}
+  .ckd::backdrop{background:rgba(10,12,15,.7)}
+  .ckd__in{display:flex;flex-direction:column;gap:14px;padding:24px}
+  .ckd__intro{margin:0;font-size:13.5px;color:var(--grafito-300)}
+  .ckd__op{display:flex;gap:16px;align-items:center;justify-content:space-between;padding:14px 0;border-top:1px solid rgba(255,255,255,.1);cursor:pointer}
+  .ckd__op div{display:flex;flex-direction:column;gap:4px}
+  .ckd__op span{font-size:12.5px;color:var(--grafito-300);line-height:1.5}
+  .ckd__siempre{flex:none;font-weight:700;color:var(--grafito-400)!important}
+  .ckd__sw{flex:none;width:44px;height:24px;appearance:none;-webkit-appearance:none;background:var(--grafito-700);border-radius:99px;position:relative;cursor:pointer;transition:background .15s}
+  .ckd__sw::after{content:"";position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:#fff;transition:transform .15s}
+  .ckd__sw:checked{background:var(--naranja-500)}
+  .ckd__sw:checked::after{transform:translateX(20px)}
+  .ckd__sw:focus-visible{outline:3px solid var(--naranja-500);outline-offset:2px}
+  .ckd__links{margin:0;font-size:12.5px;color:var(--grafito-400)}
+  @media (max-width:599px){.ck{padding:16px}.ck__btn{min-width:0}}
+</style>

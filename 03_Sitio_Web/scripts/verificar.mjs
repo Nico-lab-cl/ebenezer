@@ -38,6 +38,7 @@ recorrer(join(raiz, 'src/lib'), ['faq.ts']);
 const ajustes = JSON.parse(readFileSync(join(raiz, 'src/content/ajustes.json'), 'utf8'));
 if (/^569?0+$/.test(String(ajustes.whatsapp))) pendientes.push('src/content/ajustes.json  whatsapp es el número de prueba 56900000000');
 if (!ajustes.sheetsUrl) pendientes.push('src/content/ajustes.json  sheetsUrl vacío: los contactos no se guardan en Google Sheets (docs/google-sheets.md)');
+if (!ajustes.razonSocial || !ajustes.rut) pendientes.push('src/content/ajustes.json  razonSocial y rut vacíos: la política de privacidad debe identificar al responsable de los datos (Ley 21.719)');
 if (!ajustes.metaPixelId) pendientes.push('src/content/ajustes.json  metaPixelId vacío: los anuncios de Meta no medirán conversiones');
 if (!ajustes.ga4Id) pendientes.push('src/content/ajustes.json  ga4Id vacío: sin Google Analytics');
 if (!String(ajustes.dominio).startsWith('https://')) pendientes.push('src/content/ajustes.json  dominio debe empezar con https://');

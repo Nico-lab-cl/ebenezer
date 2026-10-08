@@ -1,36 +1,30 @@
 ---
-/* Medición para los anuncios. Meta Pixel y GA4 se cargan sólo si sus IDs
-   están en "Datos de la automotora"; sin IDs no se carga nada externo.
+/* Medición y consentimiento (Ley 21.719).
 
-   Siempre se ejecuta (es local, sin cookies):
-   - guarda el origen de la visita (utm_*, fbclid, gclid) para adjuntarlo al
-     contacto en la planilla, y así saber qué anuncio trajo a cada vendedor;
-   - window.ebzTrack(), que usan los formularios;
-   - un evento Contact por cada clic en un enlace de WhatsApp. */
+   Meta Pixel (publicidad) y Google Analytics 4 (medición) NO se cargan hasta
+   que la persona los acepta en el aviso de cookies (CookieAviso.astro). Sin
+   consentimiento no se pide nada a Google ni a Meta.
+
+   La decisión se guarda en localStorage ("ebz-consentimiento") con su versión
+   y fecha; se vuelve a preguntar si cambia la versión o pasan 12 meses.
+
+   Siempre se ejecuta (local, sin cookies ni terceros):
+   - guarda el origen de la visita (utm_*, fbclid, gclid) en sessionStorage,
+     sólo para adjuntarlo a la solicitud que la persona envíe (se borra al
+     cerrar la pestaña);
+   - window.ebzTrack(), que usan los formularios: no hace nada si la persona
+     no aceptó la medición o la publicidad. */
 import ajustes from '@/content/ajustes.json';
 
 const pixel = String(ajustes.metaPixelId || '').replace(/\D/g, '');
 const ga = String(ajustes.ga4Id || '').trim();
 ---
-{pixel && (
-  <script is:inline define:vars={{ pixel }}>
-    !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
-    fbq('init', pixel);
-    fbq('track', 'PageView');
-  </script>
-)}
-{ga && <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${ga}`}></script>}
-{ga && (
-  <script is:inline define:vars={{ ga }}>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    window.gtag = gtag;
-    gtag('js', new Date());
-    gtag('config', ga);
-  </script>
-)}
-<script is:inline>
+<script is:inline define:vars={{ pixel, ga }}>
   (function () {
+    var CLAVE = 'ebz-consentimiento';
+    var VERSION = 1;
+    var DOCE_MESES = 365 * 24 * 60 * 60 * 1000;
+
     try {
       var q = new URLSearchParams(location.search), o = {};
       ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'fbclid', 'gclid'].forEach(function (k) { if (q.get(k)) o[k] = q.get(k); });
@@ -39,9 +33,55 @@ const ga = String(ajustes.ga4Id || '').trim();
         sessionStorage.setItem('ebz-origen', JSON.stringify({ utm_source: new URL(document.referrer).host, utm_medium: 'referral' }));
     } catch (e) {}
 
+    function leer() {
+      try {
+        var c = JSON.parse(localStorage.getItem(CLAVE) || 'null');
+        if (!c || c.v !== VERSION || Date.now() - c.fecha > DOCE_MESES) return null;
+        return c;
+      } catch (e) { return null; }
+    }
+
+    var cargadoGA = false, cargadoPixel = false;
+    function aplicar(c) {
+      if (!c) return;
+      if (c.analitica && ga && !cargadoGA) {
+        cargadoGA = true;
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function () { window.dataLayer.push(arguments); };
+        window.gtag('js', new Date());
+        window.gtag('config', ga, { anonymize_ip: true });
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=' + ga;
+        document.head.appendChild(s);
+      }
+      if (c.publicidad && pixel && !cargadoPixel) {
+        cargadoPixel = true;
+        !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+        window.fbq('init', pixel);
+        window.fbq('track', 'PageView');
+      }
+    }
+
+    /* API para el aviso de cookies. Retirar el consentimiento recarga la página
+       para que los scripts ya cargados dejen de ejecutarse. */
+    window.ebzConsentimiento = {
+      actual: leer,
+      guardar: function (analitica, publicidad) {
+        var antes = leer();
+        var c = { v: VERSION, fecha: Date.now(), analitica: !!analitica, publicidad: !!publicidad };
+        try { localStorage.setItem(CLAVE, JSON.stringify(c)); } catch (e) {}
+        var retira = antes && ((antes.analitica && !c.analitica) || (antes.publicidad && !c.publicidad));
+        if (retira) location.reload();
+        else aplicar(c);
+        return c;
+      },
+      hayHerramientas: Boolean(ga || pixel),
+    };
+    aplicar(leer());
+
     window.ebzTrack = function (evento, datos) {
       datos = datos || {};
-      // Lead y Contact son eventos estándar de Meta; el resto (p. ej. PasoFormulario) va como evento propio.
       var estandar = evento === 'Lead' || evento === 'Contact';
       if (window.fbq) window.fbq(estandar ? 'track' : 'trackCustom', evento, estandar ? { content_category: datos.tipo || 'whatsapp' } : datos);
       if (window.gtag) window.gtag('event', evento === 'Lead' ? 'generate_lead' : evento === 'Contact' ? 'contact' : 'form_step', datos);

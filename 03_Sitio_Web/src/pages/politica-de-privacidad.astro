@@ -1,0 +1,125 @@
+---
+import LegalPagina from '@/components/LegalPagina.astro';
+import ajustes from '@/content/ajustes.json';
+import { real } from '@/lib/datos';
+
+/* Política de tratamiento de datos personales (Ley 19.628 reformada por la
+   Ley 21.719, art. 14 ter). Contiene lo que exige el deber de información:
+   responsable, datos, finalidades, bases de licitud, destinatarios,
+   transferencias internacionales, plazos de conservación, seguridad,
+   derechos y cómo ejercerlos, y el derecho a reclamar ante la Agencia.
+   Los plazos de conservación son una propuesta que la automotora debe
+   confirmar. Conviene que un abogado revise el texto antes de la entrada en
+   vigencia de la ley. */
+const ACTUALIZADA = '8 de octubre de 2026';
+const responsable = [real(ajustes.razonSocial), real(ajustes.rut) && `RUT ${ajustes.rut}`].filter(Boolean).join(', ');
+const INDICE = [
+  { id: 'responsable', texto: 'Quién es responsable de tus datos' },
+  { id: 'datos', texto: 'Qué datos recopilamos' },
+  { id: 'finalidades', texto: 'Para qué los usamos y con qué base legal' },
+  { id: 'sensibles', texto: 'Datos socioeconómicos del crédito' },
+  { id: 'destinatarios', texto: 'Con quién los compartimos' },
+  { id: 'internacional', texto: 'Transferencias fuera de Chile' },
+  { id: 'conservacion', texto: 'Cuánto tiempo los guardamos' },
+  { id: 'seguridad', texto: 'Cómo los protegemos' },
+  { id: 'derechos', texto: 'Tus derechos y cómo ejercerlos' },
+  { id: 'reclamo', texto: 'Reclamos ante la Agencia' },
+  { id: 'cambios', texto: 'Cambios a esta política' },
+];
+---
+<LegalPagina
+  titulo="Política de privacidad"
+  metaTitulo="Política de privacidad y datos personales | EBENEZER"
+  descripcion="Cómo EBENEZER Automotora trata tus datos personales según la Ley 21.719. Qué datos pedimos, para qué, con quién se comparten y cómo ejercer tus derechos."
+  ruta="/politica-de-privacidad/"
+  actualizada={ACTUALIZADA}
+  indice={INDICE}
+>
+  <p>En EBENEZER Automotora cuidamos los datos personales que nos entregas al tasar tu auto, pedir un crédito o escribirnos. Esta política explica cómo los tratamos, conforme a la Ley N° 19.628 sobre protección de la vida privada, modificada por la <b>Ley N° 21.719</b> sobre protección de datos personales.</p>
+
+  <h2 id="responsable">Quién es responsable de tus datos</h2>
+  <p>El responsable del tratamiento es <b>{ajustes.nombre}</b>{responsable && <>, {responsable}</>}, con base en {ajustes.comuna}, Región de Valparaíso, Chile.</p>
+  <ul>
+    <li>Correo para temas de datos personales <a href={`mailto:${ajustes.email}`}>{ajustes.email}</a></li>
+    <li>WhatsApp {ajustes.telefono}</li>
+  </ul>
+
+  <h2 id="datos">Qué datos recopilamos</h2>
+  <p>Sólo pedimos lo necesario para atender lo que nos solicitas.</p>
+  <div class="tabla"><table>
+    <thead><tr><th>Cuándo</th><th>Datos</th></tr></thead>
+    <tbody>
+      <tr><td>Tasación o venta de tu auto</td><td>Nombre, WhatsApp, correo (opcional), región y comuna. Del auto, patente, marca, modelo, año, kilometraje, transmisión, modalidad de venta, precio esperado y urgencia.</td></tr>
+      <tr><td>Solicitud de crédito</td><td>Nombre, WhatsApp, correo (opcional), auto de interés y simulación (valor, pie, plazo y cuota), situación laboral, rango de renta líquida y si tienes un auto en parte de pago.</td></tr>
+      <tr><td>Encargo de un auto</td><td>Nombre, WhatsApp, tipo de auto que buscas y presupuesto.</td></tr>
+      <tr><td>Formulario de contacto</td><td>Nombre, teléfono, correo (opcional), motivo y mensaje.</td></tr>
+      <tr><td>Navegación</td><td>Origen de la visita (por ejemplo el anuncio que te trajo) y la página desde donde nos escribes. Si lo autorizas, datos de medición y publicidad mediante cookies, ver la <a href="/politica-de-cookies/">política de cookies</a>.</td></tr>
+      <tr><td>Conversaciones por WhatsApp</td><td>Los mensajes, fotos y documentos que nos envíes para tasar o vender tu auto.</td></tr>
+    </tbody>
+  </table></div>
+  <p>Si luego firmamos un contrato de consignación, compraventa o crédito, te pediremos los datos y documentos que ese contrato exige, como tu RUT y los antecedentes del vehículo.</p>
+
+  <h2 id="finalidades">Para qué los usamos y con qué base legal</h2>
+  <div class="tabla"><table>
+    <thead><tr><th>Finalidad</th><th>Base de licitud</th></tr></thead>
+    <tbody>
+      <tr><td>Responder tu solicitud, tasar tu auto, enviarte la oferta y coordinar visitas, revisión y transferencia</td><td>Tu consentimiento al enviar el formulario y la ejecución de medidas precontractuales que nos pides</td></tr>
+      <tr><td>Evaluar tu solicitud de crédito</td><td>Tu consentimiento expreso para los datos socioeconómicos</td></tr>
+      <tr><td>Avisarte cuando llegue el auto que encargaste</td><td>Tu consentimiento</td></tr>
+      <tr><td>Celebrar y cumplir contratos de consignación, compraventa o crédito</td><td>La ejecución del contrato</td></tr>
+      <tr><td>Cumplir obligaciones tributarias, comerciales y de transferencia de vehículos</td><td>El cumplimiento de una obligación legal</td></tr>
+      <tr><td>Medir el sitio y nuestros anuncios</td><td>Tu consentimiento en el aviso de cookies</td></tr>
+      <tr><td>Proteger el sitio contra abusos y ataques</td><td>Nuestro interés legítimo en mantener el sitio seguro</td></tr>
+    </tbody>
+  </table></div>
+  <p>No vendemos tus datos ni los usamos para tomar decisiones automatizadas sobre ti. Cada solicitud la revisa una persona del equipo.</p>
+
+  <h2 id="sensibles">Datos socioeconómicos del crédito</h2>
+  <p>La ley considera <b>datos sensibles</b> los que revelan tu situación socioeconómica. Tu situación laboral y tu rango de renta lo son, por eso sólo los tratamos con tu <b>consentimiento expreso</b>, que das en una casilla aparte del formulario de crédito. Los usamos sólo para evaluar tu solicitud y no los compartimos con terceros para otros fines. Puedes retirar ese consentimiento cuando quieras, aunque sin esos datos no podremos evaluar el crédito.</p>
+
+  <h2 id="destinatarios">Con quién los compartimos</h2>
+  <p>Trabajamos con proveedores que tratan datos por encargo nuestro, sólo para prestarnos su servicio.</p>
+  <ul>
+    <li><b>Google</b> (Google Workspace, hojas de cálculo y Apps Script), donde se registran las solicitudes que envías.</li>
+    <li><b>Cloudflare</b>, que aloja y protege el sitio web.</li>
+    <li><b>Meta</b> (WhatsApp), cuando nos escribes por WhatsApp.</li>
+    <li>Nuestro proveedor de correo electrónico.</li>
+    <li><b>Google Analytics</b> y <b>Meta Pixel</b>, sólo si los autorizas en el aviso de cookies.</li>
+  </ul>
+  <p>Cuando concretamos una venta, compartimos con el Registro Civil y con el servicio de transferencia digital los datos necesarios para el traspaso del vehículo. Si vendes tu auto en consignación, el comprador conocerá los datos que exige la transferencia. También entregaremos datos a autoridades cuando una ley lo exija.</p>
+
+  <h2 id="internacional">Transferencias fuera de Chile</h2>
+  <p>Google, Meta y Cloudflare pueden procesar datos en servidores ubicados fuera de Chile, principalmente en Estados Unidos. Estas transferencias se hacen al amparo de tu consentimiento y de las cláusulas contractuales de protección de datos que esos proveedores ofrecen a sus clientes.</p>
+
+  <h2 id="conservacion">Cuánto tiempo los guardamos</h2>
+  <ul>
+    <li>Solicitudes que no terminan en un negocio, hasta 24 meses desde el último contacto. Después se eliminan.</li>
+    <li>Datos socioeconómicos de una solicitud de crédito que no se concreta, hasta 6 meses desde la respuesta.</li>
+    <li>Datos de contratos de consignación, compraventa o crédito, mientras dure la relación y luego por el plazo que exijan las normas tributarias y comerciales.</li>
+    <li>Preferencias de cookies, 12 meses en tu navegador.</li>
+  </ul>
+
+  <h2 id="seguridad">Cómo los protegemos</h2>
+  <p>El sitio funciona sólo con conexión cifrada (HTTPS). Las solicitudes se guardan en una planilla con acceso restringido al equipo de EBENEZER, y los formularios tienen protección contra envíos automáticos. Si ocurriera una vulneración de seguridad que afecte tus datos, la informaremos a la Agencia de Protección de Datos Personales y, cuando corresponda, a ti, en la forma que establece la ley.</p>
+
+  <h2 id="derechos">Tus derechos y cómo ejercerlos</h2>
+  <p>Como titular de tus datos tienes derecho a</p>
+  <ul>
+    <li><b>Acceso</b>, saber si tratamos tus datos, cuáles, para qué y con quién los compartimos.</li>
+    <li><b>Rectificación</b>, corregir datos inexactos o incompletos.</li>
+    <li><b>Supresión</b>, pedir que eliminemos tus datos cuando ya no sean necesarios o retires tu consentimiento.</li>
+    <li><b>Oposición</b>, oponerte a un tratamiento, por ejemplo a recibir avisos de autos.</li>
+    <li><b>Portabilidad</b>, recibir tus datos en un formato estructurado y de uso común.</li>
+    <li><b>Bloqueo temporal</b>, suspender el tratamiento mientras se resuelve una solicitud tuya.</li>
+    <li><b>Retirar tu consentimiento</b> en cualquier momento, sin que afecte lo hecho antes.</li>
+  </ul>
+  <p>Para ejercerlos escríbenos a <a href={`mailto:${ajustes.email}?subject=Derechos%20sobre%20mis%20datos%20personales`}>{ajustes.email}</a> con el asunto "Derechos sobre mis datos personales". Indica tu nombre, el derecho que quieres ejercer y un teléfono o correo de contacto. Podemos pedirte acreditar tu identidad. Es gratuito y te responderemos dentro del plazo legal, que es de 30 días corridos, prorrogables una vez por el mismo período si la solicitud lo requiere.</p>
+  <p>Las preferencias de cookies las cambias tú mismo en cualquier momento.</p>
+  <button type="button" class="btn-texto" data-ck-config>Configurar cookies</button>
+
+  <h2 id="reclamo">Reclamos ante la Agencia</h2>
+  <p>Si no respondemos tu solicitud o no estás de acuerdo con la respuesta, puedes reclamar ante la <b>Agencia de Protección de Datos Personales</b>, organismo creado por la Ley N° 21.719.</p>
+
+  <h2 id="cambios">Cambios a esta política</h2>
+  <p>Podemos actualizar esta política para reflejar cambios legales o en nuestros servicios. Publicaremos aquí la nueva versión con su fecha. Si el cambio afecta algo que autorizaste, te pediremos de nuevo tu consentimiento.</p>
+</LegalPagina>

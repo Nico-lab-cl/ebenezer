@@ -25,7 +25,7 @@ const PLANILLA_ID = '';
 const libro = () => (PLANILLA_ID ? SpreadsheetApp.openById(PLANILLA_ID) : SpreadsheetApp.getActiveSpreadsheet());
 
 const COMUNES_INICIO = ['fecha', 'estado', 'traido_por', 'nombre', 'telefono', 'email'];
-const COMUNES_FIN = ['fuente', 'anuncio', 'pagina', 'utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'fbclid', 'gclid'];
+const COMUNES_FIN = ['consentimiento', 'fuente', 'anuncio', 'pagina', 'utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'fbclid', 'gclid'];
 
 const PESTANAS = {
   venta: {
@@ -72,8 +72,23 @@ function prepararHoja(l, tipo) {
     const regla = SpreadsheetApp.newDataValidation().requireValueInList(ESTADOS[tipo], true).setAllowInvalid(true).build();
     hoja.getRange(2, columnas.indexOf('estado') + 1, hoja.getMaxRows() - 1, 1).setDataValidation(regla);
     formatear(hoja, columnas);
+  } else if (filas > 1 && encabezado !== columnas.join('|')) {
+    migrarColumnas(hoja, columnas);
   }
   return hoja;
+}
+
+// Pestaña con contactos y columnas nuevas en el código: inserta cada columna
+// que falta en su posición (vacía en las filas existentes) sin mover datos.
+function migrarColumnas(hoja, columnas) {
+  columnas.forEach((c, i) => {
+    const actual = hoja.getRange(1, 1, 1, hoja.getLastColumn()).getValues()[0];
+    if (actual.includes(c)) return;
+    if (i === 0) hoja.insertColumnBefore(1);
+    else hoja.insertColumnAfter(actual.indexOf(columnas[i - 1]) + 1);
+    const col = i === 0 ? 1 : actual.indexOf(columnas[i - 1]) + 2;
+    hoja.getRange(1, col).setValue(c).setFontWeight('bold').setBackground('#20242A').setFontColor('#FFFFFF');
+  });
 }
 
 // Fecha legible, "anio" y "plazo" sin separador, montos y km con punto de miles.

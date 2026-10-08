@@ -33,8 +33,13 @@ referido, deducida de las utm), **anuncio** (`utm_content`), página y el origen
 completo de la visita (`utm_*`, `fbclid`, `gclid`). Son columnas del tracker de
 ventas de Patricio, para poder cruzar ambas planillas.
 
-Si la planilla ya tenía pestañas creadas con una versión anterior del script,
-bórralas o renómbralas: el encabezado sólo se escribe en una pestaña vacía.
+La columna **consentimiento** guarda qué aceptó la persona y la versión de la
+política de privacidad (y, en crédito, la autorización expresa de datos
+socioeconómicos). Es la prueba que pide la Ley 21.719: no la borres.
+
+Si el código agrega columnas nuevas, ejecuta `configurar()` desde el editor: en
+pestañas con contactos inserta cada columna que falta en su lugar, sin mover
+los datos que ya existen.
 
 ## Si cambias el script
 
