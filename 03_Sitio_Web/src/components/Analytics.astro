@@ -1,9 +1,18 @@
 ---
 /* Medición y consentimiento (Ley 21.719).
 
-   Meta Pixel (publicidad) y Google Analytics 4 (medición) NO se cargan hasta
-   que la persona los acepta en el aviso de cookies (CookieAviso.astro). Sin
-   consentimiento no se pide nada a Google ni a Meta.
+   Google Tag Manager, Microsoft Clarity, Google Analytics 4 y Meta Pixel NO se
+   cargan hasta que la persona los acepta en el aviso de cookies
+   (CookieAviso.astro). Sin consentimiento no se pide nada a Google, Microsoft
+   ni Meta.
+   - GTM: se carga si acepta medición o publicidad, con Consent Mode v2
+     (analytics_storage / ad_storage / ad_user_data / ad_personalization según
+     lo que aceptó). Las etiquetas dentro de GTM deben respetar ese
+     consentimiento (configurarlas con "Consent Mode" en GTM).
+   - Clarity: sólo con medición. Graba sesiones y mapas de calor.
+   - GA4 y Pixel directos: sólo si sus IDs están en ajustes. Si GA4 o el Pixel
+     se configuran dentro de GTM, dejar esos IDs vacíos para no duplicar.
+   El <noscript> de GTM no se usa: cargaría Google sin consentimiento.
 
    La decisión se guarda en localStorage ("ebz-consentimiento") con su versión
    y fecha; se vuelve a preguntar si cambia la versión o pasan 12 meses.
@@ -18,8 +27,10 @@ import ajustes from '@/content/ajustes.json';
 
 const pixel = String(ajustes.metaPixelId || '').replace(/\D/g, '');
 const ga = String(ajustes.ga4Id || '').trim();
+const gtm = String(ajustes.gtmId || '').trim();
+const clarity = String(ajustes.clarityId || '').trim();
 ---
-<script is:inline define:vars={{ pixel, ga }}>
+<script is:inline define:vars={{ pixel, ga, gtm, clarity }}>
   (function () {
     var CLAVE = 'ebz-consentimiento';
     var VERSION = 1;
@@ -41,13 +52,36 @@ const ga = String(ajustes.ga4Id || '').trim();
       } catch (e) { return null; }
     }
 
-    var cargadoGA = false, cargadoPixel = false;
+    var cargadoGA = false, cargadoPixel = false, cargadoGTM = false, cargadoClarity = false;
+    window.dataLayer = window.dataLayer || [];
+    if (!window.gtag) window.gtag = function () { window.dataLayer.push(arguments); };
+    // Consent Mode v2: todo denegado hasta que la persona decida.
+    window.gtag('consent', 'default', { analytics_storage: 'denied', ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied', wait_for_update: 500 });
+
     function aplicar(c) {
       if (!c) return;
+      var si = function (v) { return v ? 'granted' : 'denied'; };
+      window.gtag('consent', 'update', { analytics_storage: si(c.analitica), ad_storage: si(c.publicidad), ad_user_data: si(c.publicidad), ad_personalization: si(c.publicidad) });
+      window.dataLayer.push({ event: 'ebz_consentimiento', analitica: c.analitica, publicidad: c.publicidad });
+      if ((c.analitica || c.publicidad) && gtm && !cargadoGTM) {
+        cargadoGTM = true;
+        (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+        })(window,document,'script','dataLayer',gtm);
+      }
+      if (c.analitica && clarity && !cargadoClarity) {
+        cargadoClarity = true;
+        (function(c,l,a,r,i,t,y){
+          c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+          t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+          y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+        })(window, document, "clarity", "script", clarity);
+        window.clarity('consent');
+      }
       if (c.analitica && ga && !cargadoGA) {
         cargadoGA = true;
-        window.dataLayer = window.dataLayer || [];
-        window.gtag = function () { window.dataLayer.push(arguments); };
         window.gtag('js', new Date());
         window.gtag('config', ga, { anonymize_ip: true });
         var s = document.createElement('script');
@@ -76,7 +110,7 @@ const ga = String(ajustes.ga4Id || '').trim();
         else aplicar(c);
         return c;
       },
-      hayHerramientas: Boolean(ga || pixel),
+      hayHerramientas: Boolean(ga || pixel || gtm || clarity),
     };
     aplicar(leer());
 
@@ -84,7 +118,9 @@ const ga = String(ajustes.ga4Id || '').trim();
       datos = datos || {};
       var estandar = evento === 'Lead' || evento === 'Contact';
       if (window.fbq) window.fbq(estandar ? 'track' : 'trackCustom', evento, estandar ? { content_category: datos.tipo || 'whatsapp' } : datos);
-      if (window.gtag) window.gtag('event', evento === 'Lead' ? 'generate_lead' : evento === 'Contact' ? 'contact' : 'form_step', datos);
+      if (cargadoGA) window.gtag('event', evento === 'Lead' ? 'generate_lead' : evento === 'Contact' ? 'contact' : 'form_step', datos);
+      // Para GTM: eventos en el dataLayer (crear activadores con estos nombres).
+      window.dataLayer.push(Object.assign({ event: evento === 'Lead' ? 'ebz_lead' : evento === 'Contact' ? 'ebz_contacto' : 'ebz_paso_formulario' }, datos));
     };
 
     document.addEventListener('click', function (e) {

@@ -6,7 +6,7 @@ import Button from '@/components/Button.astro';
 import { migas, preguntas } from '@/lib/schema';
 import { PREGUNTAS_NOSOTROS } from '@/lib/faq';
 import Faq from '@/components/Faq.astro';
-import recorte from '@/assets/marca/audi-tt-2011-frontal-recorte.png';
+import patricio from '@/assets/marca/patricio-escobar.jpg';
 
 const VALORES = [
   ['clipboard-check', 'Revisamos antes de publicar', 'Cada auto pasa por una revisión visual y mecánica antes de salir a la venta.'],
@@ -32,7 +32,7 @@ const site = Astro.site!;
         <p class="ebz-body-lg muted" style="max-width:560px">EBENEZER es una automotora que nace de la convicción de que comprar o vender un auto usado puede ser simple, seguro y transparente. Partimos en El Tabo, en el litoral central, y hoy atendemos a dueños y compradores de toda la Región de Valparaíso.</p>
       </div>
       <div style="flex:5 1 340px;display:flex;justify-content:center">
-        <Image src={recorte} alt="Auto en venta en EBENEZER Automotora fotografiado en estudio" widths={[400, 560, 800]} sizes="(max-width: 1023px) 100vw, 560px" format="webp" style="width:100%;max-width:560px;height:auto" />
+        <Image src={patricio} alt="Patricio Escobar, fundador de EBENEZER Automotora, junto a un Audi TT" widths={[360, 480, 720, 960]} sizes="(max-width: 1023px) 90vw, 480px" format="webp" loading="eager" fetchpriority="high" class="foto-patricio" />
       </div>
     </div>
   </section>
@@ -82,3 +82,7 @@ const site = Astro.site!;
     </div>
   </section>
 </Base>
+
+<style>
+  .foto-patricio{width:100%;max-width:480px;height:auto;aspect-ratio:4/5;object-fit:cover;box-shadow:0 30px 60px rgba(10,12,15,.45);border-bottom:4px solid var(--naranja-500)}
+</style>

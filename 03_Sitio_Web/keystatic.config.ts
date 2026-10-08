@@ -161,6 +161,8 @@ export default config({
           description: 'Dirección /exec del script que guarda los contactos. Ver docs/google-sheets.md. Vacío = sólo WhatsApp.',
         }),
         metaPixelId: fields.text({ label: 'Meta Pixel ID', description: 'Sólo dígitos. Vacío = sin píxel.' }),
+        gtmId: fields.text({ label: 'Google Tag Manager (ID)', description: 'Ej: GTM-XXXXXXX. Se carga sólo con consentimiento de cookies.' }),
+        clarityId: fields.text({ label: 'Microsoft Clarity (ID)', description: 'Se carga sólo con consentimiento de medición.' }),
         ga4Id: fields.text({ label: 'Google Analytics 4 ID', description: 'Ej: G-XXXXXXX. Vacío = sin Analytics.' }),
         confianza: fields.array(
           fields.object({
