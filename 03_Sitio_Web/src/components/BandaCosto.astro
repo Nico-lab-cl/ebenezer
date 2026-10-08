@@ -1,7 +1,13 @@
 ---
 import Button from './Button.astro';
 import Checkered from './Checkered.astro';
-import ajustes from '@/content/ajustes.json';
+import Icon from './Icon.astro';
+import { clp } from '@/lib/formato';
+
+/* Banda de "nosotros invertimos en tu auto". A la derecha, un comprobante de
+   venta con el monto subiendo: lo que el dueño quiere imaginar. El monto es un
+   ejemplo (lo dice la tarjeta) hasta tener ventas reales que mostrar. */
+const MONTO = 14500000;
 ---
 <section class="banda sec--lg">
   <div class="banda__diag"></div>
@@ -9,12 +15,65 @@ import ajustes from '@/content/ajustes.json';
     <div class="stack" style="flex:6 1 420px">
       <Checkered />
       <h2 class="ebz-h1">Nosotros invertimos en la publicidad de tu auto.</h2>
-      <p class="ebz-body-lg" style="color:var(--grafito-300);max-width:540px">Fotos, anuncios y atención de compradores corren por nuestra cuenta. Cobramos {ajustes.comision} sólo cuando el auto se vende.</p>
+      <p class="ebz-body-lg" style="color:var(--grafito-300);max-width:540px">Fotos de estudio, anuncios pagados y atención de compradores corren por nuestra cuenta. Tú sólo firmas cuando se vende.</p>
       <div class="row"><Button size="lg" iconRight="arrow-right" href="#tasar">Tasar mi auto</Button></div>
     </div>
-    <div class="banda__big" style="flex:4 1 260px">
-      <span class="ebz-display">$0</span>
-      <span class="ebz-overline" style="font-weight:700">Hasta que se vende</span>
+    <div class="banda__big" style="flex:4 1 300px">
+      <div class="pago" data-pago data-monto={MONTO}>
+        <div class="pago__estado"><span class="pago__ok"><Icon name="check" size={16} /></span>Venta concretada</div>
+        <span class="pago__label">Transferido a tu cuenta</span>
+        <span class="pago__monto ebz-num" data-pago-monto>{clp(MONTO)}</span>
+        <div class="pago__barra" aria-hidden="true"><span data-pago-barra></span></div>
+        <span class="pago__nota">Monto de ejemplo</span>
+      </div>
     </div>
   </div>
 </section>
+
+<script>
+  const clp = (n: number) => '$' + Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+  for (const el of document.querySelectorAll<HTMLElement>('[data-pago]')) {
+    const monto = Number(el.dataset.monto);
+    const num = el.querySelector<HTMLElement>('[data-pago-monto]')!;
+    const barra = el.querySelector<HTMLElement>('[data-pago-barra]')!;
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) continue;
+    num.textContent = clp(0);
+    barra.style.width = '0%';
+    const correr = () => {
+      const inicio = performance.now();
+      const dur = 1800;
+      const paso = (t: number) => {
+        const p = Math.min((t - inicio) / dur, 1);
+        const e = 1 - Math.pow(1 - p, 3); // arranca rápido y frena al llegar
+        num.textContent = clp(Math.round((monto * e) / 10000) * 10000);
+        barra.style.width = `${e * 100}%`;
+        if (p < 1) requestAnimationFrame(paso);
+        else {
+          num.textContent = clp(monto);
+          el.classList.add('pago--listo');
+        }
+      };
+      requestAnimationFrame(paso);
+    };
+    const obs = new IntersectionObserver(([e]) => {
+      if (e!.isIntersecting) {
+        obs.disconnect();
+        correr();
+      }
+    }, { threshold: 0.5 });
+    obs.observe(el);
+  }
+</script>
+
+<style>
+  .pago{position:relative;display:flex;flex-direction:column;gap:10px;width:100%;max-width:400px;padding:24px 26px;background:var(--grafito-950);color:#fff;box-shadow:0 24px 48px rgba(20,23,27,.35);transform:skewX(-6deg)}
+  .pago>*{transform:skewX(6deg)}
+  .pago__estado{display:flex;align-items:center;gap:10px;font-family:var(--font-display);font-style:italic;font-weight:800;font-size:16px;color:var(--grafito-300)}
+  .pago__ok{display:inline-flex;width:26px;height:26px;align-items:center;justify-content:center;background:var(--success-400,#4CC38A);color:var(--grafito-950);border-radius:50%;transition:transform .3s ease}
+  .pago--listo .pago__ok{transform:scale(1.15)}
+  .pago__label{font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--grafito-400)}
+  .pago__monto{font-family:var(--font-display);font-style:italic;font-weight:800;font-size:clamp(40px,4.6vw,60px);line-height:1;color:var(--naranja-500);font-variant-numeric:tabular-nums;white-space:nowrap}
+  .pago__barra{height:4px;background:rgba(255,255,255,.1);overflow:hidden}
+  .pago__barra span{display:block;height:100%;width:100%;background:var(--naranja-500)}
+  .pago__nota{font-size:11px;color:var(--grafito-400)}
+</style>

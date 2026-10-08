@@ -5,6 +5,7 @@ import Button from '@/components/Button.astro';
 import CreditSimulator from '@/components/CreditSimulator.astro';
 import { vehiculos } from '@/lib/vehiculos';
 import ajustes from '@/content/ajustes.json';
+import { real } from '@/lib/datos';
 
 const [primero] = (await vehiculos()).filter((v) => v.data.etiqueta !== 'vendido');
 const pie = Math.round(ajustes.pieMinimo * 100);
@@ -24,7 +25,7 @@ const FAQ = [
   ['¿Puedo dejar mi auto en parte de pago?', 'Sí. Lo tasamos y el valor se descuenta del precio del auto que compras.'],
   ['¿Cuánto demora la evaluación?', '[Plazo habitual de la evaluación]'],
   ['¿Qué pasa si no me aprueban?', 'Te avisamos y vemos alternativas: más pie, otro plazo u otro auto.'],
-];
+].filter(([, a]) => real(a));
 ---
 <Base
   title="Financiamiento automotriz · Crédito para autos usados"

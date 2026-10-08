@@ -1,9 +1,13 @@
 ---
 import Icon from './Icon.astro';
 import ajustes from '@/content/ajustes.json';
+import { real } from '@/lib/datos';
+
+// Sólo los puntos con datos reales (la garantía, por ejemplo, aún no está definida).
+const PUNTOS = ajustes.confianza.filter((it) => real(it.titulo) && real(it.texto));
 ---
 <div class="ebz-trust">
-  {ajustes.confianza.map((it) => (
+  {PUNTOS.map((it) => (
     <div class="ebz-trust__item">
       <Icon name={it.icono} size={36} class="ebz-trust__icon" />
       <div class="ebz-trust__title">{it.titulo}</div>
