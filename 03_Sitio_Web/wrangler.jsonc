@@ -35,6 +35,10 @@
     "directory": "./dist"
   },
 
+  /* Conserva las variables cargadas en el panel de Cloudflare (META_CAPI_TOKEN
+     y otras) al desplegar desde GitHub. Los tokens nunca van en este archivo. */
+  "keep_vars": true,
+
   "observability": {
     "enabled": true
   }
