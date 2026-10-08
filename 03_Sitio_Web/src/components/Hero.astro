@@ -4,47 +4,47 @@ import Icon from './Icon.astro';
 import Badge from './Badge.astro';
 import Button from './Button.astro';
 import Checkered from './Checkered.astro';
-import LeadVenta from './LeadVenta.astro';
 import carretera from '@/assets/marca/carretera-bn.png';
 // Recorte sin los márgenes transparentes del original (883×669): así la
 // imagen ocupa sólo el auto y escala sin deformarse.
 import recorte from '@/assets/marca/audi-tt-2011-hero.png';
 
-/* Hero de consignación. La vía principal es "vende tu auto con nosotros";
-   la segunda, "ver autos disponibles", baja a la sección #autos. */
+/* Hero de la vitrina (/comprar): fondo de carretera, panel de estudio y el
+   auto destacado en estudio. Arriba del catálogo, para que el auto se vea
+   como parte del stock y no como lo único que vende la automotora.
+   Si cambia el auto destacado, hay que cambiar también el recorte. */
 interface Props {
-  /** Ancla o URL de la sección de autos disponibles */
-  autos?: string;
+  /** Ficha del auto que aparece en la foto */
+  ficha?: string;
+  /** Ancla del catálogo en la misma página */
+  catalogo?: string;
 }
-const { autos = '#autos' } = Astro.props;
+const { ficha, catalogo = '#catalogo' } = Astro.props;
 const fondo = await getImage({ src: carretera, width: 1600, format: 'webp', quality: 60 });
-const PUNTOS = ['Fotos de estudio y anuncios pagados', 'Nosotros atendemos a los compradores', 'Consignación o venta directa: tú eliges'];
+const PUNTOS = ['Revisados antes de publicarse', 'Precio final a la vista', 'Financiamiento directo con la automotora'];
 ---
 <section class="ebz-hero" data-theme="dark" style={`--hero-bg:url("${fondo.src}")`}>
   <div class="ebz-hero__bg"></div>
   <div class="ebz-hero__panel"></div>
   <div class="ebz-container">
-    <div class="ebz-hero__in">
+    <div class="ebz-hero__in ebz-hero__in--solo">
       <div style="display:flex;flex-direction:column;gap:24px">
-        <span class="ebz-overline ebz-overline-rule" style="color:var(--grafito-300)">Consignación de autos · Región de Valparaíso</span>
-        <h1 class="ebz-display">Vendemos tu auto por ti.</h1>
-        <p class="ebz-body-lg" style="color:var(--grafito-300);max-width:500px">Lo recibimos en consignación, lo fotografiamos en estudio y lo promocionamos con publicidad pagada. Tú no atiendes llamadas ni visitas: sólo firmas cuando se vende.</p>
+        <span class="ebz-overline ebz-overline-rule" style="color:var(--grafito-300)">Autos disponibles · Región de Valparaíso</span>
+        <h1 class="ebz-display">Tu próximo auto, revisado.</h1>
+        <p class="ebz-body-lg" style="color:var(--grafito-300);max-width:500px">Autos usados y seminuevos que revisamos antes de publicar, con precio final a la vista y financiamiento directo con nosotros.</p>
         <ul class="hero-puntos">
           {PUNTOS.map((p) => <li><Icon name="check" size={18} />{p}</li>)}
         </ul>
         <div style="display:flex;flex-wrap:wrap;gap:14px;margin-top:4px">
-          <Button size="lg" iconRight="arrow-right" href="#tasar">Tasar mi auto</Button>
-          <Button size="lg" variant="secondary" href={autos}>Ver autos disponibles</Button>
+          <Button size="lg" iconRight="arrow-right" href={catalogo}>Ver catálogo</Button>
+          <Button size="lg" variant="secondary" href="/financiamiento/#simulador">Simular crédito</Button>
         </div>
       </div>
-      <div class="ebz-hero__car">
-        <div class="hero-car-label"><Badge tone="seminuevo" /><span>Así publicamos tu auto</span></div>
+      <a class="ebz-hero__car" href={ficha ?? catalogo} aria-label="Ver la ficha del auto disponible">
+        <div class="hero-car-label"><Badge tone="seminuevo" /><span>Disponible ahora</span></div>
         <Image src={recorte} alt="Audi TT 2011 fotografiado en estudio por EBENEZER" widths={[360, 560, 720, 883]} sizes="(max-width: 599px) 92vw, (max-width: 1023px) 520px, (max-width: 1279px) 560px, 680px" loading="eager" fetchpriority="high" format="webp" />
         <Checkered width={110} size={9} class="hero-checkered" />
-      </div>
+      </a>
     </div>
-  </div>
-  <div class="ebz-container" style="padding-bottom:56px" id="tasar">
-    <div class="ebz-hero__search"><LeadVenta id="lead-hero" variante="barra" titulo="Tasa tu auto sin costo" /></div>
   </div>
 </section>

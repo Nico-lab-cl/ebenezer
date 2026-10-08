@@ -1,0 +1,109 @@
+---
+import { existsSync } from 'node:fs';
+import { getImage } from 'astro:assets';
+import Icon from './Icon.astro';
+import Button from './Button.astro';
+import Checkered from './Checkered.astro';
+import LeadVenta from './LeadVenta.astro';
+import carretera from '@/assets/marca/carretera-bn.png';
+
+/* Hero de la portada: video en loop a pantalla completa, con la paleta de la
+   marca (grafito + naranja) y el formulario de tasación debajo.
+
+   Videos en public/video/ (ver docs/hero-video.md):
+     hero-escritorio.mp4  16:9, 1920×1080   hero-movil.mp4  9:16, 1080×1920
+     hero-escritorio.jpg / hero-movil.jpg   primer cuadro, se ve mientras carga
+   Mientras no existan, se muestra la foto de carretera como fondo fijo.
+   El video no se reproduce con "reducir movimiento" ni con ahorro de datos,
+   y se pausa cuando sale de la pantalla. */
+const publico = (f: string) => existsSync(new URL(`../../public/video/${f}`, import.meta.url));
+const video = publico('hero-escritorio.mp4') && publico('hero-movil.mp4');
+const poster = {
+  escritorio: publico('hero-escritorio.jpg') ? '/video/hero-escritorio.jpg' : undefined,
+  movil: publico('hero-movil.jpg') ? '/video/hero-movil.jpg' : undefined,
+};
+const respaldo = await getImage({ src: carretera, width: 1920, format: 'webp', quality: 60 });
+const PUNTOS = ['Fotos de estudio y anuncios pagados', 'Nosotros atendemos a los compradores', 'Consignación o venta directa: tú eliges'];
+---
+<section class="hv" data-theme="dark">
+  <div class="hv__media" aria-hidden="true">
+    {video ? (
+      <video
+        class="hv__video"
+        muted
+        loop
+        playsinline
+        preload="none"
+        poster={poster.escritorio}
+        data-hero-video
+        data-src-escritorio="/video/hero-escritorio.mp4"
+        data-src-movil="/video/hero-movil.mp4"
+        data-poster-movil={poster.movil}
+      ></video>
+    ) : (
+      <img class="hv__video hv__video--foto" src={respaldo.src} alt="" width="1920" height="1080" fetchpriority="high" />
+    )}
+    <div class="hv__velo"></div>
+  </div>
+
+  <div class="ebz-container hv__in">
+    <div class="hv__texto">
+      <span class="ebz-overline ebz-overline-rule" style="color:var(--grafito-300)">Vende tu auto · Región de Valparaíso</span>
+      <h1 class="ebz-display">Vendemos tu auto por ti.</h1>
+      <p class="ebz-body-lg" style="color:var(--grafito-300);max-width:520px">Lo recibimos en consignación, lo fotografiamos en estudio y lo promocionamos con publicidad pagada. O te lo compramos directo. Tú no atiendes llamadas ni visitas.</p>
+      <ul class="hero-puntos">
+        {PUNTOS.map((p) => <li><Icon name="check" size={18} />{p}</li>)}
+      </ul>
+      <div style="display:flex;flex-wrap:wrap;gap:14px;margin-top:4px">
+        <Button size="lg" iconRight="arrow-right" href="#tasar">Tasar mi auto</Button>
+        <Button size="lg" variant="secondary" href="/comprar/">Ver autos disponibles</Button>
+      </div>
+    </div>
+    <Checkered width={110} size={9} class="hv__cuadros" />
+  </div>
+
+  <div class="ebz-container hv__form" id="tasar">
+    <LeadVenta id="lead-hero" variante="barra" titulo="Tasa tu auto sin costo" />
+  </div>
+</section>
+
+<script>
+  const v = document.querySelector<HTMLVideoElement>('[data-hero-video]');
+  const quieto =
+    matchMedia('(prefers-reduced-motion: reduce)').matches ||
+    Boolean((navigator as Navigator & { connection?: { saveData?: boolean } }).connection?.saveData);
+  if (v) {
+    const movil = matchMedia('(max-aspect-ratio: 4/5), (max-width: 767px)').matches;
+    if (movil && v.dataset.posterMovil) v.poster = v.dataset.posterMovil;
+    if (!quieto) {
+      v.src = (movil ? v.dataset.srcMovil : v.dataset.srcEscritorio)!;
+      v.muted = true;
+      // Sólo corre mientras se ve: ahorra batería y datos en el celular.
+      new IntersectionObserver(([e]) => (e!.isIntersecting ? v.play().catch(() => {}) : v.pause()), { threshold: 0.1 }).observe(v);
+    }
+  }
+</script>
+
+<style>
+  .hv{position:relative;isolation:isolate;overflow:hidden;background:var(--grafito-950);color:#fff}
+  .hv__media{position:absolute;inset:0;z-index:-1}
+  .hv__video{width:100%;height:100%;object-fit:cover;display:block}
+  .hv__video--foto{filter:grayscale(1);opacity:.35}
+  /* Velo: grafito a la izquierda para leer el texto, toque naranja abajo a la derecha. */
+  .hv__velo{position:absolute;inset:0;background:
+    linear-gradient(90deg,rgba(20,23,27,.94) 0%,rgba(20,23,27,.78) 38%,rgba(20,23,27,.25) 72%,rgba(20,23,27,.1) 100%),
+    linear-gradient(0deg,rgba(20,23,27,.95) 0%,rgba(20,23,27,0) 34%),
+    radial-gradient(60% 50% at 100% 100%,rgba(244,119,53,.18),transparent 70%)}
+  .hv__in{position:relative;display:flex;align-items:center;min-height:clamp(560px,82vh,820px);padding-top:56px;padding-bottom:150px}
+  .hv__texto{display:flex;flex-direction:column;gap:24px;max-width:640px}
+  .hv__cuadros{position:absolute;right:24px;bottom:150px}
+  .hv__form{position:relative;margin-top:-104px;padding-bottom:56px;z-index:2}
+  @media (max-width:1023px){
+    .hv__velo{background:
+      linear-gradient(180deg,rgba(20,23,27,.55) 0%,rgba(20,23,27,.8) 45%,rgba(20,23,27,.97) 100%),
+      radial-gradient(80% 40% at 50% 100%,rgba(244,119,53,.16),transparent 70%)}
+    .hv__in{align-items:flex-end;min-height:clamp(520px,88svh,760px);padding-bottom:96px}
+    .hv__cuadros{display:none}
+    .hv__form{margin-top:-56px}
+  }
+</style>

@@ -6,7 +6,8 @@ import RangeSlider from '@/components/RangeSlider.astro';
 import Button from '@/components/Button.astro';
 import Icon from '@/components/Icon.astro';
 import AutosDisponibles from '@/components/AutosDisponibles.astro';
-import { vehiculos } from '@/lib/vehiculos';
+import Hero from '@/components/Hero.astro';
+import { vehiculos, url } from '@/lib/vehiculos';
 import { migas } from '@/lib/schema';
 
 const lista = await vehiculos();
@@ -25,6 +26,8 @@ const [kMin, kMax] = r(kms, 5000, [0, 200000]);
    Sin autos se muestra el aviso con el encargo. */
 const conFiltros = lista.length >= 1;
 const site = Astro.site!;
+// El auto de la foto del hero (por ahora, el Audi TT del recorte).
+const destacado = lista.find((v) => v.id === 'audi-tt-2011' && v.data.etiqueta !== 'vendido');
 const crumbs = [{ nombre: 'Inicio', url: '/' }, { nombre: 'Comprar', url: '/comprar/' }];
 ---
 <Base
@@ -32,12 +35,13 @@ const crumbs = [{ nombre: 'Inicio', url: '/' }, { nombre: 'Comprar', url: '/comp
   description="Autos usados y seminuevos revisados, con precio final y financiamiento, en la Región de Valparaíso. ¿No está el que buscas? Te lo conseguimos."
   schema={[migas(site, crumbs)]}
 >
-  <div data-theme="light" class="sec--light">
+  <Hero ficha={destacado ? url(destacado) : undefined} />
+  <div data-theme="light" class="sec--light" id="catalogo">
     <div class="ebz-container" style="padding-top:28px;padding-bottom:72px">
       <Breadcrumbs items={crumbs} />
       <div class="cat__bar">
         <div>
-          <h1 class="ebz-h1">Autos disponibles</h1>
+          <h2 class="ebz-h1">Autos disponibles</h2>
           <p class="ebz-body muted" style="margin-top:8px"><b class="ebz-num" style="color:var(--text-primary)" data-total>{lista.length} {lista.length === 1 ? "auto" : "autos"}</b> revisados en la Región de Valparaíso</p>
         </div>
         {conFiltros && (

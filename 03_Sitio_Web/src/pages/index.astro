@@ -1,7 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import Base from '@/layouts/Base.astro';
-import Hero from '@/components/Hero.astro';
+import HeroVideo from '@/components/HeroVideo.astro';
 import SeccionesVenta from '@/components/SeccionesVenta.astro';
 import AutosDisponibles from '@/components/AutosDisponibles.astro';
 import FaqVendedor from '@/components/FaqVendedor.astro';
@@ -24,7 +24,7 @@ const testimonios = await getCollection('testimonios', (t) => t.data.publicado);
   description="Deja tu auto en consignación: lo fotografiamos en estudio, lo promocionamos con anuncios pagados y atendemos a los compradores. O te lo compramos directo. Viña del Mar, Concón, Valparaíso, Quilpué y Villa Alemana."
   fab={{ context: 'vender' }}
 >
-  <Hero />
+  <HeroVideo />
 
   <SeccionesVenta sinFaq />
 
