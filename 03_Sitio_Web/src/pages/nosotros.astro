@@ -1,4 +1,5 @@
 ---
+import { real } from '@/lib/datos';
 import { Image } from 'astro:assets';
 import Base from '@/layouts/Base.astro';
 import Icon from '@/components/Icon.astro';
@@ -8,8 +9,10 @@ import recorte from '@/assets/marca/audi-tt-2011-frontal-recorte.png';
 const VALORES = [
   ['clipboard-check', 'Revisamos antes de publicar', 'Cada auto pasa por inspección mecánica y de antecedentes. Si no pasa, no se publica.'],
   ['receipt', 'Precio final a la vista', 'El precio publicado incluye IVA y se informa qué no está incluido. Sin cargos sorpresa al firmar.'],
-  ['message-circle', 'Te respondemos por WhatsApp', 'Fotos extra, videos o una llamada: lo que necesites para decidir sin moverte.'],
+  ['message-circle', 'Te respondemos por WhatsApp', 'Fotos extra, videos o una llamada, lo que necesites para decidir sin moverte.'],
 ];
+// Pendiente: se muestra cuando deje de estar entre corchetes.
+const HISTORIA = '[Historia breve de EBENEZER, año de inicio, quiénes están detrás y por qué partió. 2 o 3 frases.]';
 ---
 <Base
   title="Nosotros"
@@ -20,8 +23,8 @@ const VALORES = [
     <div class="ebz-container split" style="position:relative">
       <div class="stack" style="gap:22px;flex:6 1 440px">
         <span class="ebz-overline ebz-overline-rule" style="color:var(--grafito-300)">Nosotros</span>
-        <h1 class="ebz-h1">Una automotora de la región, con las cuentas claras.</h1>
-        <p class="ebz-body-lg muted" style="max-width:560px">[Historia breve de EBENEZER: año de inicio, quiénes están detrás y por qué partió. 2 o 3 frases.]</p>
+        <h1 class="ebz-h1">Una automotora de la región, con las cuentas claras</h1>
+        {real(HISTORIA) && <p class="ebz-body-lg muted" style="max-width:560px">{HISTORIA}</p>}
       </div>
       <div style="flex:5 1 340px;display:flex;justify-content:center">
         <Image src={recorte} alt="Audi TT 2011 en estudio" widths={[400, 560, 800]} sizes="(max-width: 1023px) 100vw, 560px" format="webp" style="width:100%;max-width:560px;height:auto" />

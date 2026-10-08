@@ -13,4 +13,4 @@ export const patenteValida = (v: string) => {
   return ACTUAL.test(p) || ANTIGUA.test(p);
 };
 
-export const MENSAJE_PATENTE = 'Revisa la patente: son 4 letras y 2 números (ej. DGLR28) o 2 letras y 4 números (ej. AB1234).';
+export const MENSAJE_PATENTE = 'Revisa la patente, son 4 letras y 2 números (ej. DGLR28) o 2 letras y 4 números (ej. AB1234).';

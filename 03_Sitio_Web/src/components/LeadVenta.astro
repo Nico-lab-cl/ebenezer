@@ -35,7 +35,7 @@ const f = (n: string) => `${id}-${n}`;
       <legend class="lead__legend">Tu auto</legend>
       <div class="ebz-field">
         <label class="ebz-label" for={f('patente')}>Patente</label>
-        <div class="ebz-control"><Icon name="scan-line" size={18} /><input id={f('patente')} name="patente" class="ebz-input ebz-input--icon" placeholder="Ej: DGLR28" required minlength="6" maxlength="9" autocomplete="off" autocapitalize="characters" spellcheck="false" style="text-transform:uppercase" data-patente /></div>
+        <div class="ebz-control"><Icon name="scan-line" size={18} /><input id={f('patente')} name="patente" class="ebz-input ebz-input--icon" placeholder="Ej. DGLR28" required minlength="6" maxlength="9" autocomplete="off" autocapitalize="characters" spellcheck="false" style="text-transform:uppercase" data-patente /></div>
       </div>
       <div class="ebz-field">
         <label class="ebz-label" for={f('marca')}>Marca</label>
@@ -50,7 +50,7 @@ const f = (n: string) => `${id}-${n}`;
       </div>
       <div class="ebz-field lead__ancho">
         <label class="ebz-label" for={f('modelo')}>Modelo y versión</label>
-        <div class="ebz-control"><input id={f('modelo')} name="modelo" class="ebz-input" placeholder="Ej: Yaris 1.5 GLI" required /></div>
+        <div class="ebz-control"><input id={f('modelo')} name="modelo" class="ebz-input" placeholder="Ej. Yaris 1.5 GLI" required /></div>
       </div>
       <div class="ebz-field">
         <label class="ebz-label" for={f('anio')}>Año</label>
@@ -61,7 +61,7 @@ const f = (n: string) => `${id}-${n}`;
       </div>
       <div class="ebz-field">
         <label class="ebz-label" for={f('km')}>Kilometraje</label>
-        <div class="ebz-control"><input id={f('km')} name="km" class="ebz-input" placeholder="Ej: 98.000" inputmode="numeric" pattern="[0-9.]{1,9}" required data-miles /><span class="ebz-input__suffix">km</span></div>
+        <div class="ebz-control"><input id={f('km')} name="km" class="ebz-input" placeholder="Ej. 98.000" inputmode="numeric" pattern="[0-9.]{1,9}" required data-miles /><span class="ebz-input__suffix">km</span></div>
       </div>
       <div class="ebz-field">
         <label class="ebz-label" for={f('transmision')}>Transmisión <span class="lead__opc">opcional</span></label>
@@ -85,7 +85,7 @@ const f = (n: string) => `${id}-${n}`;
       </div>
       <div class="ebz-field">
         <label class="ebz-label" for={f('precio')}>¿Cuánto esperas recibir? <span class="lead__opc">opcional</span></label>
-        <div class="ebz-control"><span class="lead__prefijo">$</span><input id={f('precio')} name="precio_esperado" class="ebz-input lead__con-prefijo" placeholder="Ej: 8.500.000" inputmode="numeric" pattern="[0-9.]{1,12}" data-miles /></div>
+        <div class="ebz-control"><span class="lead__prefijo">$</span><input id={f('precio')} name="precio_esperado" class="ebz-input lead__con-prefijo" placeholder="Ej. 8.500.000" inputmode="numeric" pattern="[0-9.]{1,12}" data-miles /></div>
       </div>
       <div class="ebz-field">
         <label class="ebz-label" for={f('urgencia')}>¿Cuándo quieres venderlo?</label>
@@ -139,8 +139,8 @@ const f = (n: string) => `${id}-${n}`;
 
   <div class="lead__gracias" data-gracias hidden>
     <span class="lead__ok"><Icon name="check" size={28} /></span>
-    <h3 class="ebz-h3" tabindex="-1">Recibimos tu auto.</h3>
-    <p class="ebz-body muted">Te escribimos por WhatsApp en menos de 24 horas hábiles con la tasación. Si quieres adelantar, mándanos fotos ahora: el mensaje ya va con tus datos y nosotros nos encargamos de que se vean bien.</p>
+    <h3 class="ebz-h3" tabindex="-1">Recibimos tu auto</h3>
+    <p class="ebz-body muted">Te escribimos por WhatsApp en menos de 24 horas hábiles con la tasación. Si quieres adelantar, mándanos fotos ahora. El mensaje ya va con tus datos y nosotros nos encargamos de que se vean bien.</p>
     <Button href="#" target="_blank" icon="whatsapp" data-gracias-wa>Enviar fotos por WhatsApp</Button>
   </div>
 </form>

@@ -23,7 +23,7 @@ const poster = {
   movil: publico('hero-movil.jpg') ? '/video/hero-movil.jpg' : undefined,
 };
 const respaldo = await getImage({ src: carretera, width: 1920, format: 'webp', quality: 60 });
-const PUNTOS = ['Fotos de estudio y anuncios pagados', 'Nosotros atendemos a los compradores', 'Consignación o venta directa: tú eliges'];
+const PUNTOS = ['Fotos de estudio y anuncios pagados', 'Nosotros atendemos a los compradores', 'Consignación o venta directa, tú eliges'];
 ---
 <section class="hv" data-theme="dark">
   <div class="hv__media" aria-hidden="true">
@@ -54,7 +54,7 @@ const PUNTOS = ['Fotos de estudio y anuncios pagados', 'Nosotros atendemos a los
   <div class="ebz-container hv__in">
     <div class="hv__texto">
       <span class="ebz-overline ebz-overline-rule" style="color:var(--grafito-300)">Vende tu auto · Región de Valparaíso</span>
-      <h1 class="ebz-display">Vendemos tu auto por ti.</h1>
+      <h1 class="ebz-display">Vendemos tu auto por ti</h1>
       <p class="ebz-body-lg" style="color:var(--grafito-300);max-width:520px">Lo recibimos en consignación, lo fotografiamos en estudio y lo promocionamos con publicidad pagada. O te lo compramos directo. Tú no atiendes llamadas ni visitas.</p>
       <ul class="hero-puntos">
         {PUNTOS.map((p) => <li><Icon name="check" size={18} />{p}</li>)}

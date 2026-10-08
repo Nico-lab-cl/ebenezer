@@ -11,7 +11,7 @@ const [primero] = (await vehiculos()).filter((v) => v.data.etiqueta !== 'vendido
 const pie = Math.round(ajustes.pieMinimo * 100);
 const PASOS = [
   ['Simula', 'Elige el pie y el plazo. La cuota es referencial.'],
-  ['Evaluación', 'Envías la solicitud y evaluamos tus antecedentes nosotros mismos: el financiamiento es directo con la automotora.'],
+  ['Evaluación', 'Envías la solicitud y evaluamos tus antecedentes nosotros mismos, porque el financiamiento es directo con la automotora.'],
   ['Firma y retira', 'Con el crédito aprobado firmas y te llevas el auto, con la transferencia hecha.'],
 ];
 const REQUISITOS = [
@@ -24,7 +24,7 @@ const FAQ = [
   ['¿La cuota que veo en la web es final?', 'No. Es referencial y depende de la evaluación crediticia. La cuota final, la tasa y la CAE se informan en la cotización formal.'],
   ['¿Puedo dejar mi auto en parte de pago?', 'Sí. Lo tasamos y el valor se descuenta del precio del auto que compras.'],
   ['¿Cuánto demora la evaluación?', '[Plazo habitual de la evaluación]'],
-  ['¿Qué pasa si no me aprueban?', 'Te avisamos y vemos alternativas: más pie, otro plazo u otro auto.'],
+  ['¿Qué pasa si no me aprueban?', 'Te avisamos y vemos alternativas, como más pie, otro plazo u otro auto.'],
 ].filter(([, a]) => real(a));
 ---
 <Base
@@ -36,7 +36,7 @@ const FAQ = [
     <div class="split" style="gap:56px">
       <div class="stack" style="gap:22px;flex:6 1 440px">
         <span class="ebz-overline ebz-overline-rule" style="color:var(--grafito-300)">Financiamiento automotriz</span>
-        <h1 class="ebz-h1">Financia tu auto con pie desde {pie}%.</h1>
+        <h1 class="ebz-h1">Financia tu auto con pie desde {pie}%</h1>
         <p class="ebz-body-lg muted" style="max-width:560px">Financiamiento directo con {ajustes.nombre}, sin intermediarios. Simula la cuota, envía tu solicitud y te mostramos la CAE antes de firmar.</p>
         <div class="row">
           <Button size="lg" href="#simulador" iconRight="arrow-right">Simular mi crédito</Button>
