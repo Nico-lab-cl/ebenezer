@@ -5,8 +5,8 @@ import Icon from './Icon.astro';
 import { clp } from '@/lib/formato';
 
 /* Banda de "nosotros invertimos en tu auto". A la derecha, un comprobante de
-   venta con el monto subiendo: lo que el dueño quiere imaginar. El monto es un
-   ejemplo (lo dice la tarjeta) hasta tener ventas reales que mostrar. */
+   venta con el monto subiendo: lo que el dueño quiere imaginar. Es un monto
+   ilustrativo, no una venta real. */
 const MONTO = 14500000;
 ---
 <section class="banda sec--lg">
@@ -24,7 +24,6 @@ const MONTO = 14500000;
         <span class="pago__label">Transferido a tu cuenta</span>
         <span class="pago__monto ebz-num" data-pago-monto>{clp(MONTO)}</span>
         <div class="pago__barra" aria-hidden="true"><span data-pago-barra></span></div>
-        <span class="pago__nota">Monto de ejemplo</span>
       </div>
     </div>
   </div>
@@ -75,5 +74,4 @@ const MONTO = 14500000;
   .pago__monto{font-family:var(--font-display);font-style:italic;font-weight:800;font-size:clamp(40px,4.6vw,60px);line-height:1;color:var(--naranja-500);font-variant-numeric:tabular-nums;white-space:nowrap}
   .pago__barra{height:4px;background:rgba(255,255,255,.1);overflow:hidden}
   .pago__barra span{display:block;height:100%;width:100%;background:var(--naranja-500)}
-  .pago__nota{font-size:11px;color:var(--grafito-400)}
 </style>
