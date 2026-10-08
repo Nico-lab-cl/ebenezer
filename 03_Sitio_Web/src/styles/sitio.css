@@ -96,7 +96,6 @@ main{flex:1}
 .ficha__main{display:flex;flex-direction:column;gap:32px;min-width:0}
 .ficha__side{display:flex;flex-direction:column;gap:18px;position:sticky;top:96px}
 .ficha__box{background:var(--bg-surface);padding:24px;box-shadow:var(--shadow-light-1),inset 0 0 0 1px var(--border-subtle);border-radius:var(--radius-card);display:flex;flex-direction:column;gap:16px}
-.ficha__2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 @media (max-width:1023px){.ficha{grid-template-columns:minmax(0,1fr)}.ficha__side{position:static}}
 .ebz-sim input[type=range]{width:100%;accent-color:var(--naranja-500)}
 .sim__ayuda{font-size:12px;color:var(--grafito-400)}

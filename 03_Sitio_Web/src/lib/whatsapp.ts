@@ -3,7 +3,7 @@ import ajustes from '@/content/ajustes.json';
 /* Todo CTA de WhatsApp lleva un mensaje precargado según el contexto, que
    parte con "Hola, vengo de la web de EBENEZER, …" (regla del design system).
    El mismo texto lo arma el navegador en los formularios (ver src/scripts/). */
-export type Contexto = 'general' | 'vehiculo' | 'visita' | 'test-drive' | 'financiamiento' | 'vender';
+export type Contexto = 'general' | 'vehiculo' | 'visita' | 'financiamiento' | 'vender';
 export interface AutoWa {
   marca?: string;
   modelo?: string;
@@ -22,8 +22,6 @@ export function mensaje(contexto: Contexto = 'general', auto?: AutoWa) {
       return INTRO + 'me interesa el ' + nombre + ', necesito más información';
     case 'visita':
       return INTRO + 'quiero agendar una visita para ver el ' + nombre + '. ¿Qué horarios tienen disponibles?';
-    case 'test-drive':
-      return INTRO + 'quiero agendar un test drive del ' + nombre + '. ¿Qué horarios tienen disponibles?';
     case 'financiamiento':
       return INTRO + 'quiero simular un crédito' + (nombre ? ' para el ' + nombre : '') + ', necesito más información';
     case 'vender':
