@@ -15,7 +15,7 @@ import { MENSAJE_PATENTE, normalizarPatente, patenteValida } from '@/lib/patente
 
 declare global {
   interface Window {
-    ebzTrack?: (evento: string, datos?: Record<string, string>) => void;
+    ebzTrack?: (evento: string, datos?: Record<string, string>, usuario?: Record<string, string | undefined>) => void;
   }
 }
 
@@ -168,7 +168,8 @@ for (const form of document.querySelectorAll<HTMLFormElement>('form[data-lead]')
     delete d.sitio_web;
     if (!esBot) {
       await guardar({ tipo, ...d }, form.dataset.sheets || '');
-      window.ebzTrack?.('Lead', { tipo });
+      // Datos para que Meta reconozca a la persona (se cifran en el servidor, ver api/meta.ts).
+      window.ebzTrack?.('Lead', { tipo }, { telefono: d.whatsapp || d.telefono, email: d.email, nombre: d.nombre, comuna: d.comuna, region: d.region });
     }
 
     const wa = `https://wa.me/${form.dataset.wa}?text=${encodeURIComponent((TEXTOS[tipo] ?? TEXTOS.contacto!)(d))}`;

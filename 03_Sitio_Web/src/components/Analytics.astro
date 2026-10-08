@@ -10,6 +10,7 @@
      lo que aceptó). Las etiquetas dentro de GTM deben respetar ese
      consentimiento (configurarlas con "Consent Mode" en GTM).
    - Clarity: sólo con medición. Graba sesiones y mapas de calor.
+   - Meta Pixel más Conversions API: ver meta() abajo y src/pages/api/meta.ts.
    - GA4 y Pixel directos: sólo si sus IDs están en ajustes. Si GA4 o el Pixel
      se configuran dentro de GTM, dejar esos IDs vacíos para no duplicar.
    El <noscript> de GTM no se usa: cargaría Google sin consentimiento.
@@ -93,8 +94,27 @@ const clarity = String(ajustes.clarityId || '').trim();
         cargadoPixel = true;
         !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
         window.fbq('init', pixel);
-        window.fbq('track', 'PageView');
+        meta('PageView');
+        if (/^\/autos\/[^/]+\/?$/.test(location.pathname)) meta('ViewContent', { content_type: 'vehicle' });
       }
+    }
+
+    /* Meta: cada evento va al Pixel y, con el mismo event_id, a la Conversions
+       API (/api/meta en el Worker) para que Meta lo deduplique. Sólo corre si
+       la persona aceptó publicidad (si no, el Pixel no está cargado). Los
+       eventos propios (trackCustom) van sólo al Pixel. */
+    function meta(evento, datos, usuario, propio) {
+      if (!cargadoPixel) return;
+      var id = window.crypto && crypto.randomUUID ? crypto.randomUUID() : Date.now() + '-' + Math.random().toString(36).slice(2);
+      window.fbq(propio ? 'trackCustom' : 'track', evento, datos || {}, { eventID: id });
+      if (propio) return;
+      var o = {};
+      try { o = JSON.parse(sessionStorage.getItem('ebz-origen') || '{}'); } catch (e) {}
+      var cuerpo = JSON.stringify({ evento: evento, id: id, url: location.href, datos: datos, usuario: usuario, fbclid: o.fbclid });
+      try {
+        if (!navigator.sendBeacon || !navigator.sendBeacon('/api/meta', new Blob([cuerpo], { type: 'text/plain' })))
+          fetch('/api/meta', { method: 'POST', body: cuerpo, keepalive: true });
+      } catch (e) {}
     }
 
     /* API para el aviso de cookies. Retirar el consentimiento recarga la página
@@ -114,10 +134,10 @@ const clarity = String(ajustes.clarityId || '').trim();
     };
     aplicar(leer());
 
-    window.ebzTrack = function (evento, datos) {
+    window.ebzTrack = function (evento, datos, usuario) {
       datos = datos || {};
       var estandar = evento === 'Lead' || evento === 'Contact';
-      if (window.fbq) window.fbq(estandar ? 'track' : 'trackCustom', evento, estandar ? { content_category: datos.tipo || 'whatsapp' } : datos);
+      meta(evento, estandar ? { content_category: datos.tipo || 'whatsapp' } : datos, estandar ? usuario : undefined, !estandar);
       if (cargadoGA) window.gtag('event', evento === 'Lead' ? 'generate_lead' : evento === 'Contact' ? 'contact' : 'form_step', datos);
       // Para GTM: eventos en el dataLayer (crear activadores con estos nombres).
       window.dataLayer.push(Object.assign({ event: evento === 'Lead' ? 'ebz_lead' : evento === 'Contact' ? 'ebz_contacto' : 'ebz_paso_formulario' }, datos));
