@@ -49,8 +49,7 @@ export const PREGUNTAS_VENDEDOR = definidas([
   ['¿Puedo vender mi auto si todavía lo estoy pagando o tiene prenda?', 'Sí, en la mayoría de los casos. Lo revisamos en la tasación y la deuda se paga con la venta.'],
   ['¿Puedo vender mi auto con deudas de TAG o multas?', 'Por lo general deben quedar pagadas antes de la transferencia. Las revisamos en la tasación y te decimos cómo resolverlas.'],
   ['¿Qué documentos necesito para vender mi auto?', 'Tu cédula de identidad, el padrón o certificado de inscripción, el permiso de circulación, la revisión técnica y el SOAP vigentes. Si tiene crédito o prenda, los datos de la financiera.'],
-  ['¿Dónde queda mi auto mientras se vende?', '[Definir: en exhibición en nuestro local o contigo hasta cada visita]'],
-  ['¿Puedo retirar mi auto si cambio de opinión?', '[Definir condiciones de retiro]'],
+  ['¿Dónde queda mi auto mientras se vende?', 'Contigo. Puedes seguir usando tu auto mientras lo publicitamos, y coordinamos contigo cada visita de un comprador.'],
   UBICACION,
 ]);
 
@@ -71,7 +70,7 @@ export const PREGUNTAS_CREDITO = definidas([
   ['¿Evalúan a trabajadores independientes?', 'Sí. Si emites boletas de honorarios, las usamos para evaluar tus ingresos.'],
   ['¿La cuota que veo en la web es final?', 'No. Es referencial y depende de la evaluación crediticia. La cuota final, la tasa y la CAE se informan en la cotización formal.'],
   ['¿Puedo dejar mi auto en parte de pago?', 'Sí. Lo tasamos y el valor se descuenta del precio del auto que compras.'],
-  ['¿Cuánto demora la evaluación?', '[Plazo habitual de la evaluación]'],
+  ['¿Cuánto demora la evaluación?', 'Te respondemos en un plazo de 48 horas desde que envías tu solicitud con los antecedentes.'],
   ['¿Qué pasa si no me aprueban?', 'Te avisamos y vemos alternativas, como más pie, otro plazo u otro auto.'],
 ]);
 
@@ -88,7 +87,7 @@ export const PREGUNTAS_CONTACTO = definidas([
 
 export const PREGUNTAS_NOSOTROS = definidas([
   UBICACION,
-  ['¿Quién está detrás de EBENEZER?', 'Patricio Escobar, fundador de la automotora, que atiende personalmente a cada cliente.'],
+  ['¿Quién está detrás de EBENEZER?', 'Patricio Escobar, fundador de la automotora, con más de 5 años de experiencia en el rubro inmobiliario. Atiende personalmente a cada cliente.'],
   ['¿Qué servicios ofrecen?', 'Vendemos tu auto en consignación o te lo compramos directo, vendemos autos usados revisados y ofrecemos crédito directo con la automotora.'],
   ['¿Cómo los contacto?', 'Por WhatsApp, que es la forma más rápida, o con el formulario de la página de contacto.'],
 ]);
