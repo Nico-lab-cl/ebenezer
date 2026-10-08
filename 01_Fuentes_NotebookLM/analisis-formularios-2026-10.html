@@ -1,0 +1,240 @@
+<title>Formularios EBENEZER</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Saira:ital,wght@0,500;0,700;0,800;1,800&family=Montserrat:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: one reading column (max 860px) with wide tables that scroll in their own box. Informe de trabajo, colores de marca EBENEZER. */
+:root{
+  --bg:#F4F6FC; --surface:#FFFFFF; --sunken:#E9ECF3; --line:#D5D8E0;
+  --fg:#20242A; --muted:#5D616B; --accent:#F47735; --accent-ink:#B04A16; --accent-soft:#FEF3EC;
+  --ok:#23764F; --ok-bg:#E6F4EC; --warn:#8A5A10; --warn-bg:#FBF1DC; --no:#C8404A; --no-bg:#FBE7E8;
+  --display:"Saira","Arial Narrow",sans-serif; --body:"Montserrat","Helvetica Neue",Arial,sans-serif;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#14171B; --surface:#20242A; --sunken:#0F1114; --line:rgba(255,255,255,.14);
+  --fg:#FFFFFF; --muted:#BCBFC8; --accent:#F47735; --accent-ink:#F8A375; --accent-soft:rgba(244,119,53,.12);
+  --ok:#4CC38A; --ok-bg:rgba(76,195,138,.12); --warn:#E8B64A; --warn-bg:rgba(232,182,74,.12); --no:#F07A82; --no-bg:rgba(240,122,130,.12);
+  color-scheme:dark; } }
+:root[data-theme="dark"]{
+  --bg:#14171B; --surface:#20242A; --sunken:#0F1114; --line:rgba(255,255,255,.14);
+  --fg:#FFFFFF; --muted:#BCBFC8; --accent:#F47735; --accent-ink:#F8A375; --accent-soft:rgba(244,119,53,.12);
+  --ok:#4CC38A; --ok-bg:rgba(76,195,138,.12); --warn:#E8B64A; --warn-bg:rgba(232,182,74,.12); --no:#F07A82; --no-bg:rgba(240,122,130,.12);
+  color-scheme:dark; }
+
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:15px;line-height:1.6;padding-inline:16px;padding-block:0 64px}
+.wrap{max-width:860px;margin:0 auto;display:flex;flex-direction:column;gap:48px}
+header.top{padding-block:40px 8px;border-bottom:3px solid var(--accent);display:flex;flex-direction:column;gap:10px}
+.eyebrow{font-family:var(--display);font-weight:700;text-transform:uppercase;letter-spacing:.12em;font-size:12px;color:var(--accent-ink)}
+h1{font-family:var(--display);font-style:italic;font-weight:800;font-size:clamp(30px,6vw,46px);line-height:1.05;margin:0;text-wrap:balance}
+h2{font-family:var(--display);font-weight:800;font-size:26px;line-height:1.15;margin:0 0 6px;text-wrap:balance}
+h3{font-family:var(--display);font-weight:700;font-size:18px;margin:0;text-wrap:balance}
+p{margin:0;max-width:68ch}
+.lead{font-size:17px;color:var(--muted)}
+.meta{font-size:13px;color:var(--muted)}
+section{display:flex;flex-direction:column;gap:16px}
+ul,ol{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px;max-width:70ch}
+strong{font-weight:700}
+code{font-size:13px;background:var(--sunken);padding:1px 5px;border-radius:4px}
+
+.keys{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;list-style:none;padding:0;max-width:none}
+.keys li{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.keys b{font-family:var(--display);font-size:16px;line-height:1.25}
+.keys span{font-size:14px;color:var(--muted)}
+
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:13.5px;min-width:720px}
+th,td{padding:9px 12px;text-align:left;vertical-align:top;border-bottom:1px solid var(--line)}
+thead th{font-family:var(--display);font-weight:700;font-size:13px;text-transform:uppercase;letter-spacing:.05em;background:var(--sunken);white-space:nowrap}
+tbody tr:last-child td{border-bottom:0}
+td.num{font-variant-numeric:tabular-nums;white-space:nowrap}
+th[scope=row]{font-weight:700;white-space:nowrap}
+.y,.n,.p{display:inline-block;font-size:12px;font-weight:600;padding:1px 8px;border-radius:99px;white-space:nowrap}
+.y{background:var(--ok-bg);color:var(--ok)} .n{background:var(--no-bg);color:var(--no)} .p{background:var(--warn-bg);color:var(--warn)}
+tr.us td,tr.us th{background:var(--accent-soft)}
+
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px}
+.step{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:18px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.step .n0{font-family:var(--display);font-weight:800;font-style:italic;font-size:28px;color:var(--accent);line-height:1}
+.field{display:flex;justify-content:space-between;gap:10px;font-size:14px;border-top:1px dashed var(--line);padding-top:7px}
+.field em{font-style:normal;font-size:12px;color:var(--muted);white-space:nowrap}
+.why{font-size:13px;color:var(--muted)}
+
+.callout{border-left:4px solid var(--accent);background:var(--surface);padding:14px 18px;border-radius:0 10px 10px 0;display:flex;flex-direction:column;gap:6px}
+.q{display:grid;grid-template-columns:1fr;gap:10px;list-style:none;padding:0;max-width:none}
+.q li{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px 16px;display:flex;flex-direction:column;gap:2px}
+.q .who{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--accent-ink)}
+a{color:var(--accent-ink)}
+a:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+</style>
+
+<div class="wrap">
+<header class="top">
+  <span class="eyebrow">EBENEZER Automotora · Análisis para rediseñar formularios</span>
+  <h1>Qué cambiar en los formularios después de la reunión del 6 de octubre</h1>
+  <p class="lead">Lo que se decidió en la reunión, cómo piden los datos seis competidores y cómo quedarían los formularios del sitio.</p>
+  <p class="meta">Fuentes: grabación de la reunión del 6 de octubre de 2026 (88 min), notas de Gemini, los sitios de Auto360, BCars, Lovende, Tecfin y Automotora FV revisados el 8 de octubre, los perfiles de Instagram de los competidores y el código actual del sitio.</p>
+</header>
+
+<section>
+  <h2>En corto</h2>
+  <ul class="keys">
+    <li><b>Hay que preguntar cómo quiere vender</b><span>Consignación o venta directa. Auto360 y Lovende lo preguntan. Nuestro formulario hoy da por hecho que es consignación.</span></li>
+    <li><b>La zona pasa a ser Quinta Región y Santiago</b><span>El selector de comunas actual solo trae comunas de la Quinta Región. Hay que agregar la Región Metropolitana y avisar a quien escriba desde otra región.</span></li>
+    <li><b>Pocos campos por paso y en tres pasos</b><span>Primero el auto, después cómo quiere venderlo y al final sus datos. Así lo hacen Lovende y Auto360, y lo pidieron Christian y Nicolás en la reunión.</span></li>
+    <li><b>Hay que medir qué tan apurado está</b><span>La pregunta “¿cuándo quieres vender?” de Lovende ayuda a Patricio a saber a quién llamar primero mientras él atiende los mensajes.</span></li>
+    <li><b>El simulador de crédito no registra a nadie</b><span>Hoy manda directo a WhatsApp y no deja fila en la planilla. Las notas piden automatizar las solicitudes de crédito.</span></li>
+    <li><b>La planilla de leads debería parecerse al tracker de Patricio</b><span>Su planilla del curso anota la patente, la fuente (orgánico o pagado), el anuncio, el origen y quién lo trajo. Conviene que los leads del sitio lleguen con esas mismas columnas.</span></li>
+  </ul>
+</section>
+
+<section>
+  <h2>Lo que se decidió y cómo cambia los formularios</h2>
+  <div class="tbl"><table>
+    <thead><tr><th>Decisión de la reunión</th><th>Qué cambia en el formulario</th></tr></thead>
+    <tbody>
+      <tr><td>Se consiguen autos por consignación y por compra directa</td><td>Agregar la pregunta “¿Cómo quieres venderlo?” con tres opciones: consignación, que te lo compremos, o “no sé, asesórenme”.</td></tr>
+      <tr><td>Solo Quinta Región y Santiago</td><td>Primero se elige la región (Valparaíso, Metropolitana u “otra”) y después la comuna. Si elige “otra”, el lead se guarda igual, pero se le avisa que por ahora no se atiende su zona.</td></tr>
+      <tr><td>La publicidad parte enfocada en consignación, con el auto en uso hasta que haya visita</td><td>En la landing <code>/tasacion</code>, consignación queda marcada por defecto con el texto “sigues usando tu auto hasta que haya un comprador”.</td></tr>
+      <tr><td>Revisión visual y mecánica obligatoria, pagada por el dueño en consignación</td><td>No va en el formulario. Va en la página de gracias o en las preguntas frecuentes, cuando Patricio confirme el precio. No conviene que espante antes de tener el contacto.</td></tr>
+      <tr><td>Fotos del cliente mejoradas con IA, o tomadas por Patricio con costo extra</td><td>Fotos opcionales. Se piden por WhatsApp en la página de gracias, como ya pasa hoy. Para subirlas desde el formulario haría falta almacenamiento, porque la integración con Sheets no recibe archivos.</td></tr>
+      <tr><td>Patricio atiende los mensajes al comienzo</td><td>Cada lead le llega con el mensaje de WhatsApp ya escrito y una alerta de prioridad según la urgencia y la zona.</td></tr>
+      <tr><td>Correo corporativo en Zoho</td><td>Las alertas de lead se envían al correo de Zoho (la línea <code>MailApp.sendEmail</code> ya está comentada en <code>docs/apps-script.gs</code>). El correo del cliente es opcional, nunca obligatorio.</td></tr>
+      <tr><td>Traspaso por Autofact, sin notaría</td><td>Va como argumento en el texto del formulario (“trámite 100% digital”). No requiere un campo nuevo.</td></tr>
+      <tr><td>Audiencia de familias por la marca inmobiliaria de Patricio</td><td>En el encargo de compra se agrega el tipo de auto (SUV, camioneta, familiar, city car), así se sabe qué autos salir a buscar.</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section>
+  <h2>Cómo piden los datos los competidores</h2>
+  <p>Revisé el formulario de venta de cada sitio y su HTML para ver qué campos son obligatorios. La fila naranja es el formulario actual de EBENEZER.</p>
+  <div class="tbl"><table>
+    <thead><tr><th>Sitio</th><th>Pasos</th><th>Campos</th><th>Patente</th><th>Venta o consignación</th><th>Precio esperado</th><th>Urgencia</th><th>Fotos</th><th>Zona</th><th>Email</th></tr></thead>
+    <tbody>
+      <tr><th scope="row">Lovende</th><td>2</td><td class="num">14</td><td><span class="y">sí</span></td><td><span class="n">no</span></td><td><span class="p">opcional</span></td><td><span class="y">7, 15 o 30 días, o solo cotizando</span></td><td><span class="p">hasta 8</span></td><td>región</td><td><span class="p">opcional</span></td></tr>
+      <tr><th scope="row">Auto360</th><td>2 (patente → formulario)</td><td class="num">12</td><td><span class="y">primer paso</span></td><td><span class="y">sí, obligatorio</span></td><td><span class="y">obligatorio</span></td><td><span class="n">no</span></td><td><span class="n">no</span></td><td>sucursal</td><td><span class="n">obligatorio</span></td></tr>
+      <tr><th scope="row">Auto360 (cotizador)</th><td>1</td><td class="num">13</td><td><span class="y">sí</span></td><td><span class="y">casillas</span></td><td><span class="p">opcional</span></td><td><span class="n">no</span></td><td><span class="n">no</span></td><td>sede</td><td><span class="n">obligatorio + RUT</span></td></tr>
+      <tr><th scope="row">BCars</th><td>1</td><td class="num">8</td><td><span class="n">no</span></td><td><span class="n">no</span></td><td><span class="n">no</span></td><td><span class="n">no</span></td><td><span class="n">no</span></td><td><span class="n">no</span></td><td><span class="n">obligatorio</span></td></tr>
+      <tr><th scope="row">Tecfin</th><td>1</td><td class="num">8</td><td><span class="n">no</span></td><td><span class="n">no</span></td><td><span class="n">no</span></td><td><span class="n">no</span></td><td><span class="n">no</span></td><td><span class="n">no</span></td><td><span class="n">obligatorio</span></td></tr>
+      <tr><th scope="row">Automotora FV</th><td>1</td><td class="num">4</td><td colspan="7">No tiene formulario de venta. Solo un contacto genérico (nombre, email, teléfono y mensaje).</td></tr>
+      <tr class="us"><th scope="row">EBENEZER hoy</th><td>1</td><td class="num">7</td><td><span class="y">sí</span></td><td><span class="n">no</span></td><td><span class="n">no</span></td><td><span class="n">no</span></td><td><span class="p">por WhatsApp</span></td><td>solo Quinta Región</td><td><span class="y">no se pide</span></td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>Lo que vale la pena copiar</h3>
+  <ul>
+    <li><strong>Lovende</strong> (<a href="https://lovende.cl/consignacion" target="_blank" rel="noopener">/consignacion</a>) tiene el mejor formulario. Se llama “Tasación inteligente” y va en dos pasos con barra de progreso. La marca se elige de una lista que incluye “otra marca”, la versión es opcional y el kilometraje se formatea solo (48.000). Pregunta cuándo quiere vender, pide un consentimiento explícito para contactarlo por WhatsApp y tiene un campo trampa contra bots.</li>
+    <li><strong>Auto360</strong> (<a href="https://www.auto360.cl/vende-tu-auto/" target="_blank" rel="noopener">/vende-tu-auto</a>) parte con un solo campo: “Ingresa la patente y parte tu venta”. Es el gancho más simple que vimos. Pregunta si quiere venta directa o consignación y cuánto espera recibir. También avisa sus filtros desde el principio: solo autos de 2015 en adelante y con menos de 120.000 km.</li>
+    <li><strong>BCars</strong> (<a href="https://bcars.cl/vender/" target="_blank" rel="noopener">/vender</a>) tiene un formulario básico, pero sus preguntas frecuentes son las más transparentes. Publican una comisión de 5% + IVA, con un mínimo de $550.000 + IVA. La consignación física cuesta $35.000 cada 15 días. Si el auto tiene más de 95.000 km o es anterior a 2017, la inspección previa cuesta $69.900 + IVA. El retiro anticipado cuesta $60.000 + IVA. Exigen exclusividad y el contrato de compraventa se firma solo el día de la venta, nunca en blanco.</li>
+    <li><strong>Tecfin</strong> pide todo obligatorio en un solo bloque, incluido el email. Su formulario de financiamiento es un contacto genérico, sin simulador.</li>
+    <li><strong>Automotora FV</strong> (las notas de Gemini la llaman “Freddy”) ofrece una garantía mecánica de 1 mes por fallas de motor o caja, y trabaja con Tanner, Santander Consumer, Falabella, Global, Forum, Unidad y Autofácil. Su calculadora es la genérica de WordPress, donde el cliente escribe la tasa a mano.</li>
+  </ul>
+
+  <h3>Financiamiento</h3>
+  <ul>
+    <li><strong>Auto360</strong> usa sliders para el valor del auto ($3 a $80 millones), el pie (mínimo 20%) y el plazo (12 a 48 meses). Muestra la cuota, el monto a financiar y una CAE aproximada (24,6%, con una tasa de 1,85% mensual), trabaja con Autofin y dice que responde en 24 a 48 horas. Pide la solicitud aparte.</li>
+    <li><strong>Lovende</strong> pone el simulador al lado de la solicitud. Pide nombre, teléfono, email opcional y el vehículo de interés elegido de su stock, y el botón dice “Enviar solicitud con simulación”, así el asesor recibe la cuota que el cliente vio. Para EBENEZER es el modelo a seguir.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>Redes sociales</h2>
+  <div class="tbl"><table>
+    <thead><tr><th>Cuenta</th><th>Seguidores</th><th>Publicaciones</th><th>Sitio web</th><th>Qué hace en Instagram</th></tr></thead>
+    <tbody>
+      <tr><th scope="row">@lovende.cl</th><td class="num">197 mil</td><td class="num">2.816</td><td><span class="y">sí</span></td><td>Es la cuenta de “196 mil seguidores” de la reunión. Plataforma online que compra, vende, consigna y busca autos a pedido.</td></tr>
+      <tr><th scope="row">@auto360.cl</th><td class="num">37 mil</td><td class="num">1.750</td><td><span class="y">sí</span></td><td>Su bio dice “Vende o consigna tu auto” antes que el stock. Tiene sucursales en Las Condes y Viña del Mar, así que compite directo en la Quinta Región.</td></tr>
+      <tr><th scope="row">@tondacars</th><td class="num">16,7 mil</td><td class="num">285</td><td><span class="n">no</span></td><td>Es la agencia del mentor. Diego Tonda sale en cámara con cada auto en reels de tono personal, y las fichas son fotos con el modelo y los datos clave. Su bio dice “Pagamos en menos de 24 hrs”. Tiene historias destacadas de “Disponible” y “Testimonios”.</td></tr>
+      <tr><th scope="row">@tecfin.cl</th><td class="num">5,8 mil</td><td class="num">264</td><td><span class="y">sí</span></td><td>Cuenta corporativa, sin una persona como cara visible.</td></tr>
+      <tr><th scope="row">Autos León</th><td class="num">3,2 mil</td><td class="num">294</td><td><span class="n">no</span></td><td>Opera en Viña y Santiago, la misma zona de EBENEZER. Usa historias destacadas por ciudad y una de consignación, pide el informe Autofact y tiene un enlace directo a WhatsApp. No tiene sitio web.</td></tr>
+    </tbody>
+  </table></div>
+  <p class="meta">No encontré los Instagram de BCars ni de Automotora FV con los usuarios que probé (@bcars.cl, @automotorafv). Instagram pide iniciar sesión para ver más allá de la grilla, así que no revisé los textos de los reels ni los anuncios.</p>
+  <div class="callout">
+    <h3>Qué dice esto de los formularios</h3>
+    <p>Tonda Cars y Autos León venden sin sitio web, con Patricio o el dueño en cámara y WhatsApp. El formulario no compite con eso, lo complementa. Sirve para filtrar y ordenar los leads de la pauta pagada, y para darle a Meta un evento de conversión con qué optimizar. Por eso cada envío tiene que terminar igual en WhatsApp con el mensaje ya escrito, como ya pasa hoy.</p>
+  </div>
+</section>
+
+<section>
+  <h2>Cómo está hoy el formulario de EBENEZER</h2>
+  <p>El formulario está en <code>03_Sitio_Web/src/components/LeadVenta.astro</code> y se usa en el inicio, en <code>/vender-mi-auto</code> y en <code>/tasacion</code>.</p>
+  <ul>
+    <li><strong>Lo que ya está bien:</strong> pide la patente, que es lo que Nicolás destacó en la reunión. También guarda las UTM, el fbclid y el gclid, tiene un campo trampa contra bots, dispara el evento Lead en el Pixel y GA4, y termina en WhatsApp con los datos ya escritos.</li>
+    <li><strong>Lo que falta:</strong> no pregunta si quiere consignar o vender, no pide precio esperado ni pregunta cuándo quiere vender, y no trae comunas de Santiago. Además muestra los 7 campos de una vez.</li>
+    <li><strong>El simulador</strong> (<code>CreditSimulator.astro</code>) solo abre WhatsApp, así que esos leads no quedan en la planilla.</li>
+    <li><strong>La planilla</strong> (<code>docs/apps-script.gs</code>) no tiene columnas para intención, precio esperado, urgencia, región ni crédito.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>Propuesta: “Vende tu auto” en tres pasos</h2>
+  <p>Un solo componente para todo el sitio. En la landing de anuncios va abierto en el paso 1. En el inicio solo se ve el campo de patente, como en Auto360, y al escribirla se abre el resto.</p>
+  <div class="steps">
+    <div class="step">
+      <span class="n0">1</span><h3>Tu auto</h3>
+      <div class="field">Patente <em>obligatorio</em></div>
+      <div class="field">Marca, de una lista que incluye “otra” <em>obligatorio</em></div>
+      <div class="field">Modelo y versión <em>modelo obligatorio</em></div>
+      <div class="field">Año <em>obligatorio</em></div>
+      <div class="field">Kilometraje, formateado solo <em>obligatorio</em></div>
+      <div class="field">Transmisión: manual o automática <em>opcional</em></div>
+      <p class="why">Son los datos del contrato de consignación que mostró Patricio (marca, modelo, patente y kilometraje), así que el lead llega listo para tasar.</p>
+    </div>
+    <div class="step">
+      <span class="n0">2</span><h3>Cómo quieres venderlo</h3>
+      <div class="field">Consignación / que lo compren / asesórenme <em>obligatorio</em></div>
+      <div class="field">¿Cuánto esperas recibir? <em>opcional</em></div>
+      <div class="field">¿Cuándo quieres venderlo? <em>obligatorio</em></div>
+      <p class="why">Opciones de urgencia: “lo antes posible”, “este mes”, “en 1 a 3 meses” o “solo quiero saber cuánto vale”. Así Patricio sabe a quién llamar primero. El precio esperado es opcional porque, si se exige, mucha gente se va.</p>
+    </div>
+    <div class="step">
+      <span class="n0">3</span><h3>Tus datos</h3>
+      <div class="field">Nombre <em>obligatorio</em></div>
+      <div class="field">WhatsApp <em>obligatorio</em></div>
+      <div class="field">Región y después la comuna <em>obligatorio</em></div>
+      <div class="field">Email <em>opcional</em></div>
+      <div class="field">Autorizo que me contacten por WhatsApp <em>casilla</em></div>
+      <p class="why">No conviene pedir el RUT como Auto360. Se pide después, en el contrato.</p>
+    </div>
+  </div>
+  <ul>
+    <li><strong>Página de gracias:</strong> botón de WhatsApp con el mensaje ya escrito, el pedido de fotos (“nosotros las mejoramos”) y el paso siguiente: revisión del auto, publicación y traspaso digital con Autofact.</li>
+    <li><strong>Medición en Meta:</strong> un evento cuando se completa el paso 1 y el evento Lead al enviar. Así se puede ver en qué paso se cae la gente de cada anuncio.</li>
+    <li><strong>Fuera de zona:</strong> si elige “otra región”, el lead se guarda marcado como fuera de zona y la página de gracias lo dice con claridad.</li>
+  </ul>
+
+  <h3>Los otros dos formularios</h3>
+  <ul>
+    <li><strong>Crédito</strong> (nuevo, en <code>/financiamiento</code> y en la ficha de cada auto): el simulador queda arriba y abajo va la solicitud con nombre, WhatsApp, auto de interés (de la lista del stock), pie disponible (se llena con el valor del slider), si es dependiente o independiente, y si tiene un auto para dejar en parte de pago. Se guarda en una pestaña “Crédito” de la planilla junto con la cuota simulada. Si dice que tiene auto en parte de pago, se crea también un lead de venta.</li>
+    <li><strong>Encargo</strong> (ya existe): se agrega el tipo de auto (SUV, camioneta, familiar, city car o “otro”) para aprovechar la audiencia de familias.</li>
+  </ul>
+
+  <h3>Columnas nuevas para la planilla, alineadas con el tracker de Patricio</h3>
+  <p><code>intencion</code>, <code>precio_esperado</code>, <code>urgencia</code>, <code>region</code>, <code>transmision</code>, <code>en_zona</code>, <code>fuente</code> (pagado u orgánico, sacado de las UTM), <code>anuncio</code> (sacado de <code>utm_content</code>), <code>traido_por</code> (lo llena el equipo), <code>pie</code>, <code>situacion_laboral</code>, <code>parte_de_pago</code> y <code>cuota_simulada</code>.</p>
+</section>
+
+<section>
+  <h2>Lo que falta decidir antes de programar</h2>
+  <ul class="q">
+    <li><span class="who">Patricio</span>¿Ponemos un piso de año o kilometraje? Auto360 acepta desde 2015 y con menos de 120.000 km. BCars exige inspección pagada si el auto tiene más de 95.000 km o es anterior a 2017. Si no hay piso, todo entra y se filtra por teléfono.</li>
+    <li><span class="who">Patricio</span>¿Qué comunas de Santiago atendemos? ¿Toda la Región Metropolitana o solo algunas comunas?</li>
+    <li><span class="who">Patricio</span>¿Mostramos en el sitio la comisión y el costo de la revisión, como BCars, o se conversan por WhatsApp?</li>
+    <li><span class="who">Patricio</span>¿Ofrecemos 1 mes de garantía, como Automotora FV? En la reunión se habló de respaldarla con un mecánico, pero no quedó decidido.</li>
+    <li><span class="who">Patricio</span>¿Con qué financieras se trabaja? Sin ese dato, el formulario de crédito queda como solicitud de evaluación, sin nombrar bancos.</li>
+    <li><span class="who">Nicolás</span>¿A qué correo de Zoho llegan las alertas? Las notas dicen <code>contacto@automotoravescer.cl</code>, pero parece un error de transcripción, porque el dominio del repo es <code>automotoraebenezer.cl</code>.</li>
+    <li><span class="who">Christian</span>Los banners con la imagen de Patricio van junto al formulario. Hay que definir el tamaño del espacio para la imagen en el panel.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>Errores en las notas de Gemini</h2>
+  <ul>
+    <li>La cuenta de “196.000 seguidores” es Lovende, que hoy tiene 197 mil.</li>
+    <li>“Automotora Freddy” es Automotora FV (automotorafv.cl).</li>
+    <li>“Autos León con 3.000 seguidores”: en el video se ven 3.261.</li>
+    <li>“Configuración del sitio web en Highfield” no corresponde al proyecto, que está hecho en Astro y se publica en Cloudflare. Seguramente es un error de transcripción.</li>
+    <li>“contacto@automotoravescer.cl”: el dominio es automotoraebenezer.cl.</li>
+  </ul>
+</section>
+</div>

@@ -18,7 +18,7 @@ interface Props {
 }
 const { autos = '#autos' } = Astro.props;
 const fondo = await getImage({ src: carretera, width: 1600, format: 'webp', quality: 60 });
-const PUNTOS = ['Fotos de estudio y anuncios pagados', 'Nosotros atendemos a los compradores', 'Sin costo hasta que se vende'];
+const PUNTOS = ['Fotos de estudio y anuncios pagados', 'Nosotros atendemos a los compradores', 'Consignación o venta directa: tú eliges'];
 ---
 <section class="ebz-hero" data-theme="dark" style={`--hero-bg:url("${fondo.src}")`}>
   <div class="ebz-hero__bg"></div>

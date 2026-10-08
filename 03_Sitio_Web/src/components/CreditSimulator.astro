@@ -1,16 +1,23 @@
 ---
 import Button from './Button.astro';
+import Icon from './Icon.astro';
 import { clp, cuota, redondear } from '@/lib/formato';
 import { mensaje, numeroWhatsapp, type AutoWa } from '@/lib/whatsapp';
 import ajustes from '@/content/ajustes.json';
 
-/* Simulador de crédito. El HTML trae el resultado inicial ya calculado
-   (funciona sin JS); el script lo recalcula al mover el pie o el plazo. */
+/* Simulador de crédito + solicitud. El HTML trae el resultado inicial ya
+   calculado (funciona sin JS); el script lo recalcula al mover el pie o el
+   plazo y copia esos valores a la solicitud, que se guarda en la planilla
+   (pestaña "Crédito") como cualquier otro formulario. El financiamiento es
+   directo con la automotora.
+   `autos`: si se pasa, la solicitud ofrece elegir el auto de interés
+   (en /financiamiento). En la ficha el auto ya se conoce. */
 interface Props {
   precio: number;
   auto?: AutoWa;
+  autos?: string[];
 }
-const { precio, auto } = Astro.props;
+const { precio, auto, autos } = Astro.props;
 const tasa = ajustes.tasaMensual;
 const plazos = [12, 24, 36, 48, 60];
 const pieMin = redondear(precio * ajustes.pieMinimo);
@@ -20,6 +27,9 @@ const n = 36;
 const c = cuota(precio - pie, tasa, n);
 const base = mensaje('financiamiento', auto);
 const tasaTxt = (tasa * 100).toFixed(2).replace('.', ',');
+const nombreAuto = auto ? [auto.marca, auto.modelo, auto.anio].filter(Boolean).join(' ') : '';
+const SITUACIONES = ['Dependiente', 'Independiente', 'Pensionado', 'Otra'];
+const f = (k: string) => `sim-${precio}-${k}`;
 ---
 <section class="ebz-sim" data-theme="dark" aria-label="Simulador de crédito" data-sim data-precio={precio} data-tasa={tasa} data-wa={numeroWhatsapp()} data-msg={base}>
   <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px">
@@ -27,8 +37,8 @@ const tasaTxt = (tasa * 100).toFixed(2).replace('.', ',');
     <span class="ebz-caption">Valor <b class="ebz-num" style="color:#fff">{clp(precio)}</b></span>
   </div>
   <div class="ebz-field">
-    <label class="ebz-label" style="display:flex;justify-content:space-between" for={`pie-${precio}`}>Pie <span class="ebz-num" style="color:#fff;letter-spacing:0;font-size:14px" data-pie-txt>{clp(pie)} · {Math.round((pie / precio) * 100)}%</span></label>
-    <input id={`pie-${precio}`} type="range" min={pieMin} max={pieMax} step="100000" value={pie} data-pie />
+    <label class="ebz-label" style="display:flex;justify-content:space-between" for={f('pie')}>Pie <span class="ebz-num" style="color:#fff;letter-spacing:0;font-size:14px" data-pie-txt>{clp(pie)} · {Math.round((pie / precio) * 100)}%</span></label>
+    <input id={f('pie')} type="range" min={pieMin} max={pieMax} step="100000" value={pie} data-pie />
   </div>
   <div class="ebz-field">
     <span class="ebz-label">Plazo (meses)</span>
@@ -41,11 +51,72 @@ const tasaTxt = (tasa * 100).toFixed(2).replace('.', ',');
     <div class="ebz-price ebz-price-lg" style="color:var(--naranja-500);margin-top:6px"><span data-cuota>{clp(c)}</span><span style="font-size:16px;color:var(--grafito-300);font-style:normal;font-weight:600"> /mes</span></div>
     <div class="ebz-caption" style="margin-top:8px">Monto a financiar <b class="ebz-num" style="color:#fff" data-monto>{clp(precio - pie)}</b> · <span data-n>{n}</span> cuotas</div>
   </div>
-  <Button href={`https://wa.me/${numeroWhatsapp()}?text=${encodeURIComponent(base)}`} target="_blank" icon="whatsapp" block data-sim-wa>Solicitar evaluación</Button>
-  <p class="ebz-sim__fine">Valores referenciales, sujetos a evaluación crediticia. Tasa mensual referencial {tasaTxt}%. No incluye gastos operacionales, impuestos ni seguros. La CAE se informa en la cotización formal.</p>
+
+  <Button type="button" block iconRight="arrow-right" data-sim-abrir hidden>Solicitar evaluación</Button>
+
+  <form class="sim__solicitud" data-lead="credito" data-wa={numeroWhatsapp()} data-sheets={ajustes.sheetsUrl} data-sim-form>
+    <div class="sim__campos" data-campos>
+      <p class="ebz-label sim__titulo">Solicitud de evaluación</p>
+      <input type="hidden" name="precio_auto" value={precio} />
+      <input type="hidden" name="pie" value={clp(pie)} data-h-pie />
+      <input type="hidden" name="plazo" value={n} data-h-plazo />
+      <input type="hidden" name="cuota_simulada" value={clp(c)} data-h-cuota />
+      {autos && autos.length > 0 ? (
+        <div class="ebz-field lead__ancho">
+          <label class="ebz-label" for={f('auto')}>Auto de interés</label>
+          <div class="ebz-control">
+            <select id={f('auto')} name="auto_interes" class="ebz-select"><option value="">Aún no elijo</option>{autos.map((a) => <option>{a}</option>)}</select>
+            <Icon name="chevron-down" size={18} class="ebz-select__chev" />
+          </div>
+        </div>
+      ) : (
+        <input type="hidden" name="auto_interes" value={nombreAuto} />
+      )}
+      <div class="ebz-field lead__ancho">
+        <label class="ebz-label" for={f('nombre')}>Nombre</label>
+        <div class="ebz-control"><input id={f('nombre')} name="nombre" class="ebz-input" placeholder="Nombre y apellido" autocomplete="name" required /></div>
+      </div>
+      <div class="ebz-field">
+        <label class="ebz-label" for={f('tel')}>WhatsApp</label>
+        <div class="ebz-control"><input id={f('tel')} name="telefono" type="tel" class="ebz-input" placeholder="+56 9 1234 5678" autocomplete="tel" required pattern="[0-9+ ]{8,16}" /></div>
+      </div>
+      <div class="ebz-field">
+        <label class="ebz-label" for={f('email')}>Email <span class="lead__opc">opcional</span></label>
+        <div class="ebz-control"><input id={f('email')} name="email" type="email" class="ebz-input" placeholder="tu@email.cl" autocomplete="email" /></div>
+      </div>
+      <div class="ebz-field">
+        <label class="ebz-label" for={f('situacion')}>Situación laboral</label>
+        <div class="ebz-control">
+          <select id={f('situacion')} name="situacion_laboral" class="ebz-select" required><option value="">Selecciona</option>{SITUACIONES.map((s) => <option>{s}</option>)}</select>
+          <Icon name="chevron-down" size={18} class="ebz-select__chev" />
+        </div>
+      </div>
+      <div class="ebz-field">
+        <label class="ebz-label" for={f('pdp')}>¿Auto en parte de pago?</label>
+        <div class="ebz-control">
+          <select id={f('pdp')} name="parte_de_pago" class="ebz-select" required><option value="">Selecciona</option><option>No</option><option>Sí</option></select>
+          <Icon name="chevron-down" size={18} class="ebz-select__chev" />
+        </div>
+      </div>
+      <label class="lead__check"><input type="checkbox" name="acepta_contacto" value="sí" required /> <span>Acepto que me contacten por WhatsApp sobre esta solicitud.</span></label>
+      <div class="lead__oculto" aria-hidden="true"><label>No llenar<input name="sitio_web" tabindex="-1" autocomplete="off" /></label></div>
+      <div class="lead__ancho"><Button type="submit" block iconRight="arrow-right">Enviar solicitud</Button></div>
+    </div>
+    <div class="lead__gracias" data-gracias hidden>
+      <span class="lead__ok"><Icon name="check" size={28} /></span>
+      <h3 class="ebz-h4" tabindex="-1">Recibimos tu solicitud.</h3>
+      <p class="ebz-body-sm muted">Te escribimos por WhatsApp para pedirte los antecedentes y evaluar tu crédito.</p>
+      <Button href="#" target="_blank" icon="whatsapp" variant="secondary" data-gracias-wa>Seguir por WhatsApp</Button>
+    </div>
+  </form>
+
+  <a class="sim__wa" href={`https://wa.me/${numeroWhatsapp()}?text=${encodeURIComponent(base)}`} target="_blank" rel="noopener" data-sim-wa>¿Prefieres conversarlo? Escríbenos por WhatsApp</a>
+  <p class="ebz-sim__fine">Financiamiento directo con {ajustes.nombre}. Valores referenciales, sujetos a evaluación crediticia. Tasa mensual referencial {tasaTxt}%. No incluye gastos operacionales, impuestos ni seguros. La CAE se informa en la cotización formal.</p>
 </section>
 
 <script>
+  import '@/scripts/leads';
+
   const clp = (n: number) => '$' + Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
   const cuota = (k: number, r: number, n: number) => (r === 0 ? k / n : (k * r) / (1 - Math.pow(1 + r, -n)));
 
@@ -55,7 +126,19 @@ const tasaTxt = (tasa * 100).toFixed(2).replace('.', ',');
     const rango = el.querySelector<HTMLInputElement>('[data-pie]')!;
     const botones = [...el.querySelectorAll<HTMLButtonElement>('[data-plazo]')];
     const wa = el.querySelector<HTMLAnchorElement>('[data-sim-wa]')!;
+    const form = el.querySelector<HTMLFormElement>('[data-sim-form]')!;
+    const abrir = el.querySelector<HTMLButtonElement>('[data-sim-abrir]')!;
+    const h = (k: string) => form.querySelector<HTMLInputElement>(`[data-h-${k}]`)!;
     let n = Number(botones.find((b) => b.getAttribute('aria-pressed') === 'true')?.dataset.plazo ?? 36);
+
+    // Con JS la solicitud se abre al pedirla; sin JS queda siempre visible.
+    form.hidden = true;
+    abrir.hidden = false;
+    abrir.addEventListener('click', () => {
+      abrir.hidden = true;
+      form.hidden = false;
+      form.querySelector<HTMLElement>('select,input:not([type=hidden])')?.focus();
+    });
 
     const pintar = () => {
       const pie = Number(rango.value);
@@ -64,6 +147,9 @@ const tasaTxt = (tasa * 100).toFixed(2).replace('.', ',');
       el.querySelector('[data-cuota]')!.textContent = clp(c);
       el.querySelector('[data-monto]')!.textContent = clp(precio - pie);
       el.querySelector('[data-n]')!.textContent = String(n);
+      h('pie').value = clp(pie);
+      h('plazo').value = String(n);
+      h('cuota').value = clp(c);
       const texto = `${el.dataset.msg}. Simulé ${clp(pie)} de pie a ${n} meses (cuota ref. ${clp(c)}).`;
       wa.href = `https://wa.me/${el.dataset.wa}?text=${encodeURIComponent(texto)}`;
     };

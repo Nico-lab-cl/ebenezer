@@ -24,7 +24,7 @@ const f = (n: string) => `${id}-${n}`;
     <div class="ebz-field encargo__ancho"><label class="ebz-label" for={f('busca')}>Qué auto buscas</label><div class="ebz-control"><Icon name="search" size={18} /><input id={f('busca')} name="busca" class="ebz-input ebz-input--icon" placeholder="Ej: SUV automático 2018 o más nuevo" required /></div></div>
     <div class="ebz-field encargo__ancho"><label class="ebz-label" for={f('presupuesto')}>Presupuesto</label><div class="ebz-control"><select id={f('presupuesto')} name="presupuesto" class="ebz-select"><option value="">Selecciona</option>{PRESUPUESTOS.map((p) => <option>{p}</option>)}</select><Icon name="chevron-down" size={18} class="ebz-select__chev" /></div></div>
     <div class="ebz-field"><label class="ebz-label" for={f('nombre')}>Nombre</label><div class="ebz-control"><input id={f('nombre')} name="nombre" class="ebz-input" autocomplete="name" required /></div></div>
-    <div class="ebz-field"><label class="ebz-label" for={f('tel')}>WhatsApp</label><div class="ebz-control"><input id={f('tel')} name="telefono" type="tel" class="ebz-input" placeholder="+56 9…" autocomplete="tel" required pattern="[+0-9 ()\-]{8,16}" /></div></div>
+    <div class="ebz-field"><label class="ebz-label" for={f('tel')}>WhatsApp</label><div class="ebz-control"><input id={f('tel')} name="telefono" type="tel" class="ebz-input" placeholder="+56 9…" autocomplete="tel" required pattern="[0-9+ ]{8,16}" /></div></div>
     <div class="lead__oculto" aria-hidden="true"><label>No llenar<input name="sitio_web" tabindex="-1" autocomplete="off" /></label></div>
     <div class="encargo__ancho"><Button type="submit" variant="dark" block iconRight="arrow-right">Avísame cuando llegue</Button></div>
   </div>

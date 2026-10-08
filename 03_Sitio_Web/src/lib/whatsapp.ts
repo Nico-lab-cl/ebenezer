@@ -27,7 +27,7 @@ export function mensaje(contexto: Contexto = 'general', auto?: AutoWa) {
     case 'financiamiento':
       return INTRO + 'quiero simular un crédito' + (nombre ? ' para el ' + nombre : '') + ', necesito más información';
     case 'vender':
-      return INTRO + 'quiero dejar mi auto en consignación' + (nombre ? ' (' + nombre + ')' : '') + ' y necesito una tasación';
+      return INTRO + 'quiero vender mi auto' + (nombre ? ' (' + nombre + ')' : '') + ' y necesito una tasación';
     default:
       return INTRO + 'necesito más información';
   }

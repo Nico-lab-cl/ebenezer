@@ -20,23 +20,31 @@ enlace con `utm_*`.
 
 ## Qué se guarda
 
-| Pestaña | Formulario | Columnas clave |
+| Pestaña | Formulario | Columnas propias |
 |---|---|---|
-| Vendedores | "Tasa tu auto" (portada, /vender-mi-auto, /tasacion) | patente, marca y modelo, año, km, nombre, WhatsApp, comuna |
-| Compradores | "¿Buscas otro auto? Te lo conseguimos" | qué busca, presupuesto, nombre, WhatsApp |
-| Contacto | Página de contacto | motivo, mensaje, nombre, teléfono, email |
+| Vendedores | "Vende tu auto" en 3 pasos (portada, /vender-mi-auto, /tasacion) | patente, marca, modelo, año, km, transmisión, intención (consignación o venta directa), precio esperado, urgencia, región, comuna |
+| Crédito | Solicitud del simulador (/financiamiento y ficha de cada auto) | auto de interés, precio, pie, plazo y cuota simulados, situación laboral, auto en parte de pago |
+| Compradores | "¿Buscas otro auto? Te lo conseguimos" | qué busca, presupuesto |
+| Contacto | Página de contacto | motivo, mensaje |
 
-En todas: fecha, **estado** (empieza en "nuevo", para que el equipo la vaya
-cambiando), página y origen de la visita (`utm_source`, `utm_campaign`,
-`fbclid`, `gclid`…). Con eso sabes qué anuncio trajo cada auto.
+En todas: fecha, **estado** (empieza en "nuevo"), **traido_por** (vacío, lo
+llena el equipo), nombre, teléfono, email, **fuente** (pagado, orgánico o
+referido, deducida de las utm), **anuncio** (`utm_content`), página y el origen
+completo de la visita (`utm_*`, `fbclid`, `gclid`). Son columnas del tracker de
+ventas de Patricio, para poder cruzar ambas planillas.
+
+Si la planilla ya tenía pestañas creadas con una versión anterior del script,
+bórralas o renómbralas: el encabezado sólo se escribe en una pestaña vacía.
 
 ## Si cambias el script
 
 Cada cambio en el código necesita **Implementar › Gestionar implementaciones ›
 Editar › Versión nueva**. La URL `/exec` se mantiene.
 
-## Si algún día pasan a un CRM
+## Si después pasan a n8n, un CRM o Postgres
 
-El sitio sólo hace un POST con los campos de arriba (`src/scripts/leads.ts`).
-Basta con cambiar `sheetsUrl` por la URL de un webhook (n8n, Make, el CRM) que
-acepte `application/x-www-form-urlencoded`.
+El sitio sólo hace un POST `application/x-www-form-urlencoded` con los campos
+de arriba (`src/scripts/leads.ts`). Para cambiar de destino basta con poner en
+`sheetsUrl` la URL de un webhook de n8n (nodo *Webhook*, método POST) y armar
+el flujo ahí: Google Sheets, aviso por WhatsApp o correo, Postgres, etc. El
+campo `tipo` (`venta`, `credito`, `compra`, `contacto`) indica de qué formulario viene.

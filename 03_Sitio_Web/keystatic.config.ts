@@ -151,7 +151,6 @@ export default config({
         facebook: fields.text({ label: 'Facebook (URL)' }),
         tasaMensual: fields.number({ label: 'Tasa mensual referencial', description: 'Ej: 0.0169 = 1,69% mensual', step: 0.0001 }),
         pieMinimo: fields.number({ label: 'Pie mínimo', description: 'Ej: 0.2 = 20%', step: 0.01 }),
-        financieras: fields.text({ label: 'Financieras con las que trabajan' }),
         comision: fields.text({ label: 'Comisión de consignación', description: 'Ej: 5% del precio de venta. Se muestra en la portada y en las preguntas frecuentes.' }),
         plazoPago: fields.text({ label: 'Plazo de pago al dueño', description: 'Ej: el mismo día de la firma.' }),
         canales: fields.array(fields.text({ label: 'Canal' }), {

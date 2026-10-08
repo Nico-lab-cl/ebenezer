@@ -41,8 +41,10 @@ const ga = String(ajustes.ga4Id || '').trim();
 
     window.ebzTrack = function (evento, datos) {
       datos = datos || {};
-      if (window.fbq) window.fbq('track', evento, { content_category: datos.tipo || 'whatsapp' });
-      if (window.gtag) window.gtag('event', evento === 'Lead' ? 'generate_lead' : 'contact', datos);
+      // Lead y Contact son eventos estándar de Meta; el resto (p. ej. PasoFormulario) va como evento propio.
+      var estandar = evento === 'Lead' || evento === 'Contact';
+      if (window.fbq) window.fbq(estandar ? 'track' : 'trackCustom', evento, estandar ? { content_category: datos.tipo || 'whatsapp' } : datos);
+      if (window.gtag) window.gtag('event', evento === 'Lead' ? 'generate_lead' : evento === 'Contact' ? 'contact' : 'form_step', datos);
     };
 
     document.addEventListener('click', function (e) {
