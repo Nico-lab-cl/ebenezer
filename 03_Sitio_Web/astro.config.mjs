@@ -30,7 +30,10 @@ export default defineConfig({
     keystatic(),
     sitemap({
       // Sólo páginas indexables: fuera el CMS, la landing de anuncios (noindex) y la URL vieja del catálogo.
-      filter: (page) => !/\/(keystatic|admin|tasacion|comprar|404)/.test(page),
+      // /tasacion/ (landing de anuncios) queda fuera; /vender-mi-auto/tasacion/ sí entra.
+      filter: (page) => !/^https?:\/\/[^/]+\/(keystatic|admin|tasacion|comprar|404)(\/|$)/.test(page),
+      // Hoja de estilo para que el sitemap se lea como tabla en el navegador (a Google le da lo mismo).
+      xslURL: '/sitemap.xsl',
       i18n: { defaultLocale: 'es', locales: { es: 'es-CL' } },
     }),
   ],

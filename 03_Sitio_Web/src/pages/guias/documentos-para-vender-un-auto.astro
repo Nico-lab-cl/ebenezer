@@ -1,0 +1,54 @@
+---
+import PaginaSeo from '@/components/PaginaSeo.astro';
+import { articulo } from '@/lib/schema';
+import { PREGUNTAS_GUIA_DOCUMENTOS } from '@/lib/faq';
+
+// Guía del pilar Vender. Palabra principal "documentos para vender un auto" (170 · dif. 16).
+const site = Astro.site!;
+const titulo = 'Documentos para vender un auto en Chile';
+---
+<PaginaSeo
+  title="Documentos para vender un auto en Chile · Guía | EBENEZER"
+  description="Lista de documentos para vender un auto en Chile. Certificado de anotaciones, permiso de circulación, revisión técnica, SOAP y qué hacer si tiene prenda."
+  crumbs={[{ nombre: 'Inicio', url: '/' }, { nombre: 'Vender mi auto', url: '/vender-mi-auto/' }, { nombre: 'Documentos', url: '/guias/documentos-para-vender-un-auto/' }]}
+  overline="Guía para vender"
+  h1={titulo}
+  intro="Tener los documentos para vender un auto al día evita que la venta se atrase en el último paso. Esta es la lista de lo que necesitas y qué hacer si falta algo."
+  schema={[articulo(site, { titulo, descripcion: 'Lista de documentos necesarios para vender un auto usado en Chile y qué hacer si tiene prenda o multas.', url: '/guias/documentos-para-vender-un-auto/' })]}
+  faq={PREGUNTAS_GUIA_DOCUMENTOS}
+  secciones={[
+    {
+      overline: 'La lista',
+      h2: 'Lista de documentos',
+      lista: [
+        'Cédula de identidad vigente del dueño',
+        'Padrón o certificado de inscripción',
+        'Certificado de inscripción y anotaciones vigentes',
+        'Permiso de circulación vigente',
+        'Revisión técnica y certificado de gases al día',
+        'Seguro obligatorio (SOAP) vigente',
+        'Si tiene crédito o prenda, los datos de la financiera',
+      ],
+      h3: [
+        ['Certificado de inscripción y anotaciones', 'Lo emite el Registro Civil y se pide en línea. Muestra quién es el dueño y si el auto tiene prendas, embargos o prohibiciones.'],
+        ['Permiso de circulación revisión técnica y SOAP', 'Tienen que estar vigentes al momento de la transferencia. El permiso se paga en la municipalidad y la revisión técnica en una planta autorizada.'],
+      ],
+    },
+    {
+      overline: 'Si hay deudas',
+      h2: 'Si el auto tiene prenda o multas',
+      parrafos: [
+        'Una prenda o una deuda de crédito no siempre impiden vender, pero hay que resolverlas en la venta. Las multas impagas y las deudas de TAG por lo general deben quedar pagadas antes de transferir.',
+        'Lo explicamos en detalle en la guía para <a href="/guias/vender-auto-con-deuda-o-prenda/">vender un auto con deuda o prenda</a>.',
+      ],
+    },
+    {
+      overline: 'Con nosotros',
+      h2: 'Te ayudamos con los papeles',
+      parrafos: [
+        'Si vendes tu auto con EBENEZER, revisamos los documentos en la tasación, te ayudamos a conseguir lo que falte y hacemos la <a href="/guias/transferencia-de-vehiculo-online/">transferencia de vehículo online</a>.',
+        'Empieza por <a href="/vender-mi-auto/tasacion/">tasar tu auto gratis</a> o revisa cómo funciona <a href="/vender-mi-auto/">vender mi auto</a> con nosotros.',
+      ],
+    },
+  ]}
+/>

@@ -1,0 +1,154 @@
+---
+import Base from '@/layouts/Base.astro';
+import Breadcrumbs from './Breadcrumbs.astro';
+import Button from './Button.astro';
+import Icon from './Icon.astro';
+import Faq from './Faq.astro';
+import LeadVenta from './LeadVenta.astro';
+import WhatsAppButton from './WhatsAppButton.astro';
+import type { Pregunta } from '@/lib/faq';
+import { migas, preguntas } from '@/lib/schema';
+
+/* Plantilla de las páginas de apoyo del plan SEO (clusters de venta, guías y
+   páginas de ciudad, ver 01_Fuentes_NotebookLM/arquitectura-seo-2026-10.html).
+
+   Un H1 con la palabra principal, secciones H2 con sus H3, preguntas
+   frecuentes (con su FAQPage) y migas de pan (con su BreadcrumbList).
+   Los párrafos aceptan HTML para poner enlaces internos con el texto ancla
+   que pide el plan. Sin dos puntos en los textos visibles ni puntos o comas
+   en los títulos. */
+export interface Seccion {
+  id?: string;
+  overline?: string;
+  h2: string;
+  parrafos?: string[];
+  /** Subtemas con su H3 */
+  h3?: [titulo: string, texto: string][];
+  lista?: string[];
+  enlaces?: [texto: string, href: string][];
+}
+interface Props {
+  title: string;
+  description: string;
+  crumbs: { nombre: string; url: string }[];
+  overline: string;
+  h1: string;
+  intro: string;
+  /** Formulario de tasación en el hero (páginas de venta) */
+  formulario?: boolean;
+  cta?: 'tasar' | 'autos' | 'credito';
+  secciones: Seccion[];
+  faq?: Pregunta[];
+  faqTitulo?: string;
+  schema?: object[];
+  fab?: 'vender' | 'comprar';
+}
+const { title, description, crumbs, overline, h1, intro, formulario, cta = 'tasar', secciones, faq = [], faqTitulo = 'Preguntas frecuentes', schema = [], fab = 'vender' } = Astro.props;
+const site = Astro.site!;
+const idForm = 'lead-' + (crumbs.at(-1)?.url ?? '').replace(/[^a-z]/g, '').slice(-24);
+const CTA = {
+  tasar: { texto: 'Tasar mi auto', href: formulario ? '#tasar' : '/vender-mi-auto/tasacion/' },
+  autos: { texto: 'Ver autos usados', href: '/autos-usados/' },
+  credito: { texto: 'Simular mi crédito', href: '/financiamiento/' },
+}[cta];
+---
+<Base
+  title={title}
+  description={description}
+  schema={[...schema, ...(faq.length ? [preguntas(faq)] : []), migas(site, crumbs)]}
+  fab={{ context: fab === 'vender' ? 'vender' : 'general' }}
+>
+  <section class="ps-hero" id={formulario ? 'tasar' : undefined}>
+    <div class="studio ps-hero__fondo"></div>
+    <div class={`ebz-container split split--top ps-hero__in`}>
+      <div class="stack" style="gap:20px;flex:6 1 420px">
+        <Breadcrumbs items={crumbs} />
+        <span class="ebz-overline ebz-overline-rule" style="color:var(--grafito-300)">{overline}</span>
+        <h1 class="ebz-h1" style="text-wrap:balance">{h1}</h1>
+        <p class="ebz-body-lg muted" style="max-width:600px" set:html={intro} />
+        {!formulario && (
+          <div class="row">
+            <Button size="lg" href={CTA.href} iconRight="arrow-right">{CTA.texto}</Button>
+            <WhatsAppButton size="lg" variant="secondary" context={fab === 'vender' ? 'vender' : 'general'}>Escríbenos</WhatsAppButton>
+          </div>
+        )}
+      </div>
+      {formulario && <div style="flex:5 1 400px"><LeadVenta id={idForm} variante="panel" /></div>}
+    </div>
+  </section>
+
+  <slot name="antes" />
+
+  {secciones.map((s, i) => (
+    <section data-theme={i % 2 === 0 ? 'light' : 'dark'} class={i % 2 === 0 ? 'sec sec--light' : 'sec'} id={s.id}>
+      <div class="ebz-container split split--top" style="gap:56px">
+        <div class="stack" style="gap:12px;flex:4 1 300px">
+          {s.overline && <span class="ebz-overline" style="color:var(--text-accent)">{s.overline}</span>}
+          <h2 class="ebz-h2">{s.h2}</h2>
+        </div>
+        <div class="stack ps-cuerpo" style="flex:7 1 480px;gap:18px;min-width:0">
+          {s.parrafos?.map((p) => <p class="ebz-body muted" set:html={p} />)}
+          {s.h3 && (
+            <div class="ps-h3">
+              {s.h3.map(([t, x]) => (
+                <div class="card">
+                  <h3 class="ebz-h5" style="font-style:italic;font-weight:800">{t}</h3>
+                  <p class="ebz-body-sm muted" set:html={x} />
+                </div>
+              ))}
+            </div>
+          )}
+          {s.lista && (
+            <ul class="lista-check">
+              {s.lista.map((l) => <li><Icon name="check" size={18} /><span class="ebz-body" set:html={l} /></li>)}
+            </ul>
+          )}
+          {s.enlaces && (
+            <div class="ps-enlaces">
+              {s.enlaces.map(([t, h]) => <a href={h} class="ps-enlace"><span>{t}</span><Icon name="arrow-right" size={18} /></a>)}
+            </div>
+          )}
+        </div>
+      </div>
+    </section>
+  ))}
+
+  <slot />
+
+  {faq.length > 0 && (
+    <section data-theme="light" class="sec sec--light" id="preguntas">
+      <div class="ebz-container split split--top" style="gap:56px">
+        <div class="stack" style="flex:4 1 300px">
+          <span class="ebz-overline" style="color:var(--text-accent)">Preguntas frecuentes</span>
+          <h2 class="ebz-h2">{faqTitulo}</h2>
+        </div>
+        <div style="flex:7 1 480px"><Faq items={faq} /></div>
+      </div>
+    </section>
+  )}
+
+  <section class="sec ps-cierre">
+    <div class="ebz-container split" style="gap:32px">
+      <div class="stack" style="gap:10px;flex:6 1 420px">
+        <h2 class="ebz-h2">{cta === 'tasar' ? '¿Cuánto vale tu auto?' : cta === 'credito' ? '¿Cuánto sería tu cuota?' : '¿Buscas un auto usado?'}</h2>
+        <p class="ebz-body muted">{cta === 'tasar' ? 'Completa el formulario y te enviamos la tasación por WhatsApp, sin costo y sin compromiso.' : cta === 'credito' ? 'Simula tu crédito directo y envía tu solicitud. Te respondemos en 48 horas.' : 'Revisa los autos disponibles o déjanos tu encargo y te avisamos cuando llegue uno.'}</p>
+      </div>
+      <div class="row">
+        <Button size="lg" href={CTA.href} iconRight="arrow-right">{CTA.texto}</Button>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .ps-hero{position:relative;overflow:hidden}
+  .ps-hero__fondo{position:absolute;top:0;right:0;width:40%;height:100%;clip-path:polygon(30% 0,100% 0,100% 100%,0 100%);opacity:.08}
+  .ps-hero__in{position:relative;gap:56px;padding-top:40px;padding-bottom:72px}
+  .ps-h3{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+  .ps-cuerpo :global(a:not(.ps-enlace)){color:var(--text-accent);font-weight:600;text-decoration:underline;text-underline-offset:3px}
+  .ps-enlaces{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}
+  .ps-enlace{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:16px 18px;background:var(--bg-surface);box-shadow:inset 0 0 0 1px var(--border-subtle);border-left:3px solid var(--naranja-500);font-weight:700;color:var(--text-primary);text-decoration:none;transition:transform .15s}
+  .ps-enlace:hover{transform:translateX(3px)}
+  .ps-cierre{border-top:1px solid var(--border-subtle)}
+  @media (max-width:599px){.ps-hero__in{padding-top:24px;padding-bottom:56px}}
+</style>

@@ -1,0 +1,52 @@
+---
+import PaginaSeo from '@/components/PaginaSeo.astro';
+import { servicio } from '@/lib/schema';
+import { PREGUNTAS_COMPRA_DIRECTA } from '@/lib/faq';
+
+// Cluster del pilar Vender. Palabra principal "compramos tu auto" (1.000 · dif. 14).
+const site = Astro.site!;
+---
+<PaginaSeo
+  title="Compramos tu auto usado en la Quinta Región | EBENEZER"
+  description="Compramos tu auto usado en la Región de Valparaíso. Tasación gratis por WhatsApp, oferta clara y transferencia digital, sin publicar ni atender llamadas."
+  crumbs={[{ nombre: 'Inicio', url: '/' }, { nombre: 'Vender mi auto', url: '/vender-mi-auto/' }, { nombre: 'Compramos tu auto', url: '/vender-mi-auto/compramos-tu-auto/' }]}
+  overline="Venta directa"
+  h1="Compramos tu auto usado en la Quinta Región"
+  intro="En EBENEZER compramos tu auto usado si necesitas venderlo sin esperar. Nos cuentas de tu auto, te hacemos una oferta y, si te acomoda, te lo compramos directo. Sin publicar avisos ni atender llamadas de desconocidos."
+  formulario
+  schema={[servicio(site, { nombre: 'Compra directa de autos usados', tipo: 'Compra de autos usados', descripcion: 'Tasación gratis, oferta de compra y transferencia digital del auto, en toda la Región de Valparaíso.', url: '/vender-mi-auto/compramos-tu-auto/' })]}
+  faq={PREGUNTAS_COMPRA_DIRECTA}
+  faqTitulo="Lo que preguntan antes de vendernos su auto"
+  secciones={[
+    {
+      overline: 'La oferta',
+      h2: 'Cómo te hacemos la oferta',
+      parrafos: ['La oferta sale de los datos de tu auto, de cómo está y de lo que se paga hoy en el mercado por uno parecido. Te la enviamos por WhatsApp y no tienes que aceptarla.'],
+      h3: [
+        ['Nos cuentas de tu auto', 'Patente, marca, modelo, año y kilometraje en el formulario. Por WhatsApp nos mandas unas fotos.'],
+        ['Revisamos el auto', 'Hacemos una revisión visual y mecánica y miramos sus antecedentes, como prendas y multas.'],
+        ['Te hacemos la oferta', 'Te decimos cuánto pagamos por tu auto. Si te acomoda, avanzamos con los papeles.'],
+      ],
+    },
+    {
+      overline: 'El cierre',
+      h2: 'Pago y transferencia digital',
+      parrafos: [
+        'La transferencia la hacemos nosotros, en forma digital y sin ir a una notaría. Tú sólo firmas. Cómo y cuándo recibes el pago te lo explicamos por WhatsApp antes de cerrar.',
+        'Si tu auto todavía tiene crédito o prenda, también se puede vender. Lo vemos en la <a href="/guias/vender-auto-con-deuda-o-prenda/">guía para vender un auto con deuda o prenda</a>.',
+      ],
+      enlaces: [
+        ['Transferencia de vehículo online', '/guias/transferencia-de-vehiculo-online/'],
+        ['Documentos para vender un auto', '/guias/documentos-para-vender-un-auto/'],
+      ],
+    },
+    {
+      overline: 'Compara',
+      h2: '¿Te conviene venderlo directo o en consignación?',
+      parrafos: [
+        'En la venta directa recibes una oferta y cierras rápido. En consignación esperamos al comprador mientras sigues usando tu auto, por lo que normalmente recibes un precio más cercano al de mercado.',
+        'Si no tienes apuro, revisa cómo funcionan los <a href="/vender-mi-auto/consignacion/">autos en consignación</a>. En la tasación te mostramos las dos opciones y eliges tú. Todo el proceso está en la página para <a href="/vender-mi-auto/">vender mi auto</a>.',
+      ],
+    },
+  ]}
+/>

@@ -1,0 +1,51 @@
+---
+import PaginaSeo from '@/components/PaginaSeo.astro';
+import { articulo } from '@/lib/schema';
+import { PREGUNTAS_GUIA_DEUDA } from '@/lib/faq';
+
+/* Guía del pilar Vender. Palabra principal "compramos tu auto con deuda" (40 · dif. 29),
+   secundarias "vender mi auto con deuda de tag", "vender mi auto en prenda". */
+const site = Astro.site!;
+const titulo = '¿Puedo vender mi auto con deuda o prenda?';
+---
+<PaginaSeo
+  title="Vender mi auto con deuda o prenda · Guía | EBENEZER"
+  description="¿Puedes vender tu auto si aún lo estás pagando o tiene prenda? Qué pasa con el crédito vigente, las deudas de TAG y las multas, y cómo se resuelve en la venta."
+  crumbs={[{ nombre: 'Inicio', url: '/' }, { nombre: 'Vender mi auto', url: '/vender-mi-auto/' }, { nombre: 'Deuda o prenda', url: '/guias/vender-auto-con-deuda-o-prenda/' }]}
+  overline="Guía para vender"
+  h1={titulo}
+  intro="Sí, en la mayoría de los casos puedes vender tu auto con deuda o prenda. La clave es pagar el saldo con la venta y que la prenda se alce antes de transferir. Te explicamos cómo."
+  schema={[articulo(site, { titulo, descripcion: 'Cómo vender un auto con crédito vigente, prenda, deudas de TAG o multas en Chile.', url: '/guias/vender-auto-con-deuda-o-prenda/' })]}
+  faq={PREGUNTAS_GUIA_DEUDA}
+  secciones={[
+    {
+      overline: 'Crédito',
+      h2: 'Auto con crédito vigente',
+      parrafos: [
+        'Cuando un auto se compra con crédito, la financiera suele inscribir una prenda en el Registro Civil. Mientras exista, el auto no se puede transferir a otra persona.',
+        'Para vender hay que pagar el saldo del crédito y pedirle a la financiera el alzamiento de la prenda. Muchas veces ese saldo se paga con el mismo dinero de la venta.',
+      ],
+    },
+    {
+      overline: 'Autopistas y partes',
+      h2: 'Deudas de TAG y multas',
+      parrafos: [
+        'Las deudas de TAG con las autopistas y las multas impagas por lo general deben quedar pagadas antes de la transferencia. Las multas inscritas aparecen en el certificado de anotaciones del Registro Civil.',
+        'Conviene revisarlas antes de publicar el auto, para que no frenen la venta al final.',
+      ],
+    },
+    {
+      overline: 'En cuotas',
+      h2: 'Si aún lo estás pagando',
+      parrafos: ['Que todavía pagues cuotas no te impide vender. Pide a tu financiera el saldo para pago anticipado y compáralo con lo que vale tu auto. Si la venta cubre la deuda, el resto es para ti.'],
+    },
+    {
+      overline: 'Con nosotros',
+      h2: 'Cómo lo resolvemos en la venta',
+      parrafos: [
+        'En la tasación revisamos con los datos de la financiera cuánto queda por pagar y te decimos cómo se paga el saldo con la venta, ya sea en <a href="/vender-mi-auto/consignacion/">consignación</a> o si <a href="/vender-mi-auto/compramos-tu-auto/">compramos tu auto</a> directo.',
+        'Empieza por <a href="/vender-mi-auto/tasacion/">tasar tu auto gratis</a> y revisa los <a href="/guias/documentos-para-vender-un-auto/">documentos para vender un auto</a>.',
+      ],
+    },
+  ]}
+/>

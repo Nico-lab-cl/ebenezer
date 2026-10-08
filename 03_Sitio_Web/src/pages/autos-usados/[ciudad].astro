@@ -1,0 +1,61 @@
+---
+import PaginaSeo from '@/components/PaginaSeo.astro';
+import AutosDisponibles from '@/components/AutosDisponibles.astro';
+import { CIUDADES, type Ciudad } from '@/lib/ciudades';
+import { vehiculos } from '@/lib/vehiculos';
+import { servicio } from '@/lib/schema';
+
+/* Páginas de ciudad del pilar Autos usados (/autos-usados/[ciudad]/).
+   Enlazan a los tres pilares, y el pilar 2 enlaza a todas las ciudades. */
+export function getStaticPaths() {
+  return CIUDADES.map((c) => ({ params: { ciudad: c.slug }, props: { c } }));
+}
+const { c } = Astro.props as { c: Ciudad };
+const lista = (await vehiculos()).filter((v) => v.data.etiqueta !== 'vendido');
+const site = Astro.site!;
+const ruta = `/autos-usados/${c.slug}/`;
+---
+<PaginaSeo
+  title={c.title}
+  description={c.description}
+  crumbs={[{ nombre: 'Inicio', url: '/' }, { nombre: 'Autos usados', url: '/autos-usados/' }, { nombre: c.nombre, url: ruta }]}
+  overline={`Autos usados · ${c.nombre}`}
+  h1={c.h1}
+  intro={c.intro}
+  cta="autos"
+  fab="comprar"
+  schema={[servicio(site, { nombre: `Automotora para ${c.zona}`, tipo: 'Compra y venta de autos usados', descripcion: `Autos usados revisados con crédito directo, tasación gratis y compra o consignación de autos en ${c.comunas.join(', ')}.`, url: ruta })]}
+  faq={c.preguntas}
+  faqTitulo={`Preguntas frecuentes de ${c.nombre}`}
+  secciones={[
+    {
+      overline: 'Para dueños',
+      h2: `Vende tu auto en ${c.nombre}`,
+      parrafos: [`Si quieres vender tu auto en ${c.zona}, tienes dos caminos. Todo el proceso está en la página para <a href="/vender-mi-auto/">vender mi auto</a>.`],
+      h3: [
+        ['Tasación gratis', `Completa el formulario y te enviamos la tasación por WhatsApp. <a href="/vender-mi-auto/tasacion/">Tasar mi auto</a>`],
+        ['Compramos tu auto o lo consignamos', `Te hacemos una oferta y <a href="/vender-mi-auto/compramos-tu-auto/">compramos tu auto</a>, o lo dejas en <a href="/vender-mi-auto/consignacion/">consignación</a> y lo sigues usando hasta que se venda.`],
+      ],
+    },
+    {
+      overline: 'Cobertura',
+      h2: 'Comunas que atendemos',
+      parrafos: [`${c.comunas.join(' · ')}. También atendemos el resto de la Región de Valparaíso desde nuestra base en El Tabo.`],
+    },
+    {
+      overline: 'Cómo funciona',
+      h2: `Cómo funciona si vives en ${c.nombre}`,
+      parrafos: [
+        c.local,
+        'Para comprar, revisa los <a href="/autos-usados/">autos usados en la Quinta Región</a> y, si lo necesitas, financia tu auto con <a href="/financiamiento/">crédito directo</a> con pie desde 20%.',
+      ],
+    },
+  ]}
+>
+  <section slot="antes" data-theme="dark" class="sec" style="padding-top:0">
+    <div class="ebz-container stack" style="gap:28px">
+      <h2 class="ebz-h2">Autos usados para {c.nombre}</h2>
+      <AutosDisponibles autos={lista} idEncargo={`encargo-${c.slug}`} tasar="/vender-mi-auto/tasacion/" />
+    </div>
+  </section>
+</PaginaSeo>

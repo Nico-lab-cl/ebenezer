@@ -11,6 +11,7 @@ import { vehiculos, url, nombre } from '@/lib/vehiculos';
 import { migas, listaAutos, preguntas } from '@/lib/schema';
 import { PREGUNTAS_COMPRADOR } from '@/lib/faq';
 import Faq from '@/components/Faq.astro';
+import { CIUDADES } from '@/lib/ciudades';
 
 const lista = await vehiculos();
 const conteo = (k: (v: (typeof lista)[number]) => string) =>
@@ -124,7 +125,21 @@ const crumbs = [{ nombre: 'Inicio', url: '/' }, { nombre: 'Autos usados', url: '
       )}
     </div>
   </div>
-  <section data-theme="light" class="sec sec--light" id="preguntas" style="padding-top:0">
+  <section class="sec" id="ciudades">
+    <div class="ebz-container split split--top" style="gap:56px">
+      <div class="stack" style="gap:12px;flex:4 1 300px">
+        <span class="ebz-overline" style="color:var(--text-accent)">Región de Valparaíso</span>
+        <h2 class="ebz-h2">Autos usados cerca de ti</h2>
+        <p class="ebz-body muted">Con base en El Tabo atendemos toda la Quinta Región. Revisa cómo funciona en tu zona.</p>
+      </div>
+      <div class="ciudades" style="flex:7 1 480px">
+        {CIUDADES.map((c) => (
+          <a href={`/autos-usados/${c.slug}/`} class="ciudad"><h3 class="ebz-h5" style="font-style:italic;font-weight:800">Autos usados en {c.nombre}</h3><Icon name="arrow-right" size={18} /></a>
+        ))}
+      </div>
+    </div>
+  </section>
+  <section data-theme="light" class="sec sec--light" id="preguntas">
     <div class="ebz-container split split--top" style="gap:56px">
       <div class="stack" style="flex:4 1 320px">
         <span class="ebz-overline" style="color:var(--text-accent)">Preguntas frecuentes</span>
@@ -134,6 +149,12 @@ const crumbs = [{ nombre: 'Inicio', url: '/' }, { nombre: 'Autos usados', url: '
     </div>
   </section>
 </Base>
+
+<style>
+  .ciudades{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px}
+  .ciudad{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:16px 18px;background:var(--grafito-900);border-left:3px solid var(--naranja-500);color:#fff;text-decoration:none;transition:transform .15s}
+  .ciudad:hover{transform:translateX(3px)}
+</style>
 
 <script>
   // Los filtros existen apenas hay un auto publicado

@@ -130,3 +130,19 @@ export function auto(site: URL, a: DatosAuto) {
     },
   };
 }
+
+/* Guías: artículo publicado por la automotora. */
+export function articulo(site: URL, a: { titulo: string; descripcion: string; url: string }) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: a.titulo,
+    description: a.descripcion,
+    url: new URL(a.url, site).href,
+    mainEntityOfPage: new URL(a.url, site).href,
+    inLanguage: 'es-CL',
+    datePublished: '2026-10-08',
+    author: { '@id': idAutomotora(site) },
+    publisher: { '@id': idAutomotora(site) },
+  };
+}

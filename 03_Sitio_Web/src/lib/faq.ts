@@ -91,3 +91,49 @@ export const PREGUNTAS_NOSOTROS = definidas([
   ['¿Qué servicios ofrecen?', 'Vendemos tu auto en consignación o te lo compramos directo, vendemos autos usados revisados y ofrecemos crédito directo con la automotora.'],
   ['¿Cómo los contacto?', 'Por WhatsApp, que es la forma más rápida, o con el formulario de la página de contacto.'],
 ]);
+
+/* Clusters de venta y guías (plan SEO). Mismas reglas: sólo datos confirmados. */
+const DEUDA: Pregunta = ['¿Puedo vender mi auto si todavía lo estoy pagando o tiene prenda?', 'Sí, en la mayoría de los casos. Lo revisamos en la tasación y la deuda se paga con la venta.'];
+const TAG: Pregunta = ['¿Puedo vender mi auto con deudas de TAG o multas?', 'Por lo general deben quedar pagadas antes de la transferencia. Las revisamos en la tasación y te decimos cómo resolverlas.'];
+const DOCUMENTOS: Pregunta = ['¿Qué documentos necesito para vender mi auto?', 'Tu cédula de identidad, el padrón o certificado de inscripción, el permiso de circulación, la revisión técnica y el SOAP vigentes. Si tiene crédito o prenda, los datos de la financiera.'];
+const TASACION_GRATIS: Pregunta = ['¿La tasación tiene costo?', 'No. La tasación es gratis y sin compromiso. Si no te acomoda la propuesta, no tienes que hacer nada más.'];
+
+export const PREGUNTAS_COMPRA_DIRECTA = definidas([
+  ['¿Cuánto pagan por mi auto?', 'Depende del modelo, el año, el kilometraje, el estado y los precios del mercado. Con los datos y unas fotos te hacemos una oferta por WhatsApp, sin compromiso.'],
+  ['¿Compran autos de cualquier marca y año?', 'Revisamos cada caso. Cuéntanos de tu auto en el formulario y te respondemos con la tasación.'],
+  DEUDA,
+  ['¿Cómo y cuándo me pagan?', 'La forma y el momento del pago te los explicamos por WhatsApp antes de cerrar, para que lo tengas claro antes de firmar.'],
+  CONSIGNACION_O_DIRECTA,
+  UBICACION,
+]);
+
+export const PREGUNTAS_CONSIGNACION = definidas([
+  ['¿Qué es dejar un auto en consignación?', 'Es encargarle la venta de tu auto a una automotora. Nosotros lo publicamos, atendemos a los interesados y hacemos la transferencia, y tú recibes el pago cuando se vende.'],
+  ['¿Dónde queda mi auto mientras se vende?', 'Contigo. Puedes seguir usando tu auto mientras lo publicitamos, y coordinamos contigo cada visita de un comprador.'],
+  ['¿Quién decide el precio?', 'Tú. Te proponemos un precio según el mercado y lo ajustamos juntos si hace falta.'],
+  ['¿Es seguro vender mi auto en consignación con EBENEZER?', 'Sí. Firmas un contrato de consignación con las condiciones de la venta, revisamos el auto antes de publicarlo y la transferencia se hace en forma digital.'],
+  COBRO,
+  CONSIGNACION_O_DIRECTA,
+]);
+
+export const PREGUNTAS_TASACION = definidas([
+  TASACION_GRATIS,
+  ['¿Qué datos necesito para tasar mi auto?', 'La patente, la marca, el modelo, el año y el kilometraje. Con unas fotos por WhatsApp la tasación queda más precisa.'],
+  ['¿La tasación fiscal del SII es lo que vale mi auto?', 'No. La tasación fiscal la usa el SII para calcular impuestos y el permiso de circulación. El precio de venta depende del mercado y del estado del auto.'],
+  ['¿Tasar mi auto me obliga a venderlo?', 'No. Te enviamos la tasación y tú decides si vendes, en consignación o en venta directa.'],
+  UBICACION,
+]);
+
+export const PREGUNTAS_GUIA_TRANSFERENCIA = definidas([
+  ['¿Se puede transferir un auto por internet en Chile?', 'Sí. La compraventa puede firmarse en forma electrónica a través de plataformas autorizadas y se inscribe en el Registro Civil sin ir a una notaría.'],
+  ['¿Quién hace la transferencia si vendo con EBENEZER?', 'Nosotros. Cuando se vende tu auto coordinamos la transferencia digital y tú sólo firmas.'],
+  TAG,
+]);
+
+export const PREGUNTAS_GUIA_DOCUMENTOS = definidas([DOCUMENTOS, DEUDA, TAG]);
+
+export const PREGUNTAS_GUIA_DEUDA = definidas([
+  DEUDA,
+  TAG,
+  ['¿Necesito pagar todo el crédito antes de vender?', 'No siempre. Lo revisamos en la tasación con los datos de la financiera y vemos cómo pagar el saldo con la venta.'],
+]);

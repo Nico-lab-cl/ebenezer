@@ -1,0 +1,54 @@
+---
+import PaginaSeo from '@/components/PaginaSeo.astro';
+import { servicio } from '@/lib/schema';
+import { PREGUNTAS_CONSIGNACION } from '@/lib/faq';
+import ajustes from '@/content/ajustes.json';
+
+// Cluster del pilar Vender. Palabra principal "autos en consignación" (110 · dif. 35).
+const site = Astro.site!;
+---
+<PaginaSeo
+  title="Autos en consignación · Vendemos tu auto por ti | EBENEZER"
+  description="Deja tu auto en consignación en la Quinta Región. Fotos de estudio, anuncios pagados y atención de compradores mientras sigues usándolo. Tasación gratis."
+  crumbs={[{ nombre: 'Inicio', url: '/' }, { nombre: 'Vender mi auto', url: '/vender-mi-auto/' }, { nombre: 'Consignación', url: '/vender-mi-auto/consignacion/' }]}
+  overline="Consignación de vehículos"
+  h1="Autos en consignación · vendemos tu auto por ti"
+  intro="Con la consignación de vehículos nos encargas la venta de tu auto. Lo fotografiamos, lo promocionamos con anuncios pagados y atendemos a los compradores, mientras tú sigues usándolo. Atendemos autos en consignación de toda la Región de Valparaíso."
+  formulario
+  schema={[servicio(site, { nombre: 'Venta de autos en consignación', tipo: 'Consignación de vehículos', descripcion: 'Fotos de estudio, anuncios pagados, atención de compradores, revisión y transferencia digital del auto, mientras el dueño lo sigue usando.', url: '/vender-mi-auto/consignacion/' })]}
+  faq={PREGUNTAS_CONSIGNACION}
+  faqTitulo="Dudas sobre la consignación"
+  secciones={[
+    {
+      overline: 'Definición',
+      h2: 'Qué es la consignación de vehículos',
+      parrafos: [
+        'Consignar un auto es encargarle su venta a una automotora. El auto sigue siendo tuyo hasta que se vende, el precio lo decides tú y la automotora se ocupa de publicarlo, atender a los interesados y hacer la transferencia.',
+        'Es la opción para quien quiere un precio cercano al de mercado sin dedicar semanas a vender por su cuenta. Si prefieres cerrar rápido, revisa la opción en que <a href="/vender-mi-auto/compramos-tu-auto/">compramos tu auto</a>.',
+      ],
+    },
+    {
+      overline: 'El servicio',
+      h2: 'Qué incluye',
+      h3: [
+        ['Fotos de estudio y anuncios pagados', `Fotografiamos tu auto en estudio, con ángulos de catálogo, y lo promocionamos en ${ajustes.canales.join(', ')}.`],
+        ['Atención de compradores y visitas', 'Respondemos los mensajes, filtramos a los interesados y coordinamos contigo cada visita.'],
+        ['Revisión y antecedentes', 'Antes de publicarlo hacemos una revisión visual y mecánica y un informe de antecedentes.'],
+        ['Transferencia digital', 'Cuando aparece el comprador, hacemos la transferencia en forma digital. Tú sólo firmas.'],
+      ],
+    },
+    {
+      overline: 'Tu auto',
+      h2: 'Sigues usando tu auto hasta que haya comprador',
+      parrafos: ['Tu auto no queda guardado en un patio. Lo sigues usando mientras lo publicitamos, y cuando un comprador quiere verlo coordinamos contigo el día y la hora.'],
+    },
+    {
+      overline: 'Por escrito',
+      h2: 'El contrato de consignación',
+      parrafos: [
+        'Antes de publicar firmamos un contrato de consignación. Ahí queda el precio de venta que acordamos y las condiciones del servicio, que te explicamos por WhatsApp antes de firmar.',
+        'Si tu auto tiene prenda o deudas, lo vemos en la tasación. Más detalles en la <a href="/guias/vender-auto-con-deuda-o-prenda/">guía para vender un auto con deuda o prenda</a> y en la lista de <a href="/guias/documentos-para-vender-un-auto/">documentos para vender un auto</a>. Todo el proceso está en la página para <a href="/vender-mi-auto/">vender mi auto</a>.',
+      ],
+    },
+  ]}
+/>

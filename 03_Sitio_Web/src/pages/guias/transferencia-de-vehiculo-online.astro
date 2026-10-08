@@ -1,0 +1,59 @@
+---
+import PaginaSeo from '@/components/PaginaSeo.astro';
+import { articulo } from '@/lib/schema';
+import { PREGUNTAS_GUIA_TRANSFERENCIA } from '@/lib/faq';
+
+// Guía del pilar Vender. Palabra principal "transferencia de vehículo online" (390 · dif. 24).
+const site = Astro.site!;
+const titulo = 'Transferencia de vehículo online en Chile';
+---
+<PaginaSeo
+  title="Transferencia de vehículo online en Chile · Guía | EBENEZER"
+  description="Cómo funciona la transferencia de vehículo online en Chile. Requisitos, documentos y pasos para transferir un auto sin ir a una notaría."
+  crumbs={[{ nombre: 'Inicio', url: '/' }, { nombre: 'Vender mi auto', url: '/vender-mi-auto/' }, { nombre: 'Transferencia online', url: '/guias/transferencia-de-vehiculo-online/' }]}
+  overline="Guía para vender"
+  h1={titulo}
+  intro="La transferencia de vehículo online permite firmar la compraventa de un auto en forma electrónica e inscribirla en el Registro Civil sin pasar por una notaría. Aquí te contamos cómo funciona y qué necesitas."
+  schema={[articulo(site, { titulo, descripcion: 'Requisitos, documentos y pasos para la transferencia electrónica de un vehículo en Chile.', url: '/guias/transferencia-de-vehiculo-online/' })]}
+  faq={PREGUNTAS_GUIA_TRANSFERENCIA}
+  secciones={[
+    {
+      overline: 'Lo básico',
+      h2: 'Qué es la transferencia electrónica',
+      parrafos: [
+        'Es la compraventa de un vehículo firmada en forma electrónica por el vendedor y el comprador, a través de una plataforma autorizada. La plataforma envía el contrato al Registro Civil, que inscribe al nuevo dueño.',
+        'Reemplaza el trámite presencial en la notaría y se puede hacer desde el celular o el computador.',
+      ],
+    },
+    {
+      overline: 'Antes de empezar',
+      h2: 'Requisitos para transferir',
+      lista: [
+        'Cédula de identidad vigente del vendedor y del comprador',
+        'El auto inscrito a nombre del vendedor, según el certificado de inscripción y anotaciones vigentes',
+        'Permiso de circulación, revisión técnica y SOAP al día',
+        'Sin prendas ni prohibiciones vigentes, o con su alzamiento en trámite',
+        'El pago del impuesto a la transferencia, que se calcula sobre el precio de venta o la tasación fiscal del SII',
+      ],
+      parrafos: ['La lista completa está en la guía de <a href="/guias/documentos-para-vender-un-auto/">documentos para vender un auto</a>.'],
+    },
+    {
+      overline: 'El trámite',
+      h2: 'Paso a paso',
+      h3: [
+        ['1 · Revisa los antecedentes', 'Pide el certificado de inscripción y anotaciones vigentes en el Registro Civil para confirmar que no hay prendas, embargos ni multas que impidan la venta.'],
+        ['2 · Acuerda precio y forma de pago', 'Vendedor y comprador fijan el precio que irá en el contrato.'],
+        ['3 · Firman en forma electrónica', 'Ambos firman la compraventa en la plataforma, con validación de identidad.'],
+        ['4 · Se inscribe en el Registro Civil', 'La plataforma envía el contrato y el auto queda a nombre del comprador.'],
+      ],
+    },
+    {
+      overline: 'Con nosotros',
+      h2: 'Transferencia digital al vender con EBENEZER',
+      parrafos: [
+        'Cuando vendes tu auto con nosotros, en consignación o en venta directa, la transferencia digital la hacemos nosotros. Tú sólo firmas.',
+        'El primer paso es <a href="/vender-mi-auto/tasacion/">tasar tu auto gratis</a>. Todo el proceso está en la página para <a href="/vender-mi-auto/">vender mi auto</a>.',
+      ],
+    },
+  ]}
+/>

@@ -1,5 +1,6 @@
 ---
 import Icon from './Icon.astro';
+import { PAGINA_DE_COMUNA } from '@/lib/ciudades';
 
 /* Zonas de la Región de Valparaíso que atiende la automotora, con base en
    El Tabo. Refuerza para Google que el alcance es toda la región y no una
@@ -24,7 +25,7 @@ const ZONAS: [string, string[]][] = [
     {ZONAS.map(([zona, comunas]) => (
       <div class="zonas__item">
         <h3 class="ebz-h5" style="font-style:italic;font-weight:800;display:flex;gap:8px;align-items:center"><Icon name="map-pin" size={18} style="color:var(--naranja-500)" />{zona}</h3>
-        <p class="ebz-body-sm muted">{comunas.join(' · ')}</p>
+        <p class="ebz-body-sm muted">{comunas.map((c, i) => <>{i > 0 && ' · '}{PAGINA_DE_COMUNA[c] ? <a href={PAGINA_DE_COMUNA[c]} class="zonas__a">{c}</a> : c}</>)}</p>
       </div>
     ))}
   </div>
@@ -32,5 +33,7 @@ const ZONAS: [string, string[]][] = [
 
 <style>
   .zonas{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+  .zonas__a{color:inherit;text-decoration:underline;text-decoration-color:var(--naranja-500);text-underline-offset:3px}
+  .zonas__a:hover{color:#fff}
   .zonas__item{display:flex;flex-direction:column;gap:8px;padding:18px 20px;background:var(--grafito-900);border-left:3px solid var(--naranja-500)}
 </style>

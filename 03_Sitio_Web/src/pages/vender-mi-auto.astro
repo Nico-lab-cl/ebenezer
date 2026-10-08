@@ -15,6 +15,16 @@ const DOCS = [
   'Si tiene crédito o prenda, los datos de la financiera',
 ];
 const site = Astro.site!;
+const VENDER = [
+  ['Tasar mi auto gratis', '/vender-mi-auto/tasacion/'],
+  ['Compramos tu auto', '/vender-mi-auto/compramos-tu-auto/'],
+  ['Autos en consignación', '/vender-mi-auto/consignacion/'],
+];
+const GUIAS = [
+  ['Transferencia de vehículo online', '/guias/transferencia-de-vehiculo-online/'],
+  ['Documentos para vender un auto', '/guias/documentos-para-vender-un-auto/'],
+  ['Vender con deuda o prenda', '/guias/vender-auto-con-deuda-o-prenda/'],
+];
 ---
 <Base
   title="Vender mi auto usado rápido y seguro · V Región | EBENEZER"
@@ -42,4 +52,30 @@ const site = Astro.site!;
       </ul>
     </div>
   </section>
+  <section class="sec" id="mas">
+    <div class="ebz-container split split--top" style="gap:56px">
+      <div class="stack" style="gap:12px;flex:4 1 300px">
+        <span class="ebz-overline" style="color:var(--text-accent)">Más información</span>
+        <h2 class="ebz-h2">Todo para vender tu auto</h2>
+        <p class="ebz-body muted">Elige cómo vender y resuelve los papeles antes de empezar.</p>
+      </div>
+      <div class="stack" style="flex:7 1 480px;gap:24px">
+        <div class="mas">
+          <h3 class="ebz-h5 mas__t">Formas de vender</h3>
+          {VENDER.map(([t, h]) => <a href={h} class="mas__a"><span>{t}</span><Icon name="arrow-right" size={18} /></a>)}
+        </div>
+        <div class="mas">
+          <h3 class="ebz-h5 mas__t">Guías</h3>
+          {GUIAS.map(([t, h]) => <a href={h} class="mas__a"><span>{t}</span><Icon name="arrow-right" size={18} /></a>)}
+        </div>
+      </div>
+    </div>
+  </section>
 </Base>
+
+<style>
+  .mas{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}
+  .mas__t{grid-column:1/-1;font-style:italic;font-weight:800}
+  .mas__a{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:16px 18px;background:var(--grafito-900);border-left:3px solid var(--naranja-500);color:#fff;font-weight:700;text-decoration:none;transition:transform .15s}
+  .mas__a:hover{transform:translateX(3px)}
+</style>

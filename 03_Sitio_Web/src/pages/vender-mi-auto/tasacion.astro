@@ -1,0 +1,51 @@
+---
+import PaginaSeo from '@/components/PaginaSeo.astro';
+import { servicio } from '@/lib/schema';
+import { PREGUNTAS_TASACION } from '@/lib/faq';
+
+/* Cluster del pilar Vender. Palabra principal "tasar mi auto" (210 · dif. 14),
+   secundaria "tasación de autos" (210 · 22).
+   Es la versión para Google; /tasacion/ es la landing de anuncios (noindex). */
+const site = Astro.site!;
+---
+<PaginaSeo
+  title="Tasar mi auto gratis y online · Quinta Región | EBENEZER"
+  description="Tasa tu auto gratis y online. Completa la patente, el año y el kilometraje y te enviamos la tasación por WhatsApp. Atendemos toda la Región de Valparaíso."
+  crumbs={[{ nombre: 'Inicio', url: '/' }, { nombre: 'Vender mi auto', url: '/vender-mi-auto/' }, { nombre: 'Tasación', url: '/vender-mi-auto/tasacion/' }]}
+  overline="Tasación de autos"
+  h1="Tasa tu auto gratis y online"
+  intro="¿Quieres tasar tu auto? Completa el formulario con los datos de tu auto y te enviamos la tasación por WhatsApp, sin costo y sin compromiso. Hacemos tasación de autos usados de toda la Región de Valparaíso."
+  formulario
+  schema={[servicio(site, { nombre: 'Tasación de autos usados', tipo: 'Tasación de vehículos', descripcion: 'Tasación gratis y en línea de autos usados según el mercado, con envío por WhatsApp.', url: '/vender-mi-auto/tasacion/' })]}
+  faq={PREGUNTAS_TASACION}
+  faqTitulo="Preguntas sobre la tasación"
+  secciones={[
+    {
+      overline: 'Cómo tasamos',
+      h2: 'Qué miramos para tasar tu auto',
+      h3: [
+        ['Año kilometraje y versión', 'Son la base del precio. Dos autos del mismo modelo pueden valer distinto según su versión y sus kilómetros.'],
+        ['Estado y mantenciones', 'Carrocería, interior, neumáticos y si tiene sus mantenciones al día. Con fotos por WhatsApp la tasación queda más precisa.'],
+        ['Precios del mercado', 'Comparamos con lo que se pide y se paga hoy por autos parecidos en Chile.'],
+      ],
+    },
+    {
+      overline: 'No es lo mismo',
+      h2: 'Tasación fiscal del SII o precio de mercado',
+      parrafos: [
+        'La tasación fiscal la publica el SII y se usa para calcular el permiso de circulación y los impuestos de la transferencia. No dice cuánto pagan por tu auto.',
+        'El precio de mercado es lo que un comprador está dispuesto a pagar hoy por tu auto, según su estado y la oferta de autos parecidos. Esa es la tasación que te enviamos.',
+      ],
+    },
+    {
+      overline: 'Después',
+      h2: 'Qué pasa después de tasar',
+      parrafos: ['Con la tasación en la mano decides cómo vender, o si prefieres no vender.'],
+      enlaces: [
+        ['Te compramos tu auto', '/vender-mi-auto/compramos-tu-auto/'],
+        ['Lo dejas en consignación', '/vender-mi-auto/consignacion/'],
+        ['Vender mi auto paso a paso', '/vender-mi-auto/'],
+      ],
+    },
+  ]}
+/>
