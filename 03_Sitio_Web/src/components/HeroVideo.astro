@@ -3,7 +3,6 @@ import { existsSync } from 'node:fs';
 import { getImage } from 'astro:assets';
 import Icon from './Icon.astro';
 import Button from './Button.astro';
-import Checkered from './Checkered.astro';
 import LeadVenta from './LeadVenta.astro';
 import carretera from '@/assets/marca/carretera-bn.png';
 
@@ -40,6 +39,11 @@ const PUNTOS = ['Fotos de estudio y anuncios pagados', 'Nosotros atendemos a los
         data-src-movil="/video/hero-movil.mp4"
         data-poster-movil={poster.movil}
       ></video>
+    ) : poster.escritorio ? (
+      <picture>
+        {poster.movil && <source media="(max-aspect-ratio: 4/5), (max-width: 767px)" srcset={poster.movil} />}
+        <img class="hv__video" src={poster.escritorio} alt="" width="1920" height="1080" fetchpriority="high" />
+      </picture>
     ) : (
       <img class="hv__video hv__video--foto" src={respaldo.src} alt="" width="1920" height="1080" fetchpriority="high" />
     )}
@@ -59,7 +63,6 @@ const PUNTOS = ['Fotos de estudio y anuncios pagados', 'Nosotros atendemos a los
         <Button size="lg" variant="secondary" href="/comprar/">Ver autos disponibles</Button>
       </div>
     </div>
-    <Checkered width={110} size={9} class="hv__cuadros" />
   </div>
 
   <div class="ebz-container hv__form" id="tasar">
@@ -87,7 +90,8 @@ const PUNTOS = ['Fotos de estudio y anuncios pagados', 'Nosotros atendemos a los
 <style>
   .hv{position:relative;isolation:isolate;overflow:hidden;background:var(--grafito-950);color:#fff}
   .hv__media{position:absolute;inset:0;z-index:-1}
-  .hv__video{width:100%;height:100%;object-fit:cover;display:block}
+  .hv__media picture{display:block;width:100%;height:100%}
+  .hv__video{width:100%;height:100%;object-fit:cover;object-position:right center;display:block}
   .hv__video--foto{filter:grayscale(1);opacity:.35}
   /* Velo: grafito a la izquierda para leer el texto, toque naranja abajo a la derecha. */
   .hv__velo{position:absolute;inset:0;background:
@@ -96,14 +100,16 @@ const PUNTOS = ['Fotos de estudio y anuncios pagados', 'Nosotros atendemos a los
     radial-gradient(60% 50% at 100% 100%,rgba(244,119,53,.18),transparent 70%)}
   .hv__in{position:relative;display:flex;align-items:center;min-height:clamp(560px,82vh,820px);padding-top:56px;padding-bottom:150px}
   .hv__texto{display:flex;flex-direction:column;gap:24px;max-width:640px}
-  .hv__cuadros{position:absolute;right:24px;bottom:150px}
   .hv__form{position:relative;margin-top:-104px;padding-bottom:56px;z-index:2}
   @media (max-width:1023px){
     .hv__velo{background:
-      linear-gradient(180deg,rgba(20,23,27,.55) 0%,rgba(20,23,27,.8) 45%,rgba(20,23,27,.97) 100%),
+      linear-gradient(180deg,rgba(20,23,27,.15) 0%,rgba(20,23,27,.35) 45%,rgba(20,23,27,1) 100%),
       radial-gradient(80% 40% at 50% 100%,rgba(244,119,53,.16),transparent 70%)}
-    .hv__in{align-items:flex-end;min-height:clamp(520px,88svh,760px);padding-bottom:96px}
-    .hv__cuadros{display:none}
+    /* Móvil: la imagen ocupa la parte de arriba (los autos quedan a la vista) y
+       se funde en grafito; el texto parte bajo los autos. */
+    .hv__media{bottom:auto;height:min(118vw,640px)}
+    .hv__video{object-position:center top}
+    .hv__in{align-items:flex-end;min-height:0;padding-top:min(62vw,340px);padding-bottom:96px}
     .hv__form{margin-top:-56px}
   }
 </style>
