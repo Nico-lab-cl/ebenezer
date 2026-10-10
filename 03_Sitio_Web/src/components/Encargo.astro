@@ -19,8 +19,9 @@ const f = (n: string) => `${id}-${n}`;
     <span class="ebz-overline" style="color:var(--text-accent)">Encargo</span>
     <h3 class="ebz-h3">¿Buscas otro auto? Te lo conseguimos</h3>
     <p class="ebz-body-sm muted">Cuéntanos qué buscas y te avisamos apenas entre uno a consignación.</p>
+    <button type="button" class="ebz-btn ebz-btn--secondary encargo__abrir" data-encargo-abrir aria-expanded="false" aria-controls={f("campos")}><span class="ebz-btn__in">Dejar mi encargo</span></button>
   </div>
-  <div class="encargo__campos" data-campos>
+  <div class="encargo__campos" data-campos id={f("campos")}>
     <div class="ebz-field encargo__ancho"><label class="ebz-label" for={f('busca')}>Qué auto buscas</label><div class="ebz-control"><Icon name="search" size={18} /><input id={f('busca')} name="busca" class="ebz-input ebz-input--icon" placeholder="Ej. SUV automático 2018 o más nuevo" required /></div></div>
     <div class="ebz-field encargo__ancho"><label class="ebz-label" for={f('presupuesto')}>Presupuesto</label><div class="ebz-control"><select id={f('presupuesto')} name="presupuesto" class="ebz-select"><option value="">Selecciona</option>{PRESUPUESTOS.map((p) => <option>{p}</option>)}</select><Icon name="chevron-down" size={18} class="ebz-select__chev" /></div></div>
     <div class="ebz-field"><label class="ebz-label" for={f('nombre')}>Nombre</label><div class="ebz-control"><input id={f('nombre')} name="nombre" class="ebz-input" autocomplete="name" required /></div></div>
@@ -38,4 +39,12 @@ const f = (n: string) => `${id}-${n}`;
 
 <script>
   import '@/scripts/leads';
+  // Celular: los campos parten plegados detrás de "Dejar mi encargo".
+  for (const b of document.querySelectorAll<HTMLButtonElement>('[data-encargo-abrir]')) {
+    b.addEventListener('click', () => {
+      b.closest('form')!.classList.add('encargo--abierto');
+      b.setAttribute('aria-expanded', 'true');
+      b.closest('form')!.querySelector<HTMLInputElement>('input')?.focus();
+    });
+  }
 </script>

@@ -8,7 +8,7 @@ interface Props {
 }
 const { items } = Astro.props;
 ---
-<div class="stack" style="gap:12px">
+<div class="stack faq-lista" style="gap:12px">
   {items.map(([q, a]) => (
     <details class="faq"><summary>{q}</summary><p>{a}</p></details>
   ))}

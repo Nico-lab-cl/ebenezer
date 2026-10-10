@@ -6,8 +6,8 @@ import LeadVenta from './LeadVenta.astro';
 /* Hero de las páginas de venta (/vender-mi-auto y /tasacion): el formulario
    queda arriba, visible sin hacer scroll, que es lo que pide un anuncio. */
 const PUNTOS = [
-  ['camera', 'Fotos de estudio como las de una marca'],
-  ['zap', 'Anuncios pagados en Facebook e Instagram'],
+  ['zap', 'Fotos de estudio y anuncios pagados por nosotros'],
+  ['car', 'Sigues usando tu auto mientras lo vendemos'],
   ['message-circle', 'Atendemos a los compradores por ti'],
   ['banknote', 'Consignación o venta directa, tú eliges'],
 ];
@@ -18,11 +18,11 @@ const PUNTOS = [
     <div class="stack" style="gap:22px;flex:5 1 360px">
       <span class="ebz-overline ebz-overline-rule" style="color:var(--grafito-300)">Vender mi auto · Quinta Región</span>
       <h1 class="ebz-h1">Vende tu auto usado sin perder tiempo</h1>
-      <p class="ebz-body-lg muted">Déjalo en consignación y sigue usándolo hasta que haya un comprador, o te hacemos una oferta y te lo compramos. Completa el formulario y te enviamos la tasación por WhatsApp.</p>
+      <p class="ebz-body-lg muted m-ocultar">Déjalo en consignación y sigue usándolo hasta que haya un comprador, o te hacemos una oferta y te lo compramos. Completa el formulario y te enviamos la tasación por WhatsApp.</p>
       <ul class="lista-check" style="gap:14px;margin-top:6px">
         {PUNTOS.map(([ic, t]) => <li><Icon name={ic!} size={20} /><span class="ebz-body" style="font-weight:600">{t}</span></li>)}
       </ul>
-      <Checkered />
+      <div class="m-ocultar"><Checkered /></div>
     </div>
     <div style="flex:5 1 400px">
       <LeadVenta id="lead-venta" variante="panel" />

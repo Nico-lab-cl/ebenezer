@@ -39,9 +39,9 @@ const site = Astro.site!;
       <div class="stack" style="gap:22px;flex:6 1 440px">
         <span class="ebz-overline ebz-overline-rule" style="color:var(--grafito-300)">Financiamiento automotriz</span>
         <h1 class="ebz-h1">Automotora con crédito directo y pie desde {pie}%</h1>
-        <p class="ebz-body-lg muted" style="max-width:560px">Financiamiento directo con {ajustes.nombre}, sin intermediarios. Simula la cuota, envía tu solicitud y te mostramos la CAE antes de firmar.</p>
+        <p class="ebz-body-lg muted m-clamp" style="max-width:560px">Financiamiento directo con {ajustes.nombre}, sin intermediarios. Simula la cuota, envía tu solicitud y te mostramos la CAE antes de firmar.</p>
         <div class="row">
-          <Button size="lg" href="#simulador" iconRight="arrow-right">Simular mi crédito</Button>
+          <Button size="lg" href="#simulador" iconRight="arrow-right" class="m-ocultar">Simular mi crédito</Button>
           <Button variant="secondary" size="lg" href="/autos-usados/">Ver autos</Button>
         </div>
       </div>
@@ -56,7 +56,7 @@ const site = Astro.site!;
       <h2 class="ebz-h2" style="margin-bottom:36px">Cómo funciona el crédito directo</h2>
       <ol class="grid-3" style="list-style:none;margin:0;padding:0">
         {PASOS.map(([t, d], i) => (
-          <li class="card card--sunken"><span class="num-step">0{i + 1}</span><b class="ebz-h5">{t}</b><p class="ebz-body-sm muted">{d}</p></li>
+          <li class="card card--sunken fin-paso"><span class="num-step">0{i + 1}</span><b class="ebz-h5">{t}</b><p class="ebz-body-sm muted">{d}</p></li>
         ))}
       </ol>
     </div>
@@ -72,7 +72,7 @@ const site = Astro.site!;
         </ul>
         <p class="ebz-caption">Según el caso, podemos pedirte antecedentes adicionales.</p>
       </div>
-      <div class="stack" style="gap:12px;flex:6 1 420px">
+      <div class="stack faq-lista" style="gap:12px;flex:6 1 420px">
         <h2 class="ebz-overline" style="color:var(--text-accent);margin:0">Preguntas frecuentes</h2>
         {FAQ.map(([q, a]) => (
           <details class="faq"><summary>{q}</summary><p>{a}</p></details>

@@ -14,8 +14,8 @@ const anio = new Date().getFullYear();
     <div class="ebz-footer__grid">
       <div style="display:flex;flex-direction:column;gap:20px">
         <img src="/assets/logo/ebenezer-logo-blanco.svg" alt="EBENEZER Automotora, compra y venta de autos" style="height:52px;width:auto" loading="lazy" />
-        <p style="max-width:320px;line-height:1.6">Autos usados y seminuevos revisados, con precio claro y transferencia digital. Automotora del litoral central para toda la Quinta Región.</p>
-        <Checkered />
+        <p class="m-ocultar" style="max-width:320px;line-height:1.6">Autos usados y seminuevos revisados, con precio claro y transferencia digital. Automotora del litoral central para toda la Quinta Región.</p>
+        <div class="m-ocultar"><Checkered /></div>
       </div>
       <div>
         <h4>Vender</h4>
@@ -56,7 +56,7 @@ const anio = new Date().getFullYear();
       </div>
     </div>
     <div class="ebz-footer__bottom">
-      <span>Atendemos toda la Región de Valparaíso · {ZONAS.join(' · ')}</span>
+      <span class="m-ocultar">Atendemos toda la Región de Valparaíso · {ZONAS.join(' · ')}</span>
       <span>© {anio} {ajustes.nombre} · Precios en CLP con IVA incluido</span>
     </div>
     <div class="ebz-footer__bottom" style="border-top:0;padding-top:0">

@@ -17,8 +17,8 @@ const FILAS = [
     <span role="columnheader">Por tu cuenta</span>
     <span role="columnheader" class="comp__eb">Con EBENEZER</span>
   </div>
-  {FILAS.map(([q, tu, eb]) => (
-    <div class="comp__fila" role="row">
+  {FILAS.map(([q, tu, eb], i) => (
+    <div class:list={["comp__fila", { "comp__fila--extra": ![1, 2, 5].includes(i) }]} role="row">
       <span role="rowheader" class="comp__q">{q}</span>
       <span role="cell" class="comp__tu"><Icon name="x" size={16} />{tu}</span>
       <span role="cell" class="comp__eb"><Icon name="check" size={16} />{eb}</span>

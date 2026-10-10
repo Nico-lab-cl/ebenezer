@@ -15,17 +15,17 @@ const ZONAS: [string, string[]][] = [
   ['Petorca', ['La Ligua', 'Cabildo', 'Papudo', 'Zapallar', 'Petorca']],
 ];
 ---
-<section class="ebz-container sec" id="zonas">
+<section class="ebz-container sec m-ocultar" id="zonas">
   <div class="sec-head"><div class="sec-head__t">
     <span class="ebz-overline ebz-overline-rule" style="color:var(--grafito-300)">Base en El Tabo</span>
     <h2 class="ebz-h2">Atendemos toda la Región de Valparaíso</h2>
-    <p class="ebz-body muted" style="max-width:620px">Somos del litoral central y trabajamos con dueños y compradores de toda la Quinta Región. La tasación, la revisión y la transferencia se coordinan contigo, estés donde estés.</p>
+    <p class="ebz-body muted m-ocultar" style="max-width:620px">Somos del litoral central y trabajamos con dueños y compradores de toda la Quinta Región. La tasación, la revisión y la transferencia se coordinan contigo, estés donde estés.</p>
   </div></div>
   <div class="zonas">
     {ZONAS.map(([zona, comunas]) => (
       <div class="zonas__item">
         <h3 class="ebz-h5" style="font-style:italic;font-weight:800;display:flex;gap:8px;align-items:center"><Icon name="map-pin" size={18} style="color:var(--naranja-500)" />{zona}</h3>
-        <p class="ebz-body-sm muted">{comunas.map((c, i) => <>{i > 0 && ' · '}{PAGINA_DE_COMUNA[c] ? <a href={PAGINA_DE_COMUNA[c]} class="zonas__a">{c}</a> : c}</>)}</p>
+        <p class="ebz-body-sm muted zonas__comunas">{comunas.map((c, i) => <>{i > 0 && ' · '}{PAGINA_DE_COMUNA[c] ? <a href={PAGINA_DE_COMUNA[c]} class="zonas__a">{c}</a> : c}</>)}</p>
       </div>
     ))}
   </div>
@@ -35,5 +35,6 @@ const ZONAS: [string, string[]][] = [
   .zonas{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
   .zonas__a{color:inherit;text-decoration:underline;text-decoration-color:var(--naranja-500);text-underline-offset:3px}
   .zonas__a:hover{color:#fff}
+  @media (max-width:767px){.zonas{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.zonas__item{padding:12px 14px}.zonas__comunas{display:none}}
   .zonas__item{display:flex;flex-direction:column;gap:8px;padding:18px 20px;background:var(--grafito-900);border-left:3px solid var(--naranja-500)}
 </style>

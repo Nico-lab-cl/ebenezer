@@ -95,5 +95,25 @@ const datos = [automotora(site), sitioWeb(site), ...schema];
     )}
     {fab !== false && <WhatsAppFab {...fab} />}
     <CookieAviso />
+    <script>
+      // Celular: los bloques [data-plegable] largos parten plegados con "Leer más".
+      if (matchMedia("(max-width: 767px)").matches) {
+        for (const el of document.querySelectorAll<HTMLElement>("[data-plegable]")) {
+          if (el.scrollHeight < 220) continue;
+          el.classList.add("plegable--listo");
+          const b = document.createElement("button");
+          b.type = "button";
+          b.className = "plegable__btn";
+          b.textContent = "Leer más";
+          b.setAttribute("aria-expanded", "false");
+          b.addEventListener("click", () => {
+            el.classList.add("plegable--abierto");
+            b.setAttribute("aria-expanded", "true");
+            b.hidden = true;
+          });
+          el.after(b);
+        }
+      }
+    </script>
   </body>
 </html>

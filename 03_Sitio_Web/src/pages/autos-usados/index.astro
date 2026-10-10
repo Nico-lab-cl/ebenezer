@@ -130,9 +130,9 @@ const crumbs = [{ nombre: 'Inicio', url: '/' }, { nombre: 'Autos usados', url: '
       <div class="stack" style="gap:12px;flex:4 1 300px">
         <span class="ebz-overline" style="color:var(--text-accent)">Región de Valparaíso</span>
         <h2 class="ebz-h2">Autos usados cerca de ti</h2>
-        <p class="ebz-body muted">Con base en El Tabo atendemos toda la Quinta Región. Revisa cómo funciona en tu zona.</p>
+        <p class="ebz-body muted m-ocultar">Con base en El Tabo atendemos toda la Quinta Región. Revisa cómo funciona en tu zona.</p>
       </div>
-      <div class="ciudades" style="flex:7 1 480px">
+      <div class="ciudades" style="flex:7 1 480px" data-plegable>
         {CIUDADES.map((c) => (
           <a href={`/autos-usados/${c.slug}/`} class="ciudad"><h3 class="ebz-h5" style="font-style:italic;font-weight:800">Autos usados en {c.nombre}</h3><Icon name="arrow-right" size={18} /></a>
         ))}

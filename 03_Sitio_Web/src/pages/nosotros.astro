@@ -34,7 +34,7 @@ const site = Astro.site!;
       <div class="nh__texto">
         <span class="ebz-overline ebz-overline-rule" style="color:var(--grafito-300)">Nosotros</span>
         <h1 class="ebz-h1">Una automotora de la región con las cuentas claras</h1>
-        <p class="ebz-body-lg muted">EBENEZER es una automotora que nace de la convicción de que comprar o vender un auto usado puede ser simple, seguro y transparente. Partimos en El Tabo, en el litoral central, y hoy atendemos a dueños y compradores de toda la Región de Valparaíso.</p>
+        <p class="ebz-body-lg muted m-clamp">EBENEZER es una automotora que nace de la convicción de que comprar o vender un auto usado puede ser simple, seguro y transparente. Partimos en El Tabo, en el litoral central, y hoy atendemos a dueños y compradores de toda la Región de Valparaíso.</p>
         <div class="row">
           <WhatsAppButton size="lg">Habla con Patricio</WhatsAppButton>
           <Button size="lg" variant="secondary" href="/autos-usados/">Ver autos</Button>
@@ -49,7 +49,7 @@ const site = Astro.site!;
         <span class="ebz-overline" style="color:var(--naranja-500)">Fundador</span>
         <h2 class="ebz-h2">Quién está detrás de EBENEZER</h2>
       </div>
-      <div class="stack" style="flex:7 1 520px;gap:16px">
+      <div class="stack" style="flex:7 1 520px;gap:16px" data-plegable>
         <p class="ebz-body-lg">EBENEZER es un proyecto de Patricio Escobar, que suma más de 5 años de experiencia en el rubro inmobiliario acompañando a sus clientes en compras importantes. Esa misma forma de trabajar, cercana y con las cuentas claras, es la que trae a la venta de autos.</p>
         <p class="ebz-body">Patricio atiende personalmente a cada cliente, desde la primera conversación por WhatsApp hasta la firma de la transferencia.</p>
         <p class="ebz-body muted">Vendemos tu auto en consignación o te lo compramos directo, publicamos autos usados revisados y ofrecemos crédito directo con la automotora. La idea es que sepas siempre en qué etapa va tu auto o tu compra, sin letra chica.</p>
@@ -62,7 +62,7 @@ const site = Astro.site!;
       <h2 class="ebz-h2" style="margin-bottom:36px">Cómo trabajamos</h2>
       <div class="grid-3">
         {VALORES.map(([ic, t, d]) => (
-          <div class="card card--sunken" style="gap:14px"><Icon name={ic!} size={32} style="color:var(--naranja-500)" /><b class="ebz-h4" style="font-style:italic">{t}</b><p class="ebz-body-sm muted">{d}</p></div>
+          <div class="card card--sunken" style="gap:14px"><Icon name={ic!} size={32} style="color:var(--naranja-500)" /><b class="ebz-h4" style="font-style:italic">{t}</b><p class="ebz-body-sm muted m-ocultar">{d}</p></div>
         ))}
       </div>
     </div>

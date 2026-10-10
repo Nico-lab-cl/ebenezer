@@ -11,7 +11,8 @@
 <div class="ck" data-ck hidden role="region" aria-label="Aviso de cookies">
   <div class="ck__txt">
     <p class="ck__tit">Tu privacidad</p>
-    <p>Usamos almacenamiento propio necesario para que el sitio funcione. Si nos autorizas, también usamos cookies de <b>medición</b> (Google Analytics y Microsoft Clarity) y de <b>publicidad</b> (Meta y Google) para mejorar el sitio y saber qué anuncios funcionan. Puedes cambiar tu decisión cuando quieras. <a href="/politica-de-cookies/">Política de cookies</a></p>
+    <p class="ck__corto">Usamos cookies de medición y publicidad sólo si las aceptas. <a href="/politica-de-cookies/">Más info</a></p>
+    <p class="ck__largo">Usamos almacenamiento propio necesario para que el sitio funcione. Si nos autorizas, también usamos cookies de <b>medición</b> (Google Analytics y Microsoft Clarity) y de <b>publicidad</b> (Meta y Google) para mejorar el sitio y saber qué anuncios funcionan. Puedes cambiar tu decisión cuando quieras. <a href="/politica-de-cookies/">Política de cookies</a></p>
   </div>
   <div class="ck__btns">
     <button type="button" class="ck__btn ck__btn--no" data-ck-rechazar>Rechazar</button>
@@ -114,5 +115,6 @@
   .ckd__sw:checked::after{transform:translateX(20px)}
   .ckd__sw:focus-visible{outline:3px solid var(--naranja-500);outline-offset:2px}
   .ckd__links{margin:0;font-size:12.5px;color:var(--grafito-400)}
-  @media (max-width:599px){.ck{padding:16px}.ck__btn{min-width:0}}
+  .ck__corto{display:none}
+  @media (max-width:599px){.ck{padding:14px 16px;gap:10px;bottom:calc(84px + env(safe-area-inset-bottom,0px))}.ck__btns{width:100%}.ck__btn{min-width:0;flex:1 1 0;padding-inline:6px;font-size:12px;letter-spacing:0;white-space:nowrap}.ck__btns{flex-wrap:nowrap;gap:8px}.ck__tit,.ck__largo{display:none}.ck__corto{display:block;font-size:13px;line-height:1.45}}
 </style>

@@ -40,10 +40,12 @@ interface Props {
   secciones: Seccion[];
   faq?: Pregunta[];
   faqTitulo?: string;
+  /** En celular, el texto de cada sección parte plegado con "Leer más" (las guías no se pliegan) */
+  plegar?: boolean;
   schema?: object[];
   fab?: 'vender' | 'comprar';
 }
-const { title, description, crumbs, overline, h1, intro, formulario, cta = 'tasar', secciones, faq = [], faqTitulo = 'Preguntas frecuentes', schema = [], fab = 'vender' } = Astro.props;
+const { title, description, crumbs, overline, h1, intro, formulario, cta = 'tasar', secciones, faq = [], faqTitulo = 'Preguntas frecuentes', schema = [], fab = 'vender', plegar = true } = Astro.props;
 const site = Astro.site!;
 const idForm = 'lead-' + (crumbs.at(-1)?.url ?? '').replace(/[^a-z]/g, '').slice(-24);
 const CTA = {
@@ -65,7 +67,7 @@ const CTA = {
         <Breadcrumbs items={crumbs} />
         <span class="ebz-overline ebz-overline-rule" style="color:var(--grafito-300)">{overline}</span>
         <h1 class="ebz-h1" style="text-wrap:balance">{h1}</h1>
-        <p class="ebz-body-lg muted" style="max-width:600px" set:html={intro} />
+        <p class="ebz-body-lg muted m-clamp" style="max-width:600px" set:html={intro} />
         {!formulario && (
           <div class="row">
             <Button size="lg" href={CTA.href} iconRight="arrow-right">{CTA.texto}</Button>
@@ -86,7 +88,7 @@ const CTA = {
           {s.overline && <span class="ebz-overline" style="color:var(--text-accent)">{s.overline}</span>}
           <h2 class="ebz-h2">{s.h2}</h2>
         </div>
-        <div class="stack ps-cuerpo" style="flex:7 1 480px;gap:18px;min-width:0">
+        <div class="stack ps-cuerpo" style="flex:7 1 480px;gap:18px;min-width:0" data-plegable={plegar ? "" : undefined}>
           {s.parrafos?.map((p) => <p class="ebz-body muted" set:html={p} />)}
           {s.h3 && (
             <div class="ps-h3">
@@ -131,7 +133,7 @@ const CTA = {
     <div class="ebz-container split" style="gap:32px">
       <div class="stack" style="gap:10px;flex:6 1 420px">
         <h2 class="ebz-h2">{cta === 'tasar' ? '¿Cuánto vale tu auto?' : cta === 'credito' ? '¿Cuánto sería tu cuota?' : '¿Buscas un auto usado?'}</h2>
-        <p class="ebz-body muted">{cta === 'tasar' ? 'Completa el formulario y te enviamos la tasación por WhatsApp, sin costo y sin compromiso.' : cta === 'credito' ? 'Simula tu crédito directo y envía tu solicitud. Te respondemos en 48 horas.' : 'Revisa los autos disponibles o déjanos tu encargo y te avisamos cuando llegue uno.'}</p>
+        <p class="ebz-body muted m-ocultar">{cta === 'tasar' ? 'Completa el formulario y te enviamos la tasación por WhatsApp, sin costo y sin compromiso.' : cta === 'credito' ? 'Simula tu crédito directo y envía tu solicitud. Te respondemos en 48 horas.' : 'Revisa los autos disponibles o déjanos tu encargo y te avisamos cuando llegue uno.'}</p>
       </div>
       <div class="row">
         <Button size="lg" href={CTA.href} iconRight="arrow-right">{CTA.texto}</Button>

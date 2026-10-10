@@ -245,5 +245,62 @@ textarea.ebz-input{height:auto;min-height:120px;padding-top:12px;padding-bottom:
 
 /* Pie con 5 columnas */
 .ebz-footer__grid{grid-template-columns:1.4fr repeat(4,minmax(0,1fr))}
+.ebz-footer__grid>div{min-width:0}.ebz-footer__grid a{overflow-wrap:anywhere}
 @media (max-width:1023px){.ebz-footer__grid{grid-template-columns:1fr 1fr}}
-@media (max-width:599px){.ebz-footer__grid{grid-template-columns:1fr}}
+@media (max-width:599px){.ebz-footer__grid{grid-template-columns:1fr 1fr;gap:28px 16px}.ebz-footer__grid>div:first-child,.ebz-footer__grid>div:last-child{grid-column:1/-1}}
+
+/* Celular: sólo lo esencial. En pantallas chicas se muestra el mensaje, la
+   acción y la prueba; el detalle sigue en el HTML (escritorio y Google) pero
+   no se lee. Referencias: Kavak "vende tu auto" = 3,3 pantallas y ~120
+   palabras; Unbounce: textos cortos y simples convierten mejor. */
+.encargo__abrir{display:none}
+@media (max-width:767px){
+  .m-ocultar{display:none!important}
+  /* Pasos: número y título, en grilla de 2 */
+  .pasos{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  .pasos__item{padding:18px 16px;gap:6px}
+  .pasos__item::before,.pasos__ic,.pasos__d{display:none}
+  /* Comparativa: las 3 filas que más pesan */
+  .comp__fila--extra{display:none}
+  /* Confianza: ícono y título */
+  .ebz-trust__text{display:none}
+  /* Encargo plegado hasta que lo pidan */
+  .encargo__abrir{display:inline-flex;align-self:flex-start}
+  .encargo:not(.encargo--abierto) [data-campos]{display:none}
+  .encargo--abierto .encargo__abrir{display:none}
+  /* Confianza en una fila de 3 */
+  .ebz-trust{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px!important}
+  .ebz-trust__item{padding:0!important;gap:8px!important;text-align:center;align-items:center}
+  .ebz-trust__title{font-size:14px!important;line-height:1.25}
+  .ebz-trust__icon{width:28px;height:28px}
+  /* Menos aire entre secciones */
+  .sec{padding-block:40px}.sec--lg{padding-block:48px}
+  /* Preguntas: las 4 primeras */
+  .faq-lista>details.faq:nth-of-type(n+5){display:none}
+}
+
+/* Celular, resto del sitio */
+.plegable__btn{display:none}
+@media (max-width:767px){
+  /* Columnas apiladas: menos aire entre título y contenido */
+  .split{gap:20px!important}
+  .plegable__btn{margin-top:-8px}
+  /* Párrafo de entrada: 3 líneas */
+  .m-clamp{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+  /* Texto largo plegado con "Leer más" (sigue en el HTML para Google) */
+  [data-plegable].plegable--listo:not(.plegable--abierto){max-height:9.5em;overflow:hidden;-webkit-mask-image:linear-gradient(#000 55%,transparent);mask-image:linear-gradient(#000 55%,transparent)}
+  .plegable__btn{display:inline-flex;align-items:center;gap:6px;margin-top:10px;padding:0;border:0;background:none;color:var(--text-accent);font:700 14px var(--font-body);cursor:pointer}
+  .plegable__btn[hidden]{display:none}
+  /* Pasos del crédito: título y número */
+  .fin-paso p{display:none}
+  .fin-paso{padding:16px!important;gap:6px!important}
+  /* Ficha del auto: fotos, precio y contacto primero; especificaciones después */
+  .ficha{display:flex;flex-direction:column;gap:20px}
+  .ficha__main,.ficha__side{display:contents}
+  .ficha__main>:first-child{order:1}
+  .ficha__box{order:2;min-width:0;max-width:100%}
+  .ficha__box .ebz-btn{max-width:100%}
+  .ficha__main>:not(:first-child){order:3}
+  .ficha__side>:not(.ficha__box){order:4}
+  .ebz-specs{--cols:2!important}
+}
