@@ -6,10 +6,10 @@
   "modelo": "TT",
   "anio": 2011,
   "version": "2.0 TFSI Coupé S tronic",
-  "km": 98000,
+  "km": 145000,
   "transmision": "Automática",
   "combustible": "Bencina",
-  "precio": 12990000,
+  "precio": 14800000,
   "precioAnterior": null,
   "cuotaDesde": null,
   "fotos": [
@@ -18,7 +18,7 @@
     { "imagen": "../../assets/vehiculos/audi-tt-2011/trasera.png", "vista": "Trasera" },
     { "imagen": "../../assets/vehiculos/audi-tt-2011/frontal-b.png", "vista": "Frontal" }
   ],
-  "color": "",
+  "color": "Blanco",
   "duenos": null,
   "motor": "2.0 TFSI",
   "traccion": "Delantera",
